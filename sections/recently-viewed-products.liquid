@@ -1,0 +1,442 @@
+{% if section.settings.display_recently_viewed_products %} 
+{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'jquery.products.min.js' | asset_url | script_tag }}
+{{ 'slick.min.js' | asset_url | script_tag }}
+  <section class="recently-viewed-products" style="display: none;">
+    <div class="container">
+      {% if section.settings.recently_viewed_products_title != '' %}
+      <div class="widget-title not-before">   
+        <h3 class="box-title">
+          <span class="title"> 
+            {% render 'multilang' with section.settings.recently_viewed_products_title %}
+          </span>
+        </h3>
+      </div>
+      {% endif %}
+      
+      {% if settings.category_layout == 'full_with' or template.suffix == 'fullwidth' %}
+      {%- assign class = 'five-items' -%}
+      {%- assign rows = '5' -%}
+      
+      {% else %}
+      {%- assign class = 'four-items' -%}
+      {%- assign rows = '4' -%}
+      {% endif %}
+      
+      <div class="widget-product">
+        <div class="products-grid row {{ class }}" data-rows="{{ rows }}" id="recently-viewed-products-grid"></div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <script>
+      function splitTitle(title) {
+        if (title.indexOf("|") < 0) 
+          return title;
+        var titleArr = title.split("|")[0];
+        return titleArr;
+      }
+  </script>
+
+  {% raw %}
+  <script id="recently-viewed-product-grid-template" type="text/x-jquery-tmpl">
+  {% endraw %}
+  ${( file = featured_image.split("/products", 1) ),''}
+  <div class="grid-item col-6 col-md-4 col-lg-3 col5 {% if settings.product_image_border %}grid-item-border{% endif %}">
+    <div class="inner product-item{% raw %}{{if !available}} sold-out {{/if}}{{if compare_at_price_min > price_min}} on-sale{{/if}}" data-product-id="product-${id}">
+        <div class="inner-top">
+            <div class="product-top">
+                <div class="product-image {% endraw %}{% if settings.image_swap %}{% raw %}{{if images[1] != null}}image-swap{{/if}}{% endraw %}{% endif %}{% raw %}">
+                    <a href="${url}" class="product-grid-image" data-collections-related="/collections/${collection}?view=related">
+                      {% endraw %}{% if settings.image_swap %}{% raw %}
+                      {{if images[1] != null}}
+                      <img src="${featured_image}" class="images-one" alt="${featured_image.alt}"/>
+                      <span class="images-two">
+                      <img src="${images[1]}" alt="${images[1].alt}"/>
+                      </span>
+                      {{else}}
+                      <img src="${featured_image}" alt="${featured_image.alt}"/>
+                      {{/if}}
+                      {% endraw %}{% else %}{% raw %}
+                      <img src="${featured_image}" alt="${featured_image.alt}"/>
+                      {% endraw %}{% endif %}{% raw %}
+                    </a>
+                </div>
+                <div class="product-label">
+                  {{if compare_at_price_min > price_min}} 
+                  {% endraw %}
+                  {% if settings.type_label_sale == 'label_sale' %}
+                  {% raw %}
+                    <strong class="label sale-label">
+                      <span {% endraw %}{% if settings.enable_multilang %}data-translate="products.product.sale"{% endif %}>
+                          {{ 'products.product.sale' | t }}{% raw %}
+                      </span>
+                    </strong>
+                    <br>
+                    {% endraw %}
+                    {% else %}
+                    {% raw %}
+                    <strong class="label sale-label">
+                      <span>
+                          -${Math.floor((compare_at_price_min - price_min)*100/compare_at_price_min)}%
+                      </span>
+                    </strong>
+                    <br>
+                    {% endraw %}
+                    {% endif %}
+                    {% raw %}
+                    
+                  {{/if}}
+
+                  {{if !available}}
+                    <strong class="label sold-out-label">
+                      <span {% endraw %}{% if settings.enable_multilang %}data-translate="products.product.sold_out"{% endif %}>
+                        {{ 'products.product.sold_out' | t }}{% raw %}
+                      </span>
+                    </strong>
+                    <br>
+                  {{/if}}
+
+                  ${( tagLabelNew = false ),''}
+                    ${( tagLabelCustom = false ),''}
+                    {{if tags}}
+                        {{each tags}} 
+                            {{if $value =="new" || $value =="New"}}
+                                ${( tagLabelNew = true ),''}
+                            {{/if}} 
+                            {{if $value =="custom badge" || $value =="Custom Badge"}}
+                                ${( tagLabelCustom = true ),''}
+                            {{/if}}
+                        {{/each}}
+                    {{/if}}
+                    {{if tagLabelNew}}
+                        <div class="label new-label">{% endraw %}{{ 'products.product.new_label' | t }}{% raw %}</div>
+                        <br>
+                    {{/if}}
+                  
+                  ${( tagLabelHot = false ),''}
+                    ${( tagLabelCustom = false ),''}
+                    {{if tags}}
+                        {{each tags}} 
+                            {{if $value =="hot" || $value =="hot"}}
+                                ${( tagLabelHot = true ),''}
+                            {{/if}} 
+                            
+                        {{/each}}
+                    {{/if}}
+                    {{if tagLabelHot}}
+                        <div class="label hot-label">{% endraw %}{{ 'products.product.hot_label' | t }}{% raw %}</div>
+                    {{/if}}
+
+                </div>
+                
+                <div class="product-des abs-center">
+                    {% endraw %}
+                    {% if settings.enable_wishlist %}
+                    {% raw %}
+
+                    <a class="wishlist" data-icon-wishlist href="#" data-product-handle="${handle}" data-id="${id}">
+                      <svg id="lnr-heart" viewBox="0 0 1024 1024" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="path1" d="M486.4 972.8c-4.283 0-8.566-1.074-12.434-3.222-4.808-2.67-119.088-66.624-235.122-171.376-68.643-61.97-123.467-125.363-162.944-188.418-50.365-80.443-75.901-160.715-75.901-238.584 0-148.218 120.582-268.8 268.8-268.8 50.173 0 103.462 18.805 150.051 52.952 27.251 19.973 50.442 44.043 67.549 69.606 17.107-25.565 40.299-49.634 67.55-69.606 46.589-34.147 99.878-52.952 150.050-52.952 148.218 0 268.8 120.582 268.8 268.8 0 77.869-25.538 158.141-75.901 238.584-39.478 63.054-94.301 126.446-162.944 188.418-116.034 104.754-230.314 168.706-235.122 171.376-3.867 2.149-8.15 3.222-12.434 3.222zM268.8 153.6c-119.986 0-217.6 97.614-217.6 217.6 0 155.624 120.302 297.077 221.224 388.338 90.131 81.504 181.44 138.658 213.976 158.042 32.536-19.384 123.845-76.538 213.976-158.042 100.922-91.261 221.224-232.714 221.224-388.338 0-119.986-97.616-217.6-217.6-217.6-87.187 0-171.856 71.725-193.314 136.096-3.485 10.453-13.267 17.504-24.286 17.504s-20.802-7.051-24.286-17.504c-21.456-64.371-106.125-136.096-193.314-136.096z"></path></svg>
+                    </a>
+
+                    {% endraw %}
+                    {% endif %} 
+                    {% raw %}
+
+                    {% endraw %}
+                    {% if settings.enable_quick_view %}
+                    {% raw %}
+                       <a class="quickview-button" href="javascript:void(0)" id="${handle}">
+                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 511.999 511.999" style="enable-background:new 0 0 511.999 511.999;" xml:space="preserve">
+                          <path d="M508.745,246.041c-4.574-6.257-113.557-153.206-252.748-153.206S7.818,239.784,3.249,246.035
+                          c-4.332,5.936-4.332,13.987,0,19.923c4.569,6.257,113.557,153.206,252.748,153.206s248.174-146.95,252.748-153.201
+                          C513.083,260.028,513.083,251.971,508.745,246.041z M255.997,385.406c-102.529,0-191.33-97.533-217.617-129.418
+                          c26.253-31.913,114.868-129.395,217.617-129.395c102.524,0,191.319,97.516,217.617,129.418
+                          C447.361,287.923,358.746,385.406,255.997,385.406z"></path>
+                          <path d="M255.997,154.725c-55.842,0-101.275,45.433-101.275,101.275s45.433,101.275,101.275,101.275
+                          s101.275-45.433,101.275-101.275S311.839,154.725,255.997,154.725z M255.997,323.516c-37.23,0-67.516-30.287-67.516-67.516
+                          s30.287-67.516,67.516-67.516s67.516,30.287,67.516,67.516S293.227,323.516,255.997,323.516z"></path>
+                          </svg>                       
+                       </a>
+                    {% endraw %}
+                    {% endif %}
+                    {% raw %}   
+                </div>
+                {% endraw %}
+                    {% if settings.display_button %}
+                    {% raw %}
+                    <div class="action">
+                        <form action="{% endraw %}{{ routes.cart_url }}{% raw %}/add" method="post" class="variants" id="recently-${id}" data-id="product-actions-${id}" enctype="multipart/form-data">    
+                            {{if !available}}
+                                <button class="btn add-to-cart-btn" type="submit" disabled="disabled" {% endraw %}{% if settings.enable_multilang %}data-translate="products.product.unavailable"{% endif %}>
+                                    {{ 'products.product.unavailable' | t }}{% raw %}
+                                </button>
+                            {{else variants.length > 1 }}
+                                <a class="btn" href='${url}' title='${title}' {% endraw %}{% if settings.enable_multilang %}data-translate="products.product.select_options"{% endif %}>
+                                {{ 'products.product.select_options' | t }}{% raw %}
+                                </a>
+                            {{else}}
+
+                              <input type="hidden" name="id" value="${variants[0].id}" />      
+                              <button data-btn-addToCart class="btn add-to-cart-btn" type="submit" data-form-id="#recently-${id}" {% endraw %}{% if settings.enable_multilang %}data-translate="products.product.add_to_cart"{% endif %}>
+                              {{ 'products.product.add_to_cart' | t }}{% raw %}
+                              </button>
+                            
+                            {{/if}}
+                        </form>
+                    </div>
+                    {% endraw %}
+                    {% endif %}
+                    {% raw %}
+                
+            </div>
+            
+            <div class="product-bottom">
+                <a class="product-title lang1" href="${url}">${splitTitle(title)}</a>
+                {% endraw %}
+                    {% if settings.display_product_reviews %}
+                  {% raw %}
+                <div class="product-reviews">
+                        <span class="shopify-product-reviews-badge" data-id="${id}"></span>
+                </div>
+                {% endraw %}
+                    {% endif %}
+                {% raw %}
+
+                <div class="price-box">
+                     {{if compare_at_price_min > price_min}} 
+                      <p class="sale">
+                        <span class="old-price">
+                            {{html Shopify.formatMoney(compare_at_price_min, window.money_format)}}
+                        </span>
+                        
+                        <span class="special-price">
+                            {{if price_varies}}
+                            {% endraw %}{% render 'varies_from' %}{% raw %}
+                            {{/if}}
+                             {{html Shopify.formatMoney(price_min, window.money_format)}}
+                        </span>
+                      </p>
+                    {{else}}
+                      <p class="regular-product">
+                        <span>
+                            {{if price_varies}}{% endraw %}{% render 'varies_from' %}{% raw %}{{/if}}
+                             {{html Shopify.formatMoney(price_min, window.money_format)}}
+                        </span>
+                      </p>
+                    {{/if}}
+                </div>  
+                
+                {{each options}}
+                
+                ${( downcased_option = name.toLowerCase() ),''}
+                
+                ${( option_color_swatch = window.swatch_recently), ''}
+                
+                
+                
+                {{if option_color_swatch.indexOf(downcased_option) > -1}}
+                ${( colorlist = '' ),''}
+                ${( optionCount = 0 ),''}
+                ${( count = 0 ),''}
+                <ul class="item-swatch">
+                {{each values}} 
+                ${( color = 0 ),''}
+                {{each variants}}
+                {{if position == 1}}
+                ${( color = variants[($index)].option1 ),''}
+                {{/if}}
+                {{if position == 2}}
+                ${( color = variants[($index)].option2 ),''}
+                {{/if}}
+                {{if position == 3}}
+                ${( color = variants[($index)].option3 ),''}
+                {{/if}}
+                
+                {{if colorlist.indexOf(color) < 0}}
+                {{if count < 4}}
+                <li>
+                  <div class="tooltip">
+                      ${color}
+                  </div>
+                  <label data-value="${color.toLowerCase().replace(" ", "-")}" title="${color}"
+                  {{if variants[($index)].featured_image != null}}
+                  data-img="${variants[($index)].featured_image.src}"
+                  {{/if}}
+                  style="
+                  {% endraw %}{%- if settings.color_swatch_style == 'variant' or settings.color_swatch_style == 'variant_grouped'-%}{% raw %}
+                  background-color: ${color};
+                  {{if variants[($index)].featured_image != null}}
+                  background-image: url(${variants[($index)].featured_image.src})
+                  {{/if}}
+                  {% endraw %}
+                  {% else %}
+                  background-image: url(${file + "/files/" + color.toLowerCase().replace(" ", "-") + ".png"});
+                  {% raw %}
+                  {% endraw %}
+                  {% endif %}
+                  {% raw %}
+                  "></label>
+                  
+                </li>
+                {{/if}}
+                ${( optionCount ++ ),''}
+                ${( count = optionCount / 4 ),''}
+                {{/if}}
+                ${( colorlist = colorlist.concat(" ",color) ),''}
+                {{/each}}
+                {{/each}}
+                ${( count = optionCount / 4 ),''}
+                {{if count > 4}}
+                <li class="item-swatch-more">
+                  <a href="${url}" title="More Color">
+                      + ${count - 4}
+                  </a>
+                </li>
+                {{/if}}
+                
+                </ul>
+                {{/if}}
+                {{/each}}
+                
+            </div>                        
+      </div>
+    </div>
+  </div>
+
+</script>
+{% endraw %}
+
+<script>
+    $('.recently-viewed-products').hide();
+
+    Shopify.Products.showRecentlyViewed({ 
+        howManyToShow: {{ section.settings.number_of_recently_viewed_products }},
+        wrapperId: 'recently-viewed-products-grid', 
+        templateId: 'recently-viewed-product-grid-template',
+        onComplete: function() {
+            var recentlyViewBlock = $('.recently-viewed-products');
+            var recentlyGrid = recentlyViewBlock.find('#recently-viewed-products-grid');
+            var productGrid = recentlyGrid.children();
+            var rows = recentlyGrid.data('rows');
+   
+            if(productGrid.length) {
+                recentlyViewBlock.show();
+
+                if(recentlyViewBlock.is(':visible')) {          
+                    {% if settings.enable_multilang %}
+                    if (translator.current_lang == 2)
+                    translator.doTranslate('.recently-viewed-products');
+                    {% endif %}
+                    
+                    if(!recentlyGrid.hasClass('slick-initialized')) {
+                    recentlyGrid.slick({
+                        infinite: true,
+                        speed: 1000,
+                        slidesToShow: rows,
+                        dots: false,
+                        slidesToScroll: 2,
+                        nextArrow: '<button type="button" class="slick-next"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 17 33" xml:space="preserve"><g id="e4eb89a6-f885-43b8-9259-0d6b1516fab0"><g id="_x38_e584754-6657-46f1-a9d8-2cfd6623b552"><g><polygon points="14.9,14.5 0,0 0,3.7 11.1,14.5 13.2,16.5 11.1,18.5 0,29.3 0,33 14.9,18.5 17,16.5 "/></g></g></g></svg></button>',
+                        prevArrow: '<button type="button" class="slick-prev"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 33"><g id="7f9a1925-e8c7-4614-8787-3c6095a9f6e1" data-name="Layer 2"><g id="c9b7920a-81fa-4bfe-ad13-4da717c6854b" data-name="Layer 1"><g id="c2d982ff-0cf6-4220-b365-47f30d708fea" data-name="e4eb89a6-f885-43b8-9259-0d6b1516fab0"><g id="f51d455e-6b9c-4c4e-96db-a5004582beda" data-name="8e584754-6657-46f1-a9d8-2cfd6623b552"><polygon points="0 16.5 2.1 18.5 17 33 17 29.3 5.9 18.5 3.8 16.5 5.9 14.5 17 3.7 17 0 2.1 14.5 0 16.5"/></g></g></g></g></svg></button>',
+                        responsive: [
+                        {
+                            breakpoint: 1400,
+                            settings: {
+                                slidesToShow: 4,
+                                slidesToScroll: 2
+                            }
+                            },
+                            {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 4,
+                                slidesToScroll: 2,
+                                arrows:false,
+                                dots: true              
+                            }
+                            },
+                            {
+                            breakpoint: 992,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3,
+                                arrows:false,
+                                dots: true                  
+                            }
+                            },
+                            {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
+                                arrows:false,
+                                dots: true
+                            }
+                            }
+                        ]
+                        });
+                    };     
+
+                    if($('.spr-badge').length > 0) {
+                    return window.SPR.registerCallbacks(), window.SPR.initRatingHandler(), window.SPR.initDomEls(), window.SPR.loadProducts(), window.SPR.loadBadges();
+                    }; 
+        
+                    if(window.show_multiple_currencies && Currency.currentCurrency != shopCurrency){
+                      
+                      Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), '.recently-viewed-products span.money', 'money_format');
+                    }
+                }; 
+            }
+            
+            else {
+                recentlyViewBlock.hide();
+            };
+
+            var wishListItems = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+
+            if (!wishListItems.length) {
+                return;
+            }
+
+            for (var i = 0; i < wishListItems.length; i++) {
+                var icon = $('[data-product-handle="'+ wishListItems[i] +'"]');
+                icon.addClass('whislist-added');
+                icon.find('.wishlist-text').text(window.inventory_text.remove_wishlist);
+            };
+        }
+    });
+</script>
+
+<script>
+    Shopify.Products.recordRecentlyViewed();
+</script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Recently Viewed Products",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "display_recently_viewed_products",
+        "label": "Display Recently Viewed Products?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "recently_viewed_products_title",
+        "label": "Title of recently viewed products",
+        "default": "Recently Viewed Products"
+      },
+      {
+        "type": "text",
+        "id": "number_of_recently_viewed_products",
+        "label": "Number of recently viewed products",
+        "default": "8"
+      }
+      
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,53 @@
+<!--Search blog item-->
+<div class="blog-result">
+  <div class="list-blog row">
+    {% for article in search.results %}
+
+    {% if item.object_type == 'article' %} search-article{% endif %}
+
+    {% comment %}
+    'item' is an article
+    All article object properties can be accessed.
+    {% endcomment %}
+
+
+    <li class="blog-item col-12 col-sm-6 ">
+      <div class="article-details">
+        {% if article.image %}
+        {% assign image_alt = article.title | escape %}
+        <div class="article-img">
+          {{ article | img_url: '1024x1024' | img_tag: image_alt, 'article__image' | link_to: article.url | replace: '<a', '<a class=""' }}
+        </div>
+        {% endif %}
+         <h3 class="article-title">
+          <a href="{{ article.url }}">
+            {% render 'multilang' with article.title %}
+          </a>
+        </h3>
+
+        <div class="rte article-excerpt">
+          <div class="des">
+            {% if settings.enable_multilang and article.excerpt_or_content contains '[lang2]' %}
+            <div class="lang1">
+              {{ article.excerpt_or_content | strip_html | truncatewords: 30 | split: "[lang2]" | first | split: "|" | first}}
+            </div>
+            <div class="lang2">
+              {{ article.excerpt_or_content | strip_html | truncatewords: 30 | split:"[lang2]" | last | split: "|" | last }}
+            </div>
+            {% else %}
+            {{ article.excerpt_or_content | strip_html | truncatewords: 30  | split:"[lang2]" | first | split: "|" | first }}
+            {% endif %}
+          </div>
+
+          <div class="actions">
+            <a href="{{ article.url }}" class="btn btn-read-more" {% if settings.enable_multilang %}data-translate="blogs.article.read_more"{% endif %}>
+             <span> {{ 'blogs.article.read_more' | t }}</span>
+            </a>
+          </div>            
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </div>
+</div>
+<!--END-->

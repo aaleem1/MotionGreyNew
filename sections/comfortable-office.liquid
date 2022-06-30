@@ -1,0 +1,193 @@
+<section class="featured-section">
+    <div class="container">
+      <div class="row">
+        <div class="text-center pb-70 col-md-8 mx-auto">
+          <h2 class="title bold">{% render 'multilang' with section.settings.heading %}</h2>
+          {% if section.settings.text != blank %}
+            {{ section.settings.text }}
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+          {% for block in section.blocks %}
+          <div class="col-4 mb-30 office-images">
+            {%- assign img_url = block.settings.icon | img_url: '600x'-%}
+              {% if block.settings.icon != blank %}
+              <img data-src="{{img_url}}" alt="{{img_url.alt}}" {% render 'lazyload' %} >
+              {% else %}
+              <div class="no-image" style="padding-top: 50%; font-size:20px"><span>110X110px</span></div>
+              {% endif %}
+          </div>
+          {% endfor %}
+      </div>
+      <div class="row">
+        <div class="text-center pt-70 pb-30 col-md-12">
+          <h1 class="title bold">{% render 'multilang' with section.settings.sub_heading %}</h1>
+          {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="button btn gf_button homepage-cta">
+              {{ section.settings.button_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</section> 
+
+{% schema %}
+  {
+    "name": "Comfortable Office",
+    "class": "pt-50 pb-50 comfortable-office",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Heading",
+        "default":"Comfortable Solutions For Office"
+      },
+      {
+        "type":"richtext",
+        "id":"text",
+        "label":"Text",
+		"default":"<p>Small Description</p>"  
+      }, 
+      {
+        "type":"text",
+        "id":"sub_heading",
+        "label":"Sub-Heading",
+        "default":"Save up to 30% OFF when you order in bulk from us!"
+      },
+      {
+        "type":"color",
+        "id":"features_color",
+        "label":"Color",
+        "default":"#000d41"
+      },
+      {
+        "type":"text",
+        "id":"id_scroll",
+        "label":"Add id",
+        "default":"features"
+      },
+      {
+        "type":"header",
+        "content":" Features Top"
+      },
+      {
+        "type":"select",
+        "id":"back_style",
+        "label":"Background",
+        "options":[
+          {
+            "value":"back_color",
+            "label":"Background Color"
+          },
+          {
+            "value":"back_img",
+            "label":"Background Image"
+          }
+        ],
+        "default":"back_color"
+      },
+      {
+        "type":"color",
+        "id":"back_color",
+        "label":" Background Color",
+        "default":"#fff"
+      },
+      {
+        "type":"image_picker",
+        "id":"back_img",
+        "label":" Background Image"
+      },
+      {
+        "type":"header",
+        "content":"Features Bottom"
+      },
+     {
+        "type":"checkbox",
+        "id":"animation_image",
+        "label":"Image Animation?",
+        "default":true
+      },
+      {
+        "type":"image_picker",
+        "id":"image_btm",
+        "label":"Add Image",
+        "info":"Recommended size 1300x600px"
+      },
+      {
+        "type":"header",
+        "content":"Features botton"
+      },
+      {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label"
+      },
+      {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+      }
+    ],
+    "blocks":[
+      {
+      "type":"features_des",
+      "name":"Column",
+      "settings":[
+          {
+            "type":"image_picker",
+            "id":"icon",
+            "label":"Add icon"
+          },
+          {
+            "type":"text",
+            "id":"des_title",
+            "label":"title",
+            "default":"Design"
+          },
+          {
+            "type":"color",
+            "id":"features_color_des_title",
+            "label":"Color",
+            "default":"#000d41"
+          },
+          {
+            "type":"textarea",
+            "id":"features_content",
+            "label":"Content",
+            "default":"Nam tempus turpis at metus scelerisque placerat nulla deumantos a solicitud felis. Pellentesque diam dolor elementum etos lobortis des mollis."
+          },
+          {
+            "type":"color",
+            "id":"features_color_des",
+            "label":"Color",
+            "default":"#73788a"
+          }
+        ]
+      }
+
+    ],
+    "presets":[
+      {
+        "name":"Comfortable Office",
+        "category":"Advanced layout",
+      "blocks":[
+        {
+        	"type":"features_des"
+        },
+        {
+           "type":"features_des"
+        },
+		{
+           "type":"features_des"
+        }
+
+      ]
+     }
+
+    ]
+  } 
+{% endschema %}
+

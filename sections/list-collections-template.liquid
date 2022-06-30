@@ -1,0 +1,211 @@
+{% assign showItemsFirst = section.settings.col_list_show_first | plus: 0 %}
+{% case section.settings.list_collection_results_per_row %}
+  {% when '2' %}
+    {%- assign grid_item_width = 'col-sm-6' -%}
+  {% when '3' %}
+    {%- assign grid_item_width = 'col-sm-6 col-lg-4' -%}
+  {% when '4' %}
+    {%- assign grid_item_width = 'col-sm-6 col-lg-4 col-xl-3' -%}
+{% endcase %}
+{% render 'breadcrumb' %}
+<header class="page-header">
+  <h2 class="title">
+    {{section.settings.title_col}}
+  </h2>
+  <div class="des-col rte">
+    {{section.settings.des_col}}
+  </div>
+</header>
+<div class="list-categories" data-limit ="{{section.settings.col_list_limit }}">
+ 
+    {% if section.settings.style_categories == 'style_show_all' %}
+     <div class="row">
+      {% for collection in collections %}
+      {% if collection.handle != 'frontpage' and collection.all_products_count > 0 %}
+      <div class="halo-item col-12 {{ grid_item_width }} {% if forloop.index > showItemsFirst and section.settings.display_infinite_scrolling_col %}d-none{% endif %}">
+        {% render 'list-collection-item', collection: collection %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+
+    {% for block in section.blocks %}
+    {% if block.type == 'collection_3item'%}
+    {% assign collection_1 = collections[block.settings.collection_1] %}
+    {% assign collection_2 = collections[block.settings.collection_2] %}
+    {% assign collection_3 = collections[block.settings.collection_3] %}
+    <div class="halo-item {% if forloop.index > showItemsFirst and section.settings.display_infinite_scrolling_col %}d-none{% endif %}">
+      {% render 'list-collection-3-item', 
+                  block: block, 
+                  collection_1: collection_1,
+                  collection_2: collection_2,
+                  collection_3: collection_3
+      %}
+    </div>
+    {% else %}
+    {% assign collection = collections[block.settings.collection] %}
+    <div class="halo-item {% if forloop.index > showItemsFirst and section.settings.display_infinite_scrolling_col %}d-none{% endif %}">
+      {% render 'list-collection-1-item',block: block, collection: collection %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% if section.settings.display_infinite_scrolling_col and section.settings.title_show_more != blank%}      
+      <div class="infinite-scrolling-col-list">
+          <a class="btn btn-show-more btn-two" href="javascript:void(0)">
+              {{ section.settings.title_show_more }}
+          </a>
+      </div>
+    {% endif %}
+</div>
+
+
+{% schema %}
+  {
+    "name": "List Collections",
+    "settings": [ 
+    {
+        "type":"header",
+        "content":"Header"
+     },   
+     {
+        "type":"text",
+        "id":"title_col",
+        "label":"Title",
+        "default":"Collections"
+     },
+     {
+        "type":"text",
+        "id":"des_col",
+        "label":"Descriptions",
+        "default":"Phasellus lorem malesuada ligula pulvinar commodo maecenas suscipit auctom."
+     },
+     {
+        "type":"header",
+        "content":"Content"
+     },
+     {
+        "type": "select",
+        "id": "list_collection_results_per_row",
+        "label": "Products per row",
+        "default": "3",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+    {
+        "type": "radio",
+        "id": "style_categories",
+        "label": "Show all \/ Only a few categories",
+        "options": [
+          {
+            "value": "style_show_all",
+            "label": "Show all"
+          },
+          {
+            "value": "style_little",
+            "label": "Only a few categories"
+          }
+        ]
+      },
+      {
+            "type": "range",
+            "id": "col_list_show_first",
+            "label": "Number of Items show first",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 2
+        },
+      {
+          "type": "checkbox",
+          "id": "display_infinite_scrolling_col",
+          "label": "Display Show More Button?",
+          "default": true
+      },
+      {
+            "type": "range",
+            "id": "col_list_limit",
+            "label": "Number of products to show at one time",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "default": 3
+        },
+        {
+          "type":"text",
+          "id":"title_show_more",
+          "label":"Title Button Show More",
+          "default":"Show More"
+        }
+    
+  ],
+    "blocks": [
+      {
+        "type": "collection_3item",
+        "name": "Layout 3 items",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "Image 1"
+          },
+          {
+            "label": "Collection 1",
+            "id": "collection_1",
+            "type": "collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Image 2"
+          },
+          {
+            "label": "Collection 2",
+            "id": "collection_2",
+            "type": "collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_3",
+            "label": "Image 3"
+          },
+          {
+            "label": "Collection 3",
+            "id": "collection_3",
+            "type": "collection"
+          }
+        ]
+      },
+      {
+        "type": "collection_1item",
+        "name": "Layout 1 item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

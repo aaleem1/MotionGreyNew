@@ -1,0 +1,17 @@
+{% if settings.collection_layout == "enable_collection_pages" %}
+<div class="page-collections-list">
+	<div class="container-2">
+	  {% section 'list-collections-template' %}
+	</div>
+	{% section 'list-product-col' %}
+</div>
+{% else %}
+<div class="collection-continue-shopping">
+  <p {% if settings.enable_multilang %}data-translate="collections.general.continue_shopping_htnl"{%endif%}>
+    {{ 'collections.general.continue_shopping_htnl' | t }}
+    <span {% if settings.enable_multilang %}data-translate="collections.general.click_continue"{%endif%}>
+      <a href="{{ routes.root_url }}">{{'collections.general.click_continue' | t}}</a>
+    </span>
+  </p>
+</div>
+{% endif %}

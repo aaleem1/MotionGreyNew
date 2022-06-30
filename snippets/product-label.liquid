@@ -1,0 +1,172 @@
+{% assign sale_badge = false %}
+{% assign sale_badge2 = false %}
+{% if badge_detail %}
+  {% if product.variants[0].compare_at_price > product.variants[0].price %}
+      {% if settings.type_label_sale == 'label_sale' %}
+          {% assign sale_badge = true %}
+      {% else %}
+          {% assign sale_badge2 = true %}
+      {% endif %}
+  {% endif %}
+{% else %}
+  {% if product.compare_at_price_min > product.price_min %}
+      {% if settings.type_label_sale == 'label_sale' %}
+          {% assign sale_badge = true %}
+      {% else %}
+          {% assign sale_badge2 = true %}
+      {% endif %}
+  {% endif %}
+{% endif %}
+ 
+
+{% assign sold_out = true %}
+{% if product.available  %}
+  {% assign sold_out = false %}
+{% endif %}
+<!-- new product -->
+{% assign hot_label = false %}
+{% assign new_label = false %}
+
+
+{% for tag in product.tags %}
+{% assign tag_handle = tag | handle %}
+{% if tag_handle == 'hot' %}
+{% assign hot_label = true %}
+{% endif %}
+
+{% if tag_handle == 'new' %}
+{% assign new_label = true %}
+{% endif %}
+
+{% endfor %}
+
+{% assign bundle_label = false %}
+{% if product.metafields.c_f['Grouped Sub Product'] %}
+{% assign bundle_label = true %}
+{% endif %}
+
+
+{% if product.tags contains 'preorder'  %}
+
+<div class="col-product-label-preorder">
+<strong class="label-preorder">
+    Pre-Order
+  </strong>
+</div>
+
+{% endif  %}
+
+{% if product.tags contains 'ex-warranty'  %}
+{% comment %}
+<div class="col-product-label-exwarranty">
+<strong class="label-exwarranty">
+    8-year Warranty
+  </strong>
+</div>
+{% endcomment %}
+{% endif  %}
+
+{% if product.tags contains 'black-friday'  %}
+
+<div class="col-product-label-black-friday">
+<strong class="label-preorder">
+    Black Friday Pricing
+  </strong>
+</div>
+
+{% endif  %}
+
+{% if product.tags contains 'red-sale'  %}
+
+<div class="col-product-label-red-sale">
+<strong class="label-red-sale">
+    Sale
+  </strong>
+</div>
+
+{% endif  %}
+
+{% unless product.tags contains "black-friday"  %}
+
+{% unless product.tags contains "ex-warranty"  %}
+
+{% unless product.tags contains "preorder"  %}
+
+{% unless product.tags contains "red-sale"  %}
+
+{% if sale_badge2 or sale_badge or sold_out or hot_label or bundle_label or new_label  %}
+<div class="product-label">
+
+  {% comment %}{% if on_sale %}
+  {% if settings.type_label_sale == 'label_sale' %}
+  <strong class="label sale-label" {% if settings.enable_multilang %}data-translate="products.product.sale"{% endif %}>
+    {{ 'products.product.sale' | t }}
+  </strong>
+  <br>
+  {% else %}
+  <strong class="label sale-label">
+    -{{ product.variants[0].compare_at_price | minus:product.variants[0].price | times:100 | divided_by:product.variants[0].compare_at_price }}%
+  </strong>
+  <br>
+  {% endif %}
+  
+  {% endif %}{% endcomment %}
+
+  {% if badge_detail %}
+
+    {% if sale_badge2 %}
+<!--         <strong class="label sale-label customSale">
+        -{{ current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | money_without_currency | times: 100 | replace: '.0', ''}}%
+        </strong> -->
+  <strong>Sale</strong>
+  		
+        <br>
+    {% else %}
+      <strong class="label sale-label">{{ 'products.product.sale' | t }}</strong>
+      <br>
+    {% endif %}
+
+  {% else %}
+    {% if sale_badge2 %}
+      <strong class=" label sale-label">-{{ product.compare_at_price_min | minus: product.price_min | times: 100.0 | divided_by: product.compare_at_price_min | money_without_currency | times: 100 | replace: '.0', ''}}%</strong>
+
+        <br>
+    {% endif %}
+    {% if sale_badge %}
+      <strong class="label sale-label">{{ 'products.product.sale' | t }}</strong>
+      <br>
+    {% endif %}
+  {% endif %}
+
+
+
+  {% if sold_out %}
+  <strong class="label sold-out-label" {% if settings.enable_multilang %}data-translate="products.product.sold_out"{% endif %}>
+    {{ 'products.product.sold_out' | t }}
+  </strong>
+  <br>
+  {% endif %}
+  
+  {% if new_label %}
+  <strong class="label new-label" {% if settings.enable_multilang %}data-translate="products.product.new_label"{% endif %} >
+    {{ 'products.product.new_label' | t }}
+  </strong>
+  <br>
+  {% endif %}
+  
+  {% if hot_label %}
+  <strong class="label hot-label" {% if settings.enable_multilang %}data-translate="products.product.hot_label"{% endif %} >
+    {{ 'products.product.hot_label' | t }}
+  </strong>
+  <br>
+  {% endif %}
+  
+  {% if bundle_label %}
+  <strong class="label bundle-label" {% if settings.enable_multilang %}data-translate="products.product.bundle_label"{% endif %} >
+    {{ 'products.product.bundle_label' | t }}
+  </strong>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endunless  %}{% endunless  %}{% endunless  %}{% endunless  %}

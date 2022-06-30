@@ -1,0 +1,27 @@
+{% if section.settings.display_header_top_sticky and section.settings.header_top_sticky_message_text != blank %}
+<div class="bfcm-header">
+    <div class="col-12"> 
+      <div class="bfcm-container">
+        <div class="bcfm-text">{{ section.settings.header_top_sticky_message_text }}</div>
+        {% if section.settings.display_header_top_sticky_button %}
+        <a class="bfcm-btn btn" href="{{ section.settings.header_top_sticky_button_link }}">
+          {{ section.settings.header_top_sticky_button_text }}
+        </a>
+      	{% endif %}
+      </div> 
+    </div>
+  </div>
+{% endif %}
+
+<style>
+.bcfm-text {
+    color: {{ section.settings.text_header_top_sticky_color }};
+}
+  .bfcm-header {
+    background-color: {{ section.settings.bg_header_top_sticky }};
+}
+  .bfcm-btn {
+    background-color: {{ section.settings.bg_header_top_sticky_button }};
+    color: {{ section.settings.text_header_top_sticky_button_color }};
+}
+</style>

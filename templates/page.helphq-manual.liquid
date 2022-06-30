@@ -1,0 +1,103 @@
+{% layout none %}
+
+<html>
+  <head>    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Help Center</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+    <script>
+      window.HELPHQ_DOMAIN = "{{ shop.permanent_domain }}"
+      window.HELPHQ_SHOP = "{{ shop.name }}"
+      window.HELPHQ_FULLPAGE = true
+    </script>
+      {% render 'head_styles' %}
+  </head>
+  
+  <header>
+    
+    <div class="container cart-header">
+	<img class=" lazyload" data-src="https://cdn.shopify.com/s/files/1/0252/9656/8413/files/PSD_2018_06_23_Logo_black-8.png" src="https://cdn.shopify.com/s/files/1/0252/9656/8413/files/PSD_2018_06_23_Logo_black-8.png">
+    <a href="/">Go to MotionGrey.com</a>
+</div>
+    
+    <style>
+    .cart-header img {
+      width: 130px !important;
+	}
+     .cart-header a {
+       color: #000 !important;
+       text-decoration: underline !important;
+       font-size: 14px !important;
+       font-weight: 500 !important;
+       cursor: pointer !important;
+	}
+    </style>
+    
+  </header>
+  
+  <body class="help-hq-fullpage">
+    
+
+    
+<div id="help-hq-manual"></div><script type="text/javascript">window.HELPHQ_DOMAIN = '{{ shop.permanent_domain }}'; window.HELPHQ_SHOP = '{{ shop.name }}'; (function() { var url = 'https://cdn.jsdelivr.net/gh/apphq/helphq-dist@master/helphq.js?' + new Date().getTime(); var s = document.createElement('script'); s.type = 'text/javascript'; s.src = url; var x = document.querySelector('body'); x.appendChild(s); })()</script>
+
+    
+
+    
+  </body>
+  
+  <footer style="background-color: #34445A;">
+    <div style="display: block;width: 100%;margin: 0px auto;text-align: center;padding-top: 20px;">
+                  	
+                    <p style="color: white;">(c) MotionGrey. All Rights Reserved.</p><br>
+                
+                <br>
+</div>
+    <div style="display: flex;justify-content: center;width: 100%;margin: 0px auto;text-align: center;padding-top: 10px;padding-bottom: 10px;">
+    <ul class="site-nav" 
+    style="
+    color: white;
+    display: flex;
+	">
+                  
+                  <li style="padding: 0 10px;">
+                    <a href="/policies/privacy-policy" style="color: #fff;">
+                      
+<span>
+  Privacy Policy
+</span>
+
+                    </a>
+                  </li>
+                  
+                  <li style="padding: 0 10px;">
+                    <a href="/policies/terms-of-service">
+                      
+<span>
+  Terms of Service
+</span>
+
+                    </a>
+                  </li>
+                  
+                  <li style="padding: 0 10px;">
+                    <a href="/policies/refund-policy">
+                      
+<span>
+  Refund policy
+</span>
+
+                    </a>
+                  </li>
+                  
+                </ul>
+</div>
+                
+                  
+                  
+    </footer>
+  
+</html>    

@@ -1,0 +1,181 @@
+
+<div class="contact-us-page">
+
+  
+  <div class="container-2">
+    
+    
+    
+    
+    <div class="wrapper">
+      <div class="row">
+        <div class="col-12 form-contact">     
+          
+          {% form 'contact' %}
+
+          {% comment %}
+          Successful message
+          {% endcomment %}
+
+          {% if form.posted_successfully? %}
+          <p class="note form-success" {% if settings.enable_multilang %}data-translate="contact.form.post_success"{% endif %}>
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+
+          <div id="contactFormWrapper" class="productContact">          
+			<div class="form-group">
+              <input type="email" name="contact[email]" id="contactFormEmail" autocorrect="off" autocapitalize="off" placeholder="Email address">
+            </div>
+            <div class="form-group">
+              <input type="text" name="contact[subject]" id="contactFormSubject" placeholder="Subject">
+            </div>
+
+            
+
+            <div class="form-group">
+              <textarea rows="8" name="contact[body]" placeholder="Enter your message here" id="contactFormMessage" {% if settings.enable_multilang %}data-translate="contact.form.placeholder_message" translate-item="placeholder"{%endif%} ></textarea>
+            </div>
+
+            <input type="submit" class="contactSubmit" {% if settings.enable_multilang %}data-translate="contact.form.submit_contact"{%endif%} value="SUBMIT">
+          </div>
+          {% endform %}
+        </div>
+        
+      </div>     
+    </div>
+  </div>    
+</div>
+
+
+{% schema %}
+    {
+    "name": "Contact Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "display_google_map",
+        "label": "Display Google Map?",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "google_map_code",
+        "label": "Google Map Code"
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "Title",
+        "default": "Contact Us"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_text_desc",
+        "label": "Text Description",
+        "info":"Use [lang2] to separate multiple language"
+      },
+      {
+        "type":"header",
+        "content":"left"
+      },
+      {
+        "type":"text",
+        "id":"title_left",
+        "label":"Title",
+        "default":"Send us an email"
+      },
+      {
+        "type":"textarea",
+        "id":"des_left",
+        "label":"Desctiption"
+      },
+
+      {
+        "type": "text",
+        "id": "contact_your_name",
+        "label": "Placeholder text in Your Name"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone_number",
+        "label": "Placeholder text in Your Phone"
+      },
+      {
+        "type": "text",
+        "id": "contact_your_email",
+        "label": "Placeholder text in Your Email"
+      },
+      {
+        "type":"header",
+        "content":"Right"
+      },
+      {
+        "type":"text",
+        "id":"title_right",
+        "label":"Title",
+        "default":"Please do get in touch!"
+      },
+      {
+        "type":"textarea",
+        "id":"des_right",
+        "label":"Desctiption"
+      },
+      {
+        "type":"text",
+        "id":"btn_right",
+        "label":"Title Link",
+        "default":"Chat now"
+      },
+      {
+        "type":"url",
+        "id":"link_btn_right",
+        "label":"Add link"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_location",
+        "label": "Display Location?",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "location_code",
+        "label": "Location Code"
+      },
+      {
+        "type":"header",
+        "content":"Color Style"
+      },
+      {
+        "type": "checkbox",
+        "id": "custom_style_color",
+        "label": "Custom Color",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "color_title",
+        "label": "Color Title"
+      },
+      {
+        "type": "color",
+        "id": "color_content",
+        "label": "Color Content"
+      },
+      {
+        "type": "color",
+        "id": "color_label",
+        "label": "Color Label"
+      },
+      {
+        "type": "color",
+        "id": "back_right",
+        "label": "Background Colum Right"
+      }
+
+    ]
+  }
+{% endschema %}

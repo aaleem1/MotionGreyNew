@@ -1,0 +1,225 @@
+<div class="row {%unless block_style == "style_3" %}hl-shuffle-target{%endunless%}">
+  {% if block_style == "style_1"%}
+  <div class="colm-1 col-12{% if  banner_first_style != blank and featured_product_1 != blank  %} col-lg-3{% elsif banner_first_style != blank or featured_product != blank %} col-lg-3{%else%}col-lg-3{% endif %}">
+    {%elsif block_style == "style_2" %}
+    <div class="colm-1 col-12 {%if banner_first_style or banner_second_style and banner_third_style%}col-lg-7{%else%}col-lg-9{%endif%}">
+      {%elsif block_style == "style_3" %}
+      <div class="colm-1 col-12 col-lg-12">
+      {%endif%}
+      <div class="row">
+        {% for l in linklists[link.handle].links %}
+        <div class="inner {%if linklists[link.handle] != empty %}dropdown-mm{% endif %} col-12 {% if block_style == "style_1"%} col-lg-12{%endif%} {% if block_style == "style_2"%} col-lg-3{%endif%} {%unless block_style == "style_3" %}hl-shuffle-item{%endunless%}">
+          <!-- Menu level 2 -->
+          <a {%if linklists[link.handle] != empty %}class="menu__moblie"{% endif %} href="{{ l.url }}" class="current">
+            {% render 'multilang' with l.title %}
+            
+            
+            {% if linklists[l.handle] != empty %}
+            <span class="icon-dropdown">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+            {% endif %}
+          </a>
+          
+          {%if block_style == 'style_3'%}
+            {%assign mega_collection = l.object%}
+            {%if mega_collection.image %}
+            <div class="collection-banner">
+              <a href="{{mega_collection.url}}">
+                <img data-src="{{mega_collection.image | img_url: '400x'}}" {%render 'lazyload' %}>
+              </a>
+            </div>
+            {%endif%}
+          {%endif%}
+          
+          {%if block_style == 'style_2'%}
+            {%assign mega_collection = l.object%}
+            {%if mega_collection.image %}
+            <div class="collection-banner">
+              <a href="{{mega_collection.url}}">
+                <img data-src="{{mega_collection.image | img_url: '400x'}}" {%render 'lazyload' %}>
+              </a>
+            </div>
+            {%endif%}
+          {%endif%}
+
+          {% if linklists[l.handle] != empty %}
+          <ul class="site-nav-dropdown">
+            <div class="submenu-title">
+              <span class="back-icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+              {% render 'multilang' with l.title %}
+            </div>
+            
+            
+            {% for child_l in linklists[l.handle].links %}
+            <!-- Menu level 3 -->
+            <li>
+              <a href="{{ child_l.url }}" {% if child_l.active %}class="current"{% endif %}>
+                {% render 'multilang' with child_l.title %}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {%if block_style == 'style_3'%}
+        {%assign dk = forloop.index | modulo:5 %}
+        {%if dk == 0 and forloop.last == false%}
+        </div>
+      	<div class="row">
+        {%endif%}
+        {%endif%}
+        {% endfor %}
+          {%if block_style == 'style_3'%}
+          
+          {%if banner_first_style-3 %}
+          <div class="inner-image-a">
+            <a href="{{block.settings.link_banner_first_style_3}}">
+              <img data-src="{{banner_first_style-3 | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+          {%if banner_second_style-3 %}
+          <div class="inner-image-b">
+            <a href="{{block.settings.link_banner_second_style_3}}">
+              <img data-src="{{banner_second_style-3 | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+          {%if banner_third_style-3 %}
+          <div class="inner-image-c">
+            <a href="{{block.settings.link_banner_third_style_3}}">
+              <img data-src="{{banner_third_style-3 | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+          {%if banner_fourth_style-3 %}
+          <div class="inner-image-d">
+            <a href="{{link_banner_fourth_style-3}}">
+              <img data-src="{{banner_fourth_style-3 | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+          
+          {%endif%}
+        </div>
+    </div>
+    {% if block_style == "style_1" %}
+    <div class="colm-2 {%if banner_first_style or banner_second_style and banner_third_style %}col-lg-9{%else%}col-lg-9{%endif%}">
+      <div class="row">
+        {%if banner_first_style or banner_second_style %}
+        <div class="col-left {%if banner_third_style %}col-lg-12{%else%}col-lg-12{%endif%}">
+          {%if banner_first_style %}
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_first_style}}">
+              <img data-src="{{banner_first_style | img_url:'400x'}}" {%render 'lazyload' %}>
+              <h3 class="mega-banner-h3">{{heading_banner_first_style}}</h3>
+              <p class="mega-banner-description">{{description_banner_first_style}}</p>
+            </a>
+          </div>
+          {%endif%}
+
+          {%if banner_second_style %}
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_second_style}}">
+              <img data-src="{{banner_second_style | img_url:'400x'}}" {%render 'lazyload' %}>
+              <h3 class="mega-banner-h3">{{heading_banner_second_style}}</h3>
+              <p class="mega-banner-description">{{description_banner_second_style}}</p>
+            </a>
+          </div>
+          {%endif%}
+          
+          {%if banner_third_style %}
+        
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_third_style}}">
+              <img data-src="{{banner_third_style | img_url:'400x'}}" {%render 'lazyload' %} >
+              <h3 class="mega-banner-h3">{{heading_banner_third_style}}</h3>
+              <p class="mega-banner-description">{{description_banner_third_style}}</p>
+            </a>
+          </div>
+        
+        {%endif%}
+          
+        </div>
+        {%endif%}
+
+        
+      </div>
+    </div>
+    {%endif%}
+
+    {% if block_style == "style_2" %}
+    <div class="colm-2 {%if banner_first_style or banner_second_style and banner_third_style %}col-lg-5{%else%}col-lg-3{%endif%}">
+      <div class="row">
+        {%if banner_first_style or banner_second_style %}
+        <div class="col-left {%if banner_third_style %}col-lg-6{%else%}col-lg-12{%endif%}">
+          {%if banner_first_style %}
+          <div class="inner-image-a mega-banner style-2">
+            <a class="mega-banner-linked" href="{{link_banner_first_style}}">
+              <img data-src="{{banner_first_style | img_url:'400x'}}" {%render 'lazyload' %}>
+              <span class="btn__border"></span>
+            </a>
+          </div>
+          {%endif%}
+
+          {%if banner_second_style %}
+          <div class="inner-image-a mega-banner style-2">
+            <a href="{{link_banner_second_style}}">
+              <img data-src="{{banner_second_style | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+        </div>
+        {%endif%}
+
+        {%if banner_third_style %}
+        <div class="col-right {%if banner_first_style or banner_second_style %}col-lg-6{%else%}col-lg-12{%endif%}">
+          <div class="inner-image-a mega-banner style-2">
+            <a href="{{link_banner_third_style}}">
+              <img data-src="{{banner_third_style | img_url:'400x'}}" {%render 'lazyload' %} >
+            </a>
+          </div>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+    {%endif%}
+      
+      {% if block_style == "style_3" %}
+    <div class="colm-2 {%if banner_first_style or banner_second_style and banner_third_style %}col-lg-5{%else%}col-lg-3{%endif%}">
+      <div class="row">
+        {%if banner_first_style or banner_second_style %}
+        <div class="col-left {%if banner_third_style %}col-lg-6{%else%}col-lg-12{%endif%}">
+          {%if banner_first_style %}
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_first_style}}">
+              <img data-src="{{banner_first_style | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+
+          {%if banner_second_style %}
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_second_style}}">
+              <img data-src="{{banner_second_style | img_url:'400x'}}" {%render 'lazyload' %}>
+            </a>
+          </div>
+          {%endif%}
+        </div>
+        {%endif%}
+
+        {%if banner_third_style %}
+        <div class="col-right {%if banner_first_style or banner_second_style %}col-lg-6{%else%}col-lg-12{%endif%}">
+          <div class="mega-banner style-2">
+            <a href="{{link_banner_third_style}}">
+              <img data-src="{{banner_third_style | img_url:'400x'}}" {%render 'lazyload' %} >
+            </a>
+          </div>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+    {%endif%}
+      
+  </div>

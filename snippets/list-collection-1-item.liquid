@@ -1,0 +1,41 @@
+<div class="list-three-items list-one-items">
+    <div class="mansory-layout mansory-layout-2">
+    <div class="grid-item item item-2-width-pc item-2-width-custom">
+          <div class="item-child">
+            {% if block.settings.image != blank%}
+            <div class="mansory-item-wrapper">
+              <a href="{{ collection_2.url }}" class=" mansory-item">
+                 {%- assign url_image = block.settings.image | img_url:'2000x'-%}
+                <img data-src="{{url_image}}" alt="{{block.settings.image.alt | default: shop.name}}" {% render 'lazyload'%}>
+              </a>
+                {% if collection != blank%}
+                <div class="banner-content ">
+                  <div class="collections-wrapper">
+                    <h3 class="collection-title">
+                      <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">
+                        {{collection.title }}
+                      </a>
+                    </h3>
+                    <span class="count-products">
+                      {{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}
+                    </span>
+                    {% assign des = collection.description %}
+                    <div class="des">
+                      <div class="rte">
+                        {{ des | strip_html | truncatewords: 50 }}
+                      </div>
+                    </div>
+                    <a href="{{ collection.url }}" class="btn collections-btn btn-two">
+                      {{ 'collections.general.shop_now' | t }}
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+              <div class="no-image animate-scale mansory-item" style="padding-top:48%; font-size:20px"><span> 570 x 1170px</span></div>
+              {% endif %}
+          </div>
+        </div>
+    </div>
+</div>

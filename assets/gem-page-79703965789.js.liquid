@@ -1,0 +1,719 @@
+{% comment %}
+	GEMPAGE BUILDER (https://apps.shopify.com/gempage)
+
+	You SHOULD NOT modify source code in this page because
+	It is automatically generated from GEMPAGE BUILDER
+	Try to edit page with the live editor.
+{% endcomment %}
+
+        jQuery(function() {
+            var $hero = jQuery('#m-1615321005991');
+            var $module = jQuery('#m-1615321005991').children('.module');
+
+            var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+            if(mode == 'dev') {
+                $hero.children('.hero-link').hide();
+            }
+
+            var height = jQuery.trim($module.attr('data-height'));
+            if(height == undefined || height == '') {
+                $hero.attr('style', 'height: auto!important');
+                jQuery(window).resize(function(){
+                    $hero.attr('style', 'height: auto!important');
+                });
+            } else {
+                $hero.removeAttr('style');
+            }
+
+            var effect = $module.attr('data-effect');
+            var transition = $module.attr('data-transition');
+
+            if(effect == 'effect-zoom') {   
+                $module.parent().addClass(effect);  
+
+                setTimeout(function() {
+                    var backgroundImage = $module.parent().css('background-image');
+                    var backgroundSize = $module.parent().css('background-size');
+                    var backgroundPosition = $module.parent().css('background-position');
+                    $module.siblings('.gf_hero-bg-wrap').css({
+                        'background-image'      : 'inherit',
+                        'background-size'       : 'inherit',
+                        'background-position'   : 'inherit',
+                        '-webkit-transition'    : 'transform ' + transition + 's ease-in-out',
+                        '-moz-transition'       : 'transform ' + transition + 's ease-in-out',
+                        '-ms-transition'        : 'transform ' + transition + 's ease-in-out',
+                        '-o-transition'         : 'transform ' + transition + 's ease-in-out',
+                        'transition'            : 'transform ' + transition + 's ease-in-out'
+                    })
+                    $module.siblings('.gf_hero-bg-wrap').children('.gf_hero-bg').css({
+                        'background-image'      : 'inherit',
+                        'background-size'       : 'inherit',
+                        'background-position'   : 'inherit',
+                        '-webkit-transition'    : 'transform ' + transition + 's ease-in-out',
+                        '-moz-transition'       : 'transform ' + transition + 's ease-in-out',
+                        '-ms-transition'        : 'transform ' + transition + 's ease-in-out',
+                        '-o-transition'         : 'transform ' + transition + 's ease-in-out',
+                        'transition'            : 'transform ' + transition + 's ease-in-out'
+                    });
+                }, 300);
+            }
+
+            if($module.attr('data-fixedMode') == '1'){
+                $module.parent().attr('style', 'padding-top: 0px!important; padding-bottom: 0px!important; height: auto!important; background-image: none!important;max-width: 100%!important;');
+
+                jQuery(window).resize(function(){
+                    var backgroundImage =  $module.parent().css('background-image');
+                    $module.parent().attr('style', 'padding-top: 0px!important; padding-bottom: 0px!important; height: auto!important; background-image: none!important;max-width: 100%!important;');
+                });
+            } else {
+                $module.parent().removeAttr('style');
+            }
+        });
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615481432704').children('.module');
+    $module.gfV1Countdown({
+        id: "1615481432704",
+        idSlug: "1615481432704"
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1615321005914"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1615321005914"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+(function( jQuery ){
+  var $module = jQuery('#m-1615850646827').children('.module');
+  var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+  if (mode == 'production') {
+    jQuery(window).ready(function() {
+      $module.gfVideoBg();
+    })
+  } else {
+    $module.gfVideoBg();
+  }
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+(function( jQuery ){
+  var $module = jQuery('#m-1624552651657').children('.module');
+  var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+  if (mode == 'production') {
+    jQuery(window).ready(function() {
+      $module.gfVideoBg();
+    })
+  } else {
+    $module.gfVideoBg();
+  }
+})( window.GemQuery || jQuery );
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1624552651748').children('.module');
+    $module.gfV1Countdown({
+        id: "1624552651748",
+        idSlug: "1624552651748"
+    });
+})( window.GemQuery || jQuery );
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1624552651685"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1624552651685"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+    
+    
+    
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1615321005905"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1615321005905"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+(function( jQuery ){
+  try {
+    var $module = jQuery('#m-1633451421829').children('.module');   
+    var navspeed = $module.data('navspeed'),
+      autoplaytimeout = $module.data('autoplaytimeout'),
+      autoplayhoverpause = $module.data('autoplayhoverpause'),
+      navlg = $module.data('navlg'),
+      navmd = $module.data('navmd'),
+      navsm = $module.data('navsm'),
+      navxs = $module.data('navxs'),
+      collg = $module.data('collg'),
+      colmd = $module.data('colmd'),
+      colsm = $module.data('colsm'),
+      colxs = $module.data('colxs'),
+      dotslg = $module.data('dotslg'),
+      dotsmd = $module.data('dotsmd'),
+      dotssm = $module.data('dotssm'),
+      dotsxs = $module.data('dotsxs'),
+      marginlg = parseInt($module.data('marginlg')),
+      marginmd = parseInt($module.data('marginmd')),
+      marginsm = parseInt($module.data('marginsm')),
+      marginxs = parseInt($module.data('marginxs'));
+
+    var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+    if(mode == 'production') {
+      var autoplay = $module.data('autoplay'), 
+          loop = $module.data('loop');
+    } else {
+      var autoplay = 0, 
+          loop = 0;
+    }
+
+    var initCarousel = function() {
+      $module.owlCarousel({
+        mouseDrag: false,
+        autoplayHoverPause: autoplayhoverpause,
+        autoplay: autoplay,
+        autoplaySpeed: navspeed,
+        autoplayTimeout: autoplaytimeout,
+        loop: loop,
+        navSpeed: navspeed,
+        autoWidth: !1,
+        responsiveClass:true,
+        responsive:{
+          0:{
+              items:colxs,
+              nav: navxs,
+              dots:dotsxs,
+              margin: marginxs
+          },
+          768:{
+              items:colsm,
+              nav: navsm,
+              dots:dotssm,
+              margin: marginsm
+          },
+          992:{
+              items:colmd,
+              nav: navmd,
+              dots:dotsmd,
+              margin: marginmd
+          },
+          1200:{
+              items:collg,
+              nav: navlg,
+              dots:dotslg,
+              margin: marginlg
+          }
+        },
+        onInitialized: function () {
+          $module.closest('.module-wrap[data-label="Carousel"]').addClass('gf-carousel-loaded');
+          jQuery(window).trigger("resize");
+        }
+      });
+    }
+    
+    // Fix nested carousel bug	
+    if ($module.parent().parent().closest('.module-wrap[data-label="Carousel"]').length > 0) {	
+        setTimeout(function() {	
+            initCarousel();	
+        }, 300)	
+    } else {	
+        initCarousel();	
+    }
+  } catch(err) {}
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615321005988').children('.module');
+    $module.find('.counter').counterUp({
+        delay: 10,
+        time: 1000
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615321006015').children('.module');
+    $module.find('.counter').counterUp({
+        delay: 10,
+        time: 1000
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615321005895').children('.module');
+    $module.find('.counter').counterUp({
+        delay: 10,
+        time: 1000
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615321006076').children('.module');
+    $module.find('.counter').counterUp({
+        delay: 10,
+        time: 1000
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1622571906579').children('.module');
+    $module.gfV1Countdown({
+        id: "1622571906579",
+        idSlug: "1622571906579"
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1633451500989"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1633451500989"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+(function( jQuery ){
+  try {
+    var $module = jQuery('#m-1615321006012').children('.module');   
+    var navspeed = $module.data('navspeed'),
+      autoplaytimeout = $module.data('autoplaytimeout'),
+      autoplayhoverpause = $module.data('autoplayhoverpause'),
+      navlg = $module.data('navlg'),
+      navmd = $module.data('navmd'),
+      navsm = $module.data('navsm'),
+      navxs = $module.data('navxs'),
+      collg = $module.data('collg'),
+      colmd = $module.data('colmd'),
+      colsm = $module.data('colsm'),
+      colxs = $module.data('colxs'),
+      dotslg = $module.data('dotslg'),
+      dotsmd = $module.data('dotsmd'),
+      dotssm = $module.data('dotssm'),
+      dotsxs = $module.data('dotsxs'),
+      marginlg = parseInt($module.data('marginlg')),
+      marginmd = parseInt($module.data('marginmd')),
+      marginsm = parseInt($module.data('marginsm')),
+      marginxs = parseInt($module.data('marginxs'));
+
+    var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+    if(mode == 'production') {
+      var autoplay = $module.data('autoplay'), 
+          loop = $module.data('loop');
+    } else {
+      var autoplay = 0, 
+          loop = 0;
+    }
+
+    var initCarousel = function() {
+      $module.owlCarousel({
+        mouseDrag: false,
+        autoplayHoverPause: autoplayhoverpause,
+        autoplay: autoplay,
+        autoplaySpeed: navspeed,
+        autoplayTimeout: autoplaytimeout,
+        loop: loop,
+        navSpeed: navspeed,
+        autoWidth: !1,
+        responsiveClass:true,
+        responsive:{
+          0:{
+              items:colxs,
+              nav: navxs,
+              dots:dotsxs,
+              margin: marginxs
+          },
+          768:{
+              items:colsm,
+              nav: navsm,
+              dots:dotssm,
+              margin: marginsm
+          },
+          992:{
+              items:colmd,
+              nav: navmd,
+              dots:dotsmd,
+              margin: marginmd
+          },
+          1200:{
+              items:collg,
+              nav: navlg,
+              dots:dotslg,
+              margin: marginlg
+          }
+        },
+        onInitialized: function () {
+          $module.closest('.module-wrap[data-label="Carousel"]').addClass('gf-carousel-loaded');
+          jQuery(window).trigger("resize");
+        }
+      });
+    }
+    
+    // Fix nested carousel bug	
+    if ($module.parent().parent().closest('.module-wrap[data-label="Carousel"]').length > 0) {	
+        setTimeout(function() {	
+            initCarousel();	
+        }, 300)	
+    } else {	
+        initCarousel();	
+    }
+  } catch(err) {}
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615481952019').children('.module');
+    $module.gfV1Countdown({
+        id: "1615481952019",
+        idSlug: "1615481952019"
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1633451557161"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1633451557161"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+    
+    
+    
+    
+    
+    
+    
+    (function( jQuery ){
+  try {
+    var $module = jQuery('#m-1616787918716').children('.module');   
+    var navspeed = $module.data('navspeed'),
+      autoplaytimeout = $module.data('autoplaytimeout'),
+      autoplayhoverpause = $module.data('autoplayhoverpause'),
+      navlg = $module.data('navlg'),
+      navmd = $module.data('navmd'),
+      navsm = $module.data('navsm'),
+      navxs = $module.data('navxs'),
+      collg = $module.data('collg'),
+      colmd = $module.data('colmd'),
+      colsm = $module.data('colsm'),
+      colxs = $module.data('colxs'),
+      dotslg = $module.data('dotslg'),
+      dotsmd = $module.data('dotsmd'),
+      dotssm = $module.data('dotssm'),
+      dotsxs = $module.data('dotsxs'),
+      marginlg = parseInt($module.data('marginlg')),
+      marginmd = parseInt($module.data('marginmd')),
+      marginsm = parseInt($module.data('marginsm')),
+      marginxs = parseInt($module.data('marginxs'));
+
+    var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+    if(mode == 'production') {
+      var autoplay = $module.data('autoplay'), 
+          loop = $module.data('loop');
+    } else {
+      var autoplay = 0, 
+          loop = 0;
+    }
+
+    var initCarousel = function() {
+      $module.owlCarousel({
+        mouseDrag: false,
+        autoplayHoverPause: autoplayhoverpause,
+        autoplay: autoplay,
+        autoplaySpeed: navspeed,
+        autoplayTimeout: autoplaytimeout,
+        loop: loop,
+        navSpeed: navspeed,
+        autoWidth: !1,
+        center: true,
+        responsiveClass:true,
+        responsive:{
+          0:{
+              items:colxs,
+              nav: true,
+              margin: marginxs
+          },
+          768:{
+              items:colsm,
+              nav: true,
+              margin: marginsm
+          },
+          992:{
+              items:colmd,
+              nav: navmd,
+              dots:dotsmd,
+              margin: marginmd
+          },
+          1200:{
+              items:collg,
+              nav: navlg,
+              dots:dotslg,
+              margin: marginlg
+          }
+        },
+        onInitialized: function () {
+          $module.closest('.module-wrap[data-label="Carousel"]').addClass('gf-carousel-loaded');
+          jQuery(window).trigger("resize");
+        }
+      });
+    }
+    
+    // Fix nested carousel bug	
+    if ($module.parent().parent().closest('.module-wrap[data-label="Carousel"]').length > 0) {	
+        setTimeout(function() {	
+            initCarousel();	
+        }, 300)	
+    } else {	
+        initCarousel();	
+    }
+  } catch(err) {}
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615482043994').children('.module');
+    $module.gfV1Countdown({
+        id: "1615482043994",
+        idSlug: "1615482043994"
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    window.__gfAnimate.registerHover(jQuery("#e-1633451575075"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"pulse","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"mouse-hover","type":"level2"}}');window.__gfAnimate.registerScroll(jQuery("#e-1633451575075"), '{"animation":{"screens":{"lg":true,"md":true,"sm":true,"xs":true},"name":"bounce_","delay":0,"duration":500,"iteration-count":"1"},"interaction":{"key":"scroll-into-view","type":"level2"}}');
+    
+    
+    
+    jQuery(function() {
+  var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+  var $module = jQuery('#m-1615321005892').children('.module');
+  if (mode == 'dev') {
+      jQuery('#m-1615321005892').attr('data-name', '').css('background-image', 'none').removeAttr('data-image');
+      
+      var flag = true;
+      var $bkLiquid = parent.jQuery('body').find('#gfFrame').contents().find('#module-1615321005892');
+      if ($bkLiquid && $bkLiquid.length > 0) {
+          var $settings = $bkLiquid.find('.settings');
+          try {
+              var name = '';
+              var imageUrl = '';
+              settings = JSON.parse($settings.html());
+              for (var i = 0; i < settings.length; i++) {
+                  if (settings[i].name == 'name') {
+                      name = settings[i].default_value
+                  }
+                  if (settings[i].name == 'image') {
+                      imageUrl = settings[i].default_value
+                  }
+              }
+              if (imageUrl != '') {
+                  flag = false;
+                  jQuery('#m-1615321005892').css('background-image', 'url(' + imageUrl + ')').css('min-height', '100px').attr('data-image', 'true');
+              }
+              if (name != '' && name != 'Custom Code') {
+                  flag = false;
+                  jQuery('#m-1615321005892').attr('data-name', name);
+              }
+          } catch(error) {
+              console.log(error);
+          }
+      }
+      if (flag) {
+          jQuery('#m-1615321005892').attr('data-name', 'Right click on the module, then choose Edit Html / Liquid option to start writing your custom code.');
+      }
+  }
+});
+(function( jQuery ){
+  var $module = jQuery('#m-1615321005972').children('.module');
+  $module.gfV1Popup();
+
+  var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+  if(mode == 'dev') {
+    var moduleId = "1615321005972";
+    var moduleIdSlug = moduleId.toString().replace(/-/g, '');
+    if (moduleIdSlug == "1615321005972") {
+      window.getPopup1615321005972 = function() {
+        return $module.data('gfv1popup');
+      }
+    }
+  }
+})( window.GemQuery || jQuery );
+    
+    
+(function( jQuery ){
+    var $module = jQuery('#m-1615483034280').children('.module');
+    $module.gfV1Countdown({
+        id: "1615483034280",
+        idSlug: "1615483034280"
+    });
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+    
+                          (function( jQuery ){
+                              try{
+                                  if(jQuery().gfV2Lazyload){
+                                      var $module = jQuery(window);
+                                      $module.gfV2Lazyload({delay:125})
+                                  }
+                              }catch(err){
+                                  console.error(err)
+                              }
+                          })( window.GemQuery || jQuery );
+                      

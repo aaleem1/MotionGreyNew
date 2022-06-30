@@ -1,0 +1,18 @@
+<div class="prices">
+	{% if product.compare_at_price > product.price %}
+		<span id="productPrice--{{ product.id }}" class="{% if addon %}addon-{% endif %}price on-sale">
+			<span>{{ money_price }}</span>
+		</span>
+		<span class="{% if addon %}addon-{% endif %}compare-price">
+			{{ product.compare_at_price_max | money }}
+		</span>
+		<p class="{% if addon %}addon-{% endif %}price-save">
+			(Save {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price |
+			round }}%)
+		</p>
+	{% else %}
+		<span id="productPrice--{{ product.id }}" class="{% if addon %}addon-{% endif %}price">
+			{{ money_price }}
+		</span>
+	{% endif %}
+</div>

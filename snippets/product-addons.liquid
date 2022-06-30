@@ -1,0 +1,111 @@
+{% assign addons = product.metafields.addons.product | split: '|' %}
+
+{%- if addons -%}
+  <script>
+    (function(){
+      window.addon = {
+        money_format: '{{ shop.money_format }}'
+      };
+    })();
+  </script>
+  {{ 'component-product-addons.css' | asset_url | stylesheet_tag }}
+
+  {%- assign addonVariantSelectionModals = "" -%}
+
+  {%- if addons and addons.size > 0 -%}
+    <div class="product-addons">
+      <div class="product-addons__header">
+        <h3>Add-Ons:</h3>
+      </div>
+
+      <div class="product-addons__items">
+        {% for addon in addons %}
+          {% assign addonProduct = all_products[addon] %}
+          {% assign addonProductImage = addonProduct.featured_image | img_url: '200x200', crop: 'center' %}
+          <div class="product-addons__item product-addon">
+            <input class="product-addons__checkbox" id="addon-{{ addonProduct.id }}" type="checkbox" aria-hidden="true" data-variant-id="{{ addonProduct.variants.first.id }}" data-addon-id="{{ addonProduct.id }}">
+            <label for="addon-{{ addonProduct.id }}">
+              <div class="product-addon__image" style="background-image: url('{{ addonProductImage }}')"></div>
+              <div class="product-addon__info">
+                <span>{{ addonProduct.title }}</span>
+                <span class="addon-price">+{{ addonProduct.price | money }}</span>
+              </div>
+            </label>
+          </div>
+
+          {%- if addonProduct.variants.size > 1 -%}
+            {%- capture addonModal -%}
+              <div class="addon-modal" id="addon-modal-{{ addonProduct.id }}">
+                <div class="addon-modal__header">
+                  <h2>Select your add-on options:</h2>
+                </div>
+                <div class="addon-modal__content">
+                  <script type="application/json" id="ProductJson-{{ addonProduct.id }}">{{ addonProduct.variants | json }}</script>
+                  <div class="addon-modal__image">
+                    <img loading="lazy" src="{{ addonProduct.featured_image | img_url: '600x' }}" />
+                  </div>
+                  <h3>{{ addonProduct.title | escape }}</h3>
+                  <div class="addon-modal__price">
+                    {%- assign mp = addonProduct.variants.first.price | money -%}
+                    {%- render 'product-price', money_price: mp, product: addonProduct, addon: true -%}
+                  </div>
+                  <div class="addon-options">
+                    {%- for option in addonProduct.options_with_values -%}
+                      {%- assign optionIndex = forloop.index -%}
+                      {%- assign optionHandle = option.name | handleize -%}
+                      {% assign isColor = false %}
+
+                      {%- if optionHandle contains 'color' or optionHandle contains 'colour' -%}
+                        {% assign isColor = true %}
+                      {%- endif -%}
+
+                      <div class="addon-option">
+                        <label class="addon-option__name">{{ option.name }}: <span>{{ option.selected_value }}</span></label>
+                        <div class="addon-option__selector">
+                          {%- for value in option.values -%}
+                            <div class="addon-option__selector__swatch {% if isColor %}addon-option__selector__swatch--color{% endif %}">
+                              <input
+                                type="radio"
+                                value="{{ value }}"
+                                name="opt-{{ addonProduct.id }}-{{ option.name | handle }}"
+                                id="option-{{ optionIndex }}-{{ value | handleize }}" 
+                                {% if option.selected_value == value %}checked{% endif %}
+                              />
+                              <label
+                                for="option-{{ optionIndex }}-{{ value | handleize }}"
+                              >
+                              {% if isColor %}
+                                <span style="background-color: {{ value | handleize }};">{{ value | escape }}</span>
+                              {% else %}
+                                {{ value | escape }}
+                              {% endif %}
+                            </label>
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+                <div class="addon-modal__footer">
+                  <button class="btn button button--select" type="button">Select</button>
+                </div>
+              </div>
+            {%- endcapture -%}
+            {%- assign addonVariantSelectionModals = addonVariantSelectionModals | append: addonModal -%}
+          {%- endif -%}
+        {% endfor %}
+      </div>
+    </div>
+  {%- endif -%}
+  {%- comment -%}
+    Add on Modals for variant selection for products with more than 1 variant
+  {%- endcomment -%}
+  {%- unless addonVariantSelectionModals == blank -%}
+    <div class="addon-modals">
+      {{ addonVariantSelectionModals }}
+    </div>
+  {%- endunless -%}
+
+  {{ 'component-product-addons.js' | asset_url | script_tag }}
+{%- endif -%}

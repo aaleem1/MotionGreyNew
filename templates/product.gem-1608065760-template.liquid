@@ -1,0 +1,74 @@
+<div class="product-template">
+  <div class="container">
+    {% render 'breadcrumb' %}
+    <div class="halo-product-content">
+      <div class="row pro-page">
+        {% section 'product-template' %}
+      </div>
+    </div>
+    {% section 'products_bundle_discount' %}
+  </div>
+  {% section 'tab-horizontal'%}
+  {% if settings.option_descript_pr == "all_product" %}
+    {% section 'description_product_detail' %}
+  {% else %}
+    <div id="different_product_des" data-product-handle = "{{product.handle}}"></div>
+  {% endif %}
+  {% section 'product-recommendations' %}
+  {% section 'recently-viewed-products' %}
+  
+</div>
+
+<!--Start Stamped.io Auto Installation<div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}" data-product-sku="{{product.handle}}" data-product-type="{{product.type}}" data-widget-language="{{shop.locale}}">{{ product.metafields.stamped.reviews }}</div>End Stamped.io Auto Installation-->
+
+
+
+<div class="productTabs">
+
+<ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">{{ product.metafields.product_tab.overview }}</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">{{ product.metafields.product_tab.specifications }}</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="warranty-tab" data-toggle="tab" href="#warranty" role="tab" aria-controls="warranty" aria-selected="false">{{ product.metafields.product_tab.warranty }}</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="installation-tab" data-toggle="tab" href="#installation" role="tab" aria-controls="installation" aria-selected="false">{{ product.metafields.product_tab.installation }}</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">{{ product.metafields.product_tab.faq }}</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">{{ product.metafields.product_tab.overview_content }}</div>
+  <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">{{ product.metafields.product_tab.specifications_content }}</div>
+  <div class="tab-pane fade" id="warranty" role="tabpanel" aria-labelledby="warranty-tab">{{ product.metafields.product_tab.warranty_content }}</div>
+  <div class="tab-pane fade" id="installation" role="tabpanel" aria-labelledby="installation-tab">{{ product.metafields.product_tab.installation_content }}</div>
+  <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">{{ product.metafields.product_tab.faq_content }}</div>
+</div>
+
+</div>
+
+
+
+<div class="customerRevies">
+
+  <div class="text-center">
+  	
+    <h1>Customer Reviews</h1>
+    <p>See all the love we get from our customers.</p>
+  
+  </div>
+  
+<div id="stamped-reviews-widget" data-widget-type="carousel" data-random="? string: ?"></div>
+  
+  <div class="moreReviews text-center"> <a href="#">SEE MORE REVIEWS</a> </div>
+  
+</div>
+
+<!-- customerRevies -->
+
+

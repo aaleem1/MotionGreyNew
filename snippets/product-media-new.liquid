@@ -1,0 +1,84 @@
+<style>
+  .number-of-slides {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 0;
+    color: #999b9f;
+  }
+</style>
+{%- assign currentVariant = product.selected_or_first_available_variant -%}
+{%- assign featuredMedia = currentVariant.featured_media -%}
+{%- assign imageSrcs = "" -%}
+
+{%- for img in product.images -%}
+  {%- if img.attached_to_variant? -%}
+    {%- assign imageSrcs = imageSrcs | append: img.src | append: ", " -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% comment %}
+<div class="product-featured-media filter-{{ featuredMedia.alt | handle }}" data-media-id="{{ featuredMedia.src | img_url: 'original' }}">
+  <a data-zoom class="fancybox" rel="gallery1" href="{{ featuredMedia | img_url: 'master' }}" data-fancybox="images">
+    <img id="product-featured-image-{{featuredMedia.id}}" src="{{ featuredMedia | img_url: 'original' }}" alt="{{ featuredMedia.alt | escape }}"
+        class="lazyload"
+        data-src="{{ featuredMedia | img_url: 'original' }}"
+        data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+        data-aspectratio="{{ featuredMedia | img_url: 'original' }}"
+        data-sizes="auto">
+  </a>
+</div>
+{% endcomment %}
+
+{%- if featuredMedia -%}
+  {%- capture mainSliderItems -%}
+    {%- include 'product-media-item', type: 'main', media: featuredMedia, id: 'featured-media--main' -%}
+  {%- endcapture -%}
+  {%- capture thumbSliderItems -%}
+    {%- include 'product-media-item', type: 'thumb', media: featuredMedia, id: 'featured-media--thumb' -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{% assign totalNumberOfSlides = 1 %}
+
+{%- for media in product.media -%}
+  {%- unless imageSrcs contains media.src -%}
+    
+    {%- capture mainSliderItem -%}
+      {%- include 'product-media-item', type: 'main' -%}
+    {%- endcapture -%}
+
+    {%- capture thumbSliderItem -%}
+      {%- include 'product-media-item', type: 'thumb' -%}
+    {%- endcapture -%}
+    
+    {%- assign mainSliderItems = mainSliderItems | append: mainSliderItem -%}
+    {%- assign thumbSliderItems = thumbSliderItems | append: thumbSliderItem -%}
+
+    {% assign totalNumberOfSlides = totalNumberOfSlides | plus: 1 %} 
+  {%- endunless -%}
+{%- endfor -%}
+
+<div {% if section.settings.show_tab == 'vertical' %} data-sticky-product-img{% endif %} class="product-img-box{% if section.settings.style_moreview == 'horizontal' %} horizontal-moreview{% else %}  left-vertical-moreview vertical-moreview{% endif %}{% if settings.product_image_border%} grid-item-border{% endif %}">
+  <div style="position: relative;" class="wrapper-images">
+    <div class="product-photo-container slider-for">
+      {{ mainSliderItems }}
+    </div>
+
+    {% if product.metafields.c_f['Product Video'] %}
+      {% render 'video-product' %}
+    {% endif %}
+
+    <label class="number-of-slides"><span>1</span> of {{ totalNumberOfSlides }}</label>
+  </div>
+
+  <div class="slider-nav thumbCustomStyle" data-rows="5" data-vertical="{% if section.settings.style_moreview == 'horizontal' %}false{% else %}true{% endif %}">
+    {{ thumbSliderItems }}
+  </div>
+
+  {% render 'product-label' with product as product, badge_detail: true %}
+
+</div>

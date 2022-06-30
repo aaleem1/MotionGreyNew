@@ -1,0 +1,99 @@
+{% render 'shogun-products', content: product %}
+{{product.metafields.shogun.above}}
+{% render 'sezzle-widget' %}
+
+{% render 'sticky-js-plugin' %}
+
+{{ 'https://spa.spicegems.com/js/src/latest/motiongrey.myshopify.com/scriptTag.js?shop=motiongrey.myshopify.com' | script_tag }}
+
+{%- if product.type == 'GSC_HIDDEN_PRODUCT' -%}{%- break -%}{%- endif -%}
+
+<section id="sticky-product" class="hasOtherBar">
+  <div class="container">
+    <div class="product-detail">
+      <h4 class="product-title">{% render 'multilang' with product.title %}</h4>
+      <div class="rating">
+        <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{product.id}}" data-product-title="{{product.title}}" data-product-type="{{product.type}}" style="display: block;"></span>
+      </div>
+    </div>
+    <a href="#shopify-section-product-template" class="color-option">SHOP NOW</a>
+  </div>
+</section>
+
+<div class="product-template">
+  <div class="container">
+    {% render 'breadcrumb' %}
+    <div class="halo-product-content">
+      <div class="row pro-page">
+        {% section 'product-template' %}
+      </div>
+    </div>
+    {% section 'products_bundle_discount' %}
+  </div>
+  {% section 'tab-horizontal'%}
+  {% if settings.option_descript_pr == "all_product" %}
+    {% section 'description_product_detail' %}
+  {% else %}
+    <div id="different_product_des" data-product-handle = "{{product.handle}}"></div>
+  {% endif %}
+  
+  {% section 'recently-viewed-products' %}
+</div>
+
+{%- include 'product-tabs' -%}
+
+<div class="customerRevies" id="reviews">
+
+  <div class="pt-5 text-center">
+  	
+    <h1>Customer Reviews</h1>
+    <p>See all the love we get from our customers.</p>
+  
+  </div>
+  
+<!--Stamped - Begin Main Widget -->
+
+<div id="stamped-main-widget" class="stamped-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: " ? ", " % 3F" | replace: "& "," % 26"}}" data-description="{{ product.description | escape }}" data-product-sku="{{product.handle}}" data-product-type="{{product.type}}"> </div>
+ 
+  
+<!-- Stamped - End Main Widget -->
+  
+  <!--<div class="moreReviews text-center"> <a href="#">SEE MORE REVIEWS</a> </div>-->
+  
+</div>
+
+<!-- customerRevies -->
+
+<!-- klaviyo -->
+
+<script type="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+
+{{product.metafields.shogun.below}}
+

@@ -1,0 +1,25 @@
+{{ 'sticky-js.js' | asset_url | script_tag }}
+
+<script async="async">
+  $(document).ready(function(){
+    if ($(window).width() < 767) {
+       $(".atc-btn").sticky({topSpacing:0});
+    }
+  });
+</script>
+
+<script type="text/javascript">
+$(function() {
+  	var header = $('#sticky-tabs');
+    var hieghtThreshold = $(".productTabs").offset().top;
+    $(window).scroll(function() {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= hieghtThreshold ) {
+            header.addClass('showsubheader');
+        } else {
+            header.removeClass('showsubheader');
+        }
+    });
+})
+</script>

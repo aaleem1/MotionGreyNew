@@ -1,0 +1,25 @@
+{% if settings.collection_layout == "enable_collection_pages" %}
+<div class="collection-template">
+  {% section 'collection-header-accessories' %}
+  <div class="container">
+    <div class="halo-collection-content">
+      <div class="row">
+        {% section 'sidebar-filter' %}
+        {% section 'collection-template' %}
+      </div>
+    </div>   
+  </div>
+  {% include 'collection-bottom-section' %}
+  {% section 'recently-viewed-products' %}
+  {% section 'page-contact' %}
+</div>
+{% else %}
+<div class="collection-continue-shopping">
+  <p {% if settings.enable_multilang %}data-translate="collections.general.continue_shopping_htnl"{%endif%}>
+    {{ 'collections.general.continue_shopping_htnl' | t }}
+    <span {% if settings.enable_multilang %}data-translate="collections.general.click_continue"{%endif%}>
+      <a href="{{ routes.root_url }}">{{'collections.general.click_continue' | t}}</a>
+    </span>
+  </p>
+</div>
+{% endif %}

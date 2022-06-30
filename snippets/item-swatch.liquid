@@ -1,0 +1,79 @@
+<ul class="item-swatch">
+{% for option in product.options %}
+  {% if option contains 'Color' or option contains 'color' %}
+  {% assign index = forloop.index0 %}
+  {% assign colorlist = '' %}
+  {% assign color = '' %}
+  {% assign option_count = 0 %}
+  {% for variant in product.variants %}
+  {% capture color %}
+  {{ variant.options[index] }}
+  {% endcapture %}
+  {% unless colorlist contains color %}  
+  {% assign text = color | handleize  %}
+  
+  {% assign file_extension = 'png' %}
+  
+  {% if option_count < 4 %}
+  
+  {%- assign variantimg = variant.image.src | product_img_url: 'large'  -%}
+  <li data-color="{{color |strip }}" class="tooltip_swatch{% if option_count == 3 %} hide-mb{% endif %}">
+    <div class="tooltip">
+            {{color}}
+        </div>
+    <label title="{{color |strip}}" {% if variant.image != null and settings.use_variant_swatch %} data-img="{{ variantimg }}"{% else %}style="background-color: {{ color | split: ' ' | last | handle }};" {% endif %}>
+      {% if settings.use_variant_swatch %}
+      {% if variant.image != null %}
+      <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+           class="lazyload"
+           data-src="{{ variant.image.src | product_img_url: '30x'}}"
+           data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+           data-aspectratio="{{ variant.image.src | product_img_url: '30x'}}"
+           data-sizes="auto">
+      {% endif %}
+      {% else %}
+      <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+           class="lazyload"
+           data-src="{{ color | handle | append: '.' | append: file_extension | file_url }}"
+           data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+           data-aspectratio="{{ variant.image.src | product_img_url: '30x'}}"
+           data-sizes="auto"
+           onError="style.display = 'none';" >
+      {% endif %}
+    </label>
+    {% assign option_count = option_count | plus : 1 %}
+  </li>
+  {% endif %}
+      
+  {% capture tempList %}
+  {{ colorlist | append: color | append: ' ' }}
+  {% endcapture %}
+
+  {% assign colorlist = tempList %}
+  {% endunless %}
+
+  {% endfor %}
+  {% endif %}
+  {% endfor %}
+  
+  {% for product_option in product.options_with_values %}
+  {% if product_option.name contains 'Color' or product_option.name contains 'Colour' %}
+  {% if product_option.values.size >= 4 %}
+  {% unless product_option.values.size ==  4 %}
+  <li class="item-swatch-more hide-mb">
+    <a href="{{ product.url}}" title="More Color">
+    	+ {{ product_option.values.size | minus : 4 }}
+    </a>
+  </li>
+  
+  <li class="item-swatch-more show-mb" style="display: none;">
+    <a href="{{ product.url}}" title="More Color">
+    	+ {{ product_option.values.size | minus : 3 }}
+    </a>
+  </li>
+  
+  {% endunless %}
+  {% endif %}  
+  {% endif %}
+{% endfor %}
+</ul>

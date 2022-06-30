@@ -1,0 +1,82 @@
+<div class="header-mb">          
+  <div class=" header-mb-left header-mb-items">
+      <div class="mn_mobile mb_nav mb-item">
+        <div class="hamburger-icon svg-mb">
+            <a href="javascript:void(0)" class="icon-nav" title="Menu Mobile Icon" data-menu-mb-toogle>
+                {% render 'menu-icon' %}
+            </a>
+        </div>
+        <nav>
+          <ul class="nav-bar ">
+            <li> <a class="" href="{{ routes.root_url }}">{% render 'multilang' with section.settings.goto_homepage %}</a></li>
+          </ul>
+          {% if shop.customer_accounts_enabled %}
+          <div class="account-mobile">
+             {% if customer %}
+            <a href="{{ routes.account_url }}" title="User Icon" class="icon-user" {% if settings.enable_multilang %} data-translate="customer.account.title"{% endif %}>
+             {{ 'customer.account.title' | t }} 
+          </a>
+            {% else %}
+          <a href="{{ routes.account_login_url }}" title="User Icon" class="icon-user" {% if settings.enable_multilang %} data-translate="customer.account.sing_and_create_acc"{% endif %}>
+             {{ 'customer.account.sing_and_create_acc' | t }}
+          </a>
+            {% endif %}
+          </div>
+          {% endif %}
+          <div class="language-mobile">
+          <div class="need-help-menu">
+           <label class="label-text">Need Help?</label>
+        	<p>Call<a href="tel:+17783121311">&nbsp;&nbsp;+1 (778)-312-1311</a> or <a href="/pages/contact-us">Contact Us</a></p>
+          </div>
+          </div>
+        </nav>
+        
+      </div>  
+   
+    </div>
+  <div class="header-mb-middle header-mb-items">
+    
+    <h1 class="header-logo" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="url" content="{{ shop.url }}">
+      {% if section.settings.brand_type == 'image' and section.settings.logo != bank %}
+      <a class="logo-img" href="{{ routes.root_url }}" title="Logo">
+        <img data-src="{{ section.settings.logo | img_url: 'master' }}"
+             src="{{ section.settings.logo | img_url: 'master' }}"
+             alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo" class="lazyautosizes lazyloade" data-sizes="auto">
+      </a>
+      {% elsif section.settings.brand_text != '' %}
+      <a class="logo-title" href="{{ routes.root_url }}">
+        {{ section.settings.brand_text }}
+      </a>
+      {% else %}
+      <a class="logo-title" href="{{ routes.root_url }}">
+        {{ shop.name }}
+      </a>
+      {% endif %}
+    </h1>
+  </div>
+  <div class="header-mb-right  header-mb-items">
+    {% if settings.enable_search %}
+    <div class="search-mb svg-mb">
+      <a href="#" title="Search Icon" class="icon-search search_hd" data-search-mobile-toggle>
+        {% render 'icon-search' %}
+      </a>
+
+      <a href="javascript:void(0)" title="close" class="close close-search">
+        {% render 'icon-close' %}
+      </a>
+
+      {% render 'search-bar' %}
+    </div>  
+    {% endif %}
+    <div class="cart-icon svg-mb mb-item">
+      <a href="{% if template contains 'cart' %}#shopify-section-cart-template {% else %}{{ routes.cart_url }}{% endif %}" title="Cart Icon" >       
+        {% render 'icon-cart' %}
+
+        <span class="cartCount" data-cart-count>
+          {{ cart.item_count }}
+        </span>
+      </a>
+    </div>
+  </div>         
+</div>

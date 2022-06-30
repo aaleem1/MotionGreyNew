@@ -1,0 +1,160 @@
+<style>
+.contact-description {
+    margin-top: 60px;
+    padding-left: 45px;
+    
+  	font-size: 16px;
+  	line-height: 1.7em
+  }
+  .contact-description-sm {
+    margin-bottom: 30px;
+  }
+ .contact-description-sm strong, .contact-description strong {
+    font-weight: bold;
+ }
+  .contact-description-sm a, .contact-description a {
+    color: #62cdb4;
+    font-weight: bold;
+  }
+  .cont.btn {
+  	background-color: #62CDB4;
+    width: 50%;
+    border-radius: 30px;
+  }
+  .contact-description span, .contact-description-sm span {
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  {% if template contains 'page' or 'collection' %}
+  .coll-bottom-section.container {
+    max-width: 100%;
+    margin-bottom: -50px;
+    margin-top: 0;
+  }
+  .coll-bottom-section.container .row {
+  	max-width: 1600px;
+    margin: 0 auto;
+  }
+  {% endif %}
+  
+  @media (max-width: 768px) {
+  	.template-collection .main-content {
+    padding-bottom: 0px;
+	}
+    .coll-bottom-section.container {
+      margin-bottom: 0px;
+    }
+    
+    {% if template contains 'page' %}
+    .coll-bottom-section.container {
+      margin-bottom: -70px;
+    }
+    {% endif %}
+    
+  }
+</style>
+
+	<div class="coll-bottom-section contact-section container">
+    
+    <div class="row">
+    
+    <div class="col-12 col-md-6">
+      
+      <h2 class="coll-bottom-section-headline">Get In Touch With Our Team</h2>
+      
+      <div class="d-md-none">
+      <div class="contact-description-sm">
+        {{ section.settings.text-mob }}
+      </div>
+      </div>
+      
+      {% form 'contact' %}
+
+          {% comment %}
+          Successful message
+          {% endcomment %}
+
+          {% if form.posted_successfully? %}
+          <p class="note form-success" {% if settings.enable_multilang %}data-translate="contact.form.post_success"{% endif %}>
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+
+          <div id="contactFormWrapper">
+            
+            <input type="hidden" name="contact[tags]" value="newsletter">
+
+            <div class="form-group">
+              <!--<label for="contactFormEmail">
+                <span {% if settings.enable_multilang %}data-translate="contact.form.email"{%endif%}>
+                  {{ 'contact.form.email' | t }}
+                </span>
+                <em>*</em>
+              </label>-->
+              <input type="email" name="contact[email]" id="contactFormEmail" autocorrect="off" autocapitalize="off" placeholder="Email address" required="required">
+            </div>
+            
+            <div class="form-group"><input type="text" class="gf_textfield" name="contact[name]" placeholder="Name" required="required" value="" data-exc=""></div>
+
+            <div class="form-group">
+              <!--<label for="contactFormMessage">
+                <span {% if settings.enable_multilang %}data-translate="contact.form.message"{%endif%}>
+                  {{ 'contact.form.message' | t }}
+                </span>
+                <em>*</em>
+              </label>-->
+              <textarea rows="8" name="contact[body]" id="contactFormMessage" placeholder="Enter your message here" required="required" {% if settings.enable_multilang %}data-translate="contact.form.placeholder_message" translate-item="placeholder"{%endif%} ></textarea>
+            </div>
+
+            <input type="submit" class="cont btn btn-x1" {% if settings.enable_multilang %}data-translate="contact.form.submit_contact"{%endif%} value="{{ 'contact.form.submit_contact' | t }}">
+          </div>
+          {% endform %}
+    </div>
+    <div class="d-none d-md-block col-6">
+      <div class="contact-description">
+        {{ section.settings.text }}
+      </div>
+    </div>
+      
+    </div>
+  
+  </div>
+
+{% schema %}
+  {
+    "name": "Contact Section",
+    "settings": [
+	  {
+		"type": "header",
+		"content": "Desktop Text"
+	  },
+	  {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+"default": "<p>Use this text for <strong>Desktop</strong>.</p>"
+      },
+	  {
+		"type": "header",
+		"content": "Mobile Text"
+	  },
+	  {
+      "type": "richtext",
+      "id": "text-mob",
+      "label": "Text",
+      "default": "<p>Use this text for <strong>Mobile</strong>.</p>"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

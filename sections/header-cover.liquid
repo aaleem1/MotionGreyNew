@@ -1,0 +1,53 @@
+{% if section.settings.header_cover_enable %}  
+    <header class="header-cover">
+      <div class="top-header">
+            {% if section.settings.background_image != blank %}
+            {%- assign img_url = section.settings.background_image | img_url: 'master' -%}
+            {% endif %}
+        <div class="pt-90 pb-90 cover-image" style="background: url({{ img_url }});background-size: cover;background-position: center;">
+          <div class="wrapper-header-cs">
+                <h2 class="text-center title bold text-white mb-0">
+                    {{ page_title }}
+                </h2>  
+          </div>
+        </div>
+      </div>
+    </header> 
+{% endif %}
+
+{% schema %}
+   {
+    "name": "Header Cover",
+    "class": "header-cover",
+    "settings": [
+         {
+            "type": "checkbox",
+            "id": "header_cover_enable",
+            "label": "Enable Header cover",
+            "default": true
+         },
+      {
+        "type": "header",
+        "content": "Header content"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_header_image",
+        "label": "Show Header image?",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Header Cover",
+        "info": "This image will show up when you don't add image in Header image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Header Cover"
+      }
+    ]
+}
+
+{% endschema %}

@@ -1,0 +1,297 @@
+{% comment %}
+List out your main-menu linklist (default)
+More info on linklists:
+- http://docs.shopify.com/themes/liquid-variables/linklists
+{% endcomment %}
+
+<ul class="site-nav">
+    {% if section.settings.horizontal_linklist != blank %}
+    {% assign menu = linklists[section.settings.horizontal_linklist].links %}
+    {% else %}
+    {% assign menu = linklists.main-menu.links %}
+    {% endif %}
+
+    {% for link in menu %}
+
+    {% assign i = forloop.index | downcase %}
+    {% assign cat = link.title | handleize %}
+  
+  	{% if section.settings.display_megamenu %}
+
+  {% assign is_megamenu = false %}
+  
+  {% for block in section.blocks %}
+  {% for i in (1..3) %}
+  
+  {% capture cap_megamenu_item %}megamenu_items_{{ i }}{% endcapture %}  
+  
+  
+
+  {% capture cap_featured_product_1 %}featured_product_1_{{ i }}{% endcapture %}
+  {% capture cap_featured_product_2 %}featured_product_2_{{ i }}{% endcapture %}
+  {% capture cap_featured_product_3 %}featured_product_3_{{ i }}{% endcapture %}
+  {% capture cap_title_featured_product %}title_featured_product_{{ i }}{% endcapture %}
+
+
+  {% capture cap_banner_first_style %}banner_first_style_{{ i }}{% endcapture %}
+  {% capture cap_banner_second_style %}banner_second_style_{{ i }}{% endcapture %}
+  {% capture cap_banner_third_style %}banner_third_style_{{ i }}{% endcapture %}
+  {% capture cap_banner_fourth_style %}banner_fourth_style_{{ i }}{% endcapture %}
+
+  {% capture cap_link_banner_first_style %}link_banner_first_style_{{ i }}{% endcapture %}
+  {% capture cap_link_banner_second_style %}link_banner_second_style_{{ i }}{% endcapture %}
+  {% capture cap_link_banner_third_style %}link_banner_third_style_{{ i }}{% endcapture %}
+  {% capture cap_link_banner_fourth_style %}link_banner_fourth_style_{{ i }}{% endcapture %}
+  
+  {% capture cap_heading_banner_first_style %}heading_banner_first_style_{{ i }}{% endcapture %}
+  {% capture cap_heading_banner_second_style %}heading_banner_second_style_{{ i }}{% endcapture %}
+  {% capture cap_heading_banner_third_style %}heading_banner_third_style_{{ i }}{% endcapture %}
+  {% capture cap_heading_banner_fourth_style %}heading_banner_fourth_style_{{ i }}{% endcapture %}
+  
+  {% capture cap_description_banner_first_style %}description_banner_first_style_{{ i }}{% endcapture %}
+  {% capture cap_description_banner_second_style %}description_banner_second_style_{{ i }}{% endcapture %}
+  {% capture cap_description_banner_third_style %}description_banner_third_style_{{ i }}{% endcapture %}
+  {% capture cap_description_banner_fourth_style %}description_banner_fourth_style_{{ i }}{% endcapture %}
+  
+  
+  
+ 
+    
+  
+  {% if block.settings[cap_megamenu_item] != blank %}
+  {% assign megamenu_item = block.settings[cap_megamenu_item] | handleize %}
+  {% if megamenu_item == cat %}
+  {% assign is_megamenu = true %}
+  
+  {% assign block_style = block.type %}  
+
+<!-- style 1-->
+  {% assign featured_product_1 = block.settings[cap_featured_product_1] %}
+  {% assign featured_product_2 = block.settings[cap_featured_product_2] %}
+  {% assign featured_product_3 = block.settings[cap_featured_product_3] %}
+  {% assign title_featured_product = block.settings[cap_title_featured_product] %}
+  {% assign banner_first_style = block.settings[cap_banner_first_style] %}
+  {% assign link_banner_first_style = block.settings[cap_link_banner_first_style] %}
+  {% assign heading_banner_first_style = block.settings[cap_heading_banner_first_style] %}
+  {% assign description_banner_first_style = block.settings[cap_description_banner_first_style] %}
+  
+<!--   style 2 -->
+    {% assign banner_second_style = block.settings[cap_banner_second_style] %}
+  {% assign banner_third_style = block.settings[cap_banner_third_style] %}
+  
+  {% assign link_banner_second_style = block.settings[cap_link_banner_second_style] %}
+  {% assign link_banner_third_style = block.settings[cap_link_banner_third_style] %}
+  
+  {% assign heading_banner_second_style = block.settings[cap_heading_banner_second_style] %}
+  {% assign heading_banner_third_style = block.settings[cap_heading_banner_third_style] %}
+  
+  {% assign description_banner_second_style = block.settings[cap_description_banner_second_style] %}
+  {% assign description_banner_third_style = block.settings[cap_description_banner_third_style] %}
+  
+
+  {% endif %}
+  {% endif %}
+  
+  {% endfor %}
+  {% endfor %}
+
+  {% endif %}
+
+    {% if section.settings.enable_sale %}
+        {% assign sale_item = section.settings.sale_item | split:"," | strip | downcase | handle %}
+        {% assign sale = link.title | downcase | handle  %}
+    {% endif %}
+
+    {% if section.settings.enable_new %}
+        {% assign new_item = section.settings.new_item | split:"," | strip | downcase | handle %}
+        {% assign new = link.title | downcase | handle  %}
+    {% endif %}
+
+    {% if section.settings.enable_hot %}
+        {% assign hot_item = section.settings.hot_item | split:"," | strip | downcase | handle %}
+        {% assign hot = link.title | downcase | handle  %}
+    {% endif %}
+
+    <li class="menu-lv-1 item {%if link.url contains '#'%}nav_id{% endif %} {% if linklists[link.handle] != empty %} dropdown{% if is_megamenu %} mega-menu{% else %} no-mega-menu {% endif %}{% endif %}">
+        <a class="{%if linklists[link.handle] != empty %}menu__moblie {% endif %}{% if link.active %}current{% endif %}"  href="{{ link.url }}">
+            {% render 'multilang' with link.title %}
+            {% if sale_item contains sale %}
+            <label class="icon-label icon_sale">
+                {% render 'multilang' with section.settings.lb_sale %}
+            </label>
+            {% endif %}
+
+            {% if new_item contains new %}
+            <label class="icon-label icon_new">
+                {% render 'multilang' with section.settings.lb_new %}
+            </label>
+            {% endif %}
+
+            {% if hot_item contains hot %}
+            <label class="icon-label icon_hot">
+                {% render 'multilang' with section.settings.lb_hot %}
+            </label>
+            {% endif %}
+        </a>
+      {% if linklists[link.handle] != empty %}
+      <span class="icon-dropdown" data-toggle-menu-mb>
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </span>
+      {% endif %}
+
+        {% if linklists[link.handle] != empty %}
+        <div class="sub-menu-mobile menu-mb-translate">
+            <div class="menu-mb-title">
+                <span class="icon-dropdown back-submenu">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </span>
+                {% render 'multilang' with link.title %}
+            </div>
+
+        {% comment %}
+        Check if menu item is Mega menu
+        {% endcomment %}
+
+          {% assign link_child = link.handle %}
+          
+          {% if section.settings.display_megamenu %}
+      
+      {% if is_megamenu %}
+    <div class="site-nav-dropdown mob {{ block_style }}">
+      <div class="submenu-title">
+        <span class="back-icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+		{% render 'multilang' with link.title %}
+      </div>
+      <div class="container">
+        {% render 'mega-menu',link_child: link_child,
+                              is_megamenu: is_megamenu,
+                              block_style: block_style,
+                              featured_product_1: featured_product_1,
+                              featured_product_2: featured_product_2,
+                              featured_product_3: featured_product_3,
+                              title_featured_product: title_featured_product,
+                              banner_first_style: banner_first_style,
+                              link_banner_first_style: link_banner_first_style,
+                              banner_second_style: banner_second_style,
+                              banner_third_style: banner_third_style,
+                              link_banner_second_style: link_banner_second_style,
+                              link_banner_third_style: link_banner_third_style,
+        heading_banner_first_style: heading_banner_first_style,
+        heading_banner_second_style: heading_banner_second_style,
+        heading_banner_third_style: heading_banner_third_style,
+        description_banner_first_style: description_banner_first_style,
+        description_banner_second_style: description_banner_second_style,
+        description_banner_third_style: description_banner_third_style,
+                              link: link
+         %}
+      </div>
+    </div>
+    {% else %}
+      {% if linklists[link.handle] != empty %}
+      {% render 'dropdown-menu-mob', link_child: link_child %}
+      {% endif %}
+    {% endif %}
+      
+      {% else %}
+      
+      	{% if linklists[link.handle] != empty %}
+            {% render 'dropdown-menu-mob',link_child: link_child %}
+            {% endif %}
+      
+        {% endif %}
+      
+            
+        </div>
+      	
+      	{% assign link_child = link.handle %}
+      {% if section.settings.display_megamenu %}
+      
+      {% if is_megamenu %}
+    <div class="site-nav-dropdown {{ block_style }}">
+      <div class="submenu-title">
+        <span class="back-icon"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+		{% render 'multilang' with link.title %}
+      </div>
+      <div class="container">
+        {% render 'mega-menu',link_child: link_child,
+                              is_megamenu: is_megamenu,
+                              block_style: block_style,
+                              featured_product_1: featured_product_1,
+                              featured_product_2: featured_product_2,
+                              featured_product_3: featured_product_3,
+                              title_featured_product: title_featured_product,
+                              banner_first_style: banner_first_style,
+                              link_banner_first_style: link_banner_first_style,
+                              banner_second_style: banner_second_style,
+                              banner_third_style: banner_third_style,
+                              link_banner_second_style: link_banner_second_style,
+                              link_banner_third_style: link_banner_third_style,
+        heading_banner_first_style: heading_banner_first_style,
+        heading_banner_second_style: heading_banner_second_style,
+        heading_banner_third_style: heading_banner_third_style,
+        description_banner_first_style: description_banner_first_style,
+        description_banner_second_style: description_banner_second_style,
+        description_banner_third_style: description_banner_third_style,
+                              link: link
+         %}
+      </div>
+    </div>
+      
+    {% else %}
+      {% if linklists[link.handle] != empty %}
+      {% render 'dropdown-menu', link_child: link_child %}
+      {% endif %}
+      
+      
+    {% endif %}
+      
+      {% else %}
+      
+      	{% if linklists[link.handle] != empty %}
+            {% render 'dropdown-menu',link_child: link_child %}
+            {% endif %}
+      
+        {% endif %}
+      
+      {% endif %}
+      
+    </li>
+    {% endfor %}
+</ul>
+
+<style>
+/*  Label - Navigation  */
+    {% assign bg_lb_sale = section.settings.bg_lb_sale %}
+    {% assign color_lb_sale = section.settings.color_lb_sale %}
+    {% assign bg_lb_new = section.settings.bg_lb_new %}
+    {% assign color_lb_new = section.settings.color_lb_new %}
+    {% assign bg_lb_hot = section.settings.bg_lb_hot %}
+    {% assign color_lb_hot = section.settings.color_lb_hot %}
+
+    .nav-bar  .icon_sale:before {
+        border-top-color: {{ bg_lb_sale }};
+    }
+
+    .nav-bar  .icon_new:before {
+        border-top-color: {{ bg_lb_new }};
+    }
+
+    .nav-bar  .icon_hot:before {
+        border-top-color: {{ bg_lb_hot }};
+    }
+    .nav-bar  .icon_sale {
+        background-color: {{ bg_lb_sale }};
+        color: {{ color_lb_sale }};
+    }
+        
+    .nav-bar  .icon_new {
+        background-color: {{ bg_lb_new }};
+        color: {{ color_lb_new }};
+    }
+        
+    .nav-bar  .icon_hot {
+        background-color: {{ bg_lb_hot }};
+        color: {{ color_lb_hot }};
+    }
+
+</style>

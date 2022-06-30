@@ -1,0 +1,393 @@
+<div class="productView-description">
+    <ul class="nav tab-horizontal " role="tablist">
+             {% if section.settings.display_product_detail_description %}
+                <li class="nav-item tab">
+                    <a href="#collapse-tab1" class="tab-title active" role="tab" data-toggle="tab" aria-controls="tab1">
+                        {{ section.settings.product_description_title }}
+                    </a>
+                </li>
+            {% endif %}
+            {% if section.settings.display_product_review_tab %}
+               <li class="nav-item tab">
+                    <a href="#collapse-tab2" class="tab-title" role="tab" data-toggle="tab" aria-controls="tab2">
+                        {{ section.settings.product_review_title }}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for block in section.blocks %}
+            {% if block.type == 'product_tab' %}
+                {% if block.settings.type_tab == 'custom' %}
+                    {% assign content = block.settings.product_tab_content_2 %}
+                    {% if product.metafields.c_f[content] != blank %}
+                        <li class="nav-item tab">
+                            <a href="#{{ block.id }}" class="tab-title" role="tab" data-toggle="tab" aria-controls="{{ block.id }}">
+                                {{ block.settings.product_tab_title }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item tab">
+                        <a href="#{{ block.id }}" class="tab-title" role="tab" data-toggle="tab" aria-controls="{{ block.id }}">
+                            {{block.settings.product_tab_title }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% if section.settings.display_product_faq_tab %}
+               <li class="nav-item tab">
+                    <a href="#collapse-tab-faq" class="tab-title" role="tab" data-toggle="tab" aria-controls="tabfaq">
+                        {{ section.settings.product_faq_title }}
+                    </a>
+                </li>
+            {% endif %}
+    </ul>
+    <div class="tab-content horizontal ">
+        <div class="container">
+            {% if section.settings.display_product_detail_description %}
+                <div id="collapse-tab1" class="tab-description tab-pane fade show active" role="tabpanel">
+                    <div class="toggle-title">
+                        <a class="toggleLink" data-toggle="collapse" href="#tab1_mobile">
+                            <span class="page-heading">
+                               {{section.settings.product_description_title}}
+                            </span>
+                            {% render 'icon-chevron-up' %}
+                        </a>
+                    </div>
+                    <div class="toggle-content collapse show" id="tab1_mobile">
+                        {% assign des = product.description %}
+                            <div>
+                                {{ des}}
+                            </div>
+                        <div class="description_showmore">
+                            <div class="showmore show">
+                                <span class="btn btn--secondary">{{ 'general.filters.show_more' | t }}</span>
+                            </div>
+                            <div class="showless hide">
+                                <span class="btn btn--secondary">{{ 'general.filters.show_less' | t }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if section.settings.display_product_review_tab %}
+                <div id="collapse-tab2" class="tab-review tab-pane fade " role="tabpanel">
+                    <div class="toggle-title">
+                        <a class="toggleLink collapsed" data-toggle="collapse" href="#tab2_mobile">
+                            <span class="page-heading">
+                            {{ section.settings.product_review_title }}
+                            {% render 'icon-chevron-up' %}
+                        </a>
+                    </div>
+                    <div class="toggle-content collapse" id="tab2_mobile">
+                        <div id="shopify-product-reviews" data-id="{{product.id}}">
+                            {{ product.metafields.spr.reviews }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for block in section.blocks %}
+            {% if block.type == 'product_tab' %}
+                {% if block.settings.type_tab == 'custom' %}
+                    {% assign content = block.settings.product_tab_content_2 %}
+                    
+                    {% if product.metafields.c_f[content] != blank %}
+                        <div id="{{ block.id }}" class="tab-pane fade" role="tabpanel">
+                            <div class="toggle-title">
+                                <a class="toggleLink collapsed" data-toggle="collapse" href="#{{ block.id }}_mobile">
+                                    <span class="page-heading">
+                                        {{block.settings.product_tab_title}}
+                                    </span>
+                                    {% render 'icon-chevron-up' %}
+                                </a>
+                            </div>
+                            <div class="toggle-content collapse" id="{{ block.id }}_mobile">
+                                {% assign metafieldsTabContent = product.metafields.c_f[content] %}
+                                <div>
+                                    {{ metafieldsTabContent}}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div id="{{ block.id }}" class="tab-pane fade" role="tabpanel">
+                        <div class="toggle-title">
+                            <a class="toggleLink collapsed" data-toggle="collapse" href="#{{ block.id }}_mobile">
+                                <span class="page-heading">
+                                    {{block.settings.product_tab_title}}
+                                 </span>
+                                {% render 'icon-chevron-up' %}
+                            </a>
+                        </div>
+                        <div class="toggle-content collapse" id="{{ block.id }}_mobile">
+                            {% assign customTabContent = block.settings.product_tab_content %}
+                            <div>
+                                {{ customTabContent | split: '[lang2]' | first }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+
+            
+            {% if section.settings.display_product_faq_tab %}
+                <div id="collapse-tab-faq" class="tab-faq tab-pane fade " role="tabpanel">
+                    <div class="toggle-title">
+                        <a class="toggleLink collapsed" data-toggle="collapse" href="#tabfaq_mobile">
+                            <span class="page-heading">
+                            {{ section.settings.product_faq_title }}
+                            {% render 'icon-chevron-up' %}
+                        </a>
+                    </div>
+                    <div class="faqs_product toggle-content collapse" id="tabfaq_mobile">
+                        <div class="panel-group">
+                            <div class="pre-sale-questions col">
+                              <div class="header-faq pre-sale">
+                                <h4 class="title">{% render 'multilang' with section.settings.title_pre_questions %}</h4>
+                                {% if section.settings.des_pre_questions != blank %}
+                                <div class="description rte">
+                                  {% render 'multilang' with section.settings.des_pre_questions %}
+                                </div>
+                                {% endif %}
+                              </div>
+                              {% for block in section.blocks %}
+                              {% if block.type == 'pre_sale_questions' %}
+                              <div class=" panel">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title rte">
+                                    <a  data-toggle="collapse" class="collapsed" href="#faqs-{{block.id}}" >
+                                      {% render 'multilang' with block.settings.question_faqs_pre %}
+                                    </a>
+                                  </h4>    
+                                </div>
+                                <div id="faqs-{{block.id}}" class="panel-collapse collapse">
+                                  <div class="panel-body">
+                                    {% if settings.enable_multilang and block.settings.answer_faqs contains '|' %}
+                                    <div class="lang1 rte">
+                                      {{ block.settings.answer_faqs_pre | split: '|' | first }}
+                                    </div>
+                                    <div class="lang2 rte">
+                                      {{ block.settings.answer_faqs_pre | split: '|' | last }}
+                                    </div>
+                                    {% else %}
+                                    <div class="rte">
+                                      {{ block.settings.answer_faqs_pre | split: '|' | first }}
+                                    </div>
+                                    {% endif %}
+                                  </div>
+                                </div>
+                              </div>
+                              {% endif %}
+                              {% endfor %}
+                            </div>
+                            <div class="technical-questions col">
+                                <div class="header-faq technical">
+                                    <h4 class="title">{% render 'multilang' with section.settings.title_technical_questions %}</h4>
+                                    {% if  section.settings.des_technical_questions != blank %}
+                                    <div class="description rte">
+                                      {% render 'multilang' with section.settings.des_technical_questions %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              {% for block in section.blocks %}
+                                  {% if block.type == 'most_asked_technical' %}
+                                      <div class="panel ">
+                                        <div class="panel-heading">
+                                          <h4 class="panel-title rte">
+                                            <a data-toggle="collapse" class="collapsed" href="#faqs-{{block.id}}" >
+                                              {% render 'multilang' with block.settings.question_faqs_technical %}
+                                            </a>
+                                          </h4>    
+                                        </div>
+                                        <div id="faqs-{{block.id}}" class="panel-collapse collapse">
+                                          <div class="panel-body ">
+                                            {% if settings.enable_multilang and block.settings.answer_faqs_technical contains '|' %}
+                                            <div class="lang1 rte">
+                                              {{ block.settings.answer_faqs_technical | split: '|' | first }}
+                                            </div>
+                                            <div class="lang2 rte">
+                                              {{ block.settings.answer_faqs_technical | split: '|' | last }}
+                                            </div>
+                                            {% else %}
+                                            <div class="rte">
+                                              {{ block.settings.answer_faqs_technical | split: '|' | first }}
+                                            </div>
+                                            {% endif %}
+                                          </div>
+                                        </div>
+                                      </div>
+                                  {% endif %}
+                              {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+    "name": "Product Tabs",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Product Description Tab"
+        },
+        {
+            "type": "checkbox",
+            "id": "display_product_detail_description",
+            "label": "Enable Product Description?",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "product_description_title",
+            "label": "Product Description Title",
+            "default": "Description"
+        },
+        {
+            "type": "header",
+            "content": "Product Review Tab"
+        },
+        {
+            "type": "checkbox",
+            "id": "display_product_review_tab",
+            "label": "Enable Product Review Tab",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "product_review_title",
+            "label": "Product Review Title",
+            "default": "Reviews"
+        },
+        {
+            "type": "header",
+            "content": "Product FAQ Tab"
+        },
+        {
+            "type": "checkbox",
+            "id": "display_product_faq_tab",
+            "label": "Enable Product FAQ Tab",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "product_faq_title",
+            "label": "Product FAQ Title",
+            "default": "FAQ",
+            "info":"================"
+        },
+        {
+            "type":"text",
+            "id":"title_pre_questions",
+            "label":"Title",
+            "default":"Pre Sale Questions"
+          },
+          {
+            "type" : "textarea",
+            "id" : "des_pre_questions",
+            "label" : "Descriptions",
+            "default":"Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut risus.",
+            "info":"================"
+          },
+          {
+            "type":"text",
+            "id":"title_technical_questions",
+            "label":"Title",
+            "default":"Most Asked Technical Questions"
+          },
+          {
+            "type" : "textarea",
+            "id" : "des_technical_questions",
+            "label" : "Descriptions",
+            "default":"Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut risus."
+          }
+    ],
+    "blocks": [
+        {
+            "type": "product_tab",
+            "name": "Another Product Tab",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Product Tab"
+                },
+                {
+                    "type": "select",
+                    "id": "type_tab",
+                    "label": "Type Tab",
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "custom",
+                            "label": "Show For All Product"
+                        },
+                        {
+                            "value": "all",
+                            "label": "Only Show For This Product"
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "product_tab_title",
+                    "label": "Product Tab Title",
+                    "default": "Product Tab"
+                },
+                {
+                    "type": "textarea",
+                    "id": "product_tab_content",
+                    "label": "Product Tab Content",
+                    "default": "Use overlay text to give your customers insight into your brand. Select image and text that relates to your style and story.",
+                    "info": "Show For All Product"
+                },
+                {
+                    "type": "text",
+                    "id": "product_tab_content_2",
+                    "label": "Product Tab Content 2",
+                    "info": "Only Show For This Product - Please install app Metafields Guru and setting like Document"
+                }
+            ]
+        },
+        {
+            "type": "pre_sale_questions",
+            "name": "Pre Sale Questions",
+            "settings": [
+                {
+                    "type" : "textarea",
+                    "id" : "question_faqs_pre",
+                    "label" : "Question"
+                },
+                {
+                    "type" : "textarea",
+                    "id" : "answer_faqs_pre",
+                    "label" : "Answer"
+                }
+            ]
+        },
+        {
+          "type" : "most_asked_technical",
+              "name" : "Technical Questions",
+            "settings":[
+              {
+                "type" : "textarea",
+                "id" : "question_faqs_technical",
+                "label" : "Question"
+              },
+              {
+                "type" : "textarea",
+                "id" : "answer_faqs_technical",
+                "label" : "Answer"
+              }
+            ]
+        }
+    ]
+}
+{% endschema %}

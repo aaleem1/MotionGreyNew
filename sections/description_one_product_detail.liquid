@@ -1,0 +1,294 @@
+{% render 'style-custom-block-overview' %}
+
+
+<section class="description_different_product description_pr custom-block-overview section-{{section.id}} ">
+  <div class="overview-bottom">
+    {% for block in section.blocks %}
+    {% assign page_handle = block.settings.handle_page %}
+    {% if page_handle == page.handle %}
+      <div id ="block_detail{{block.id}}" class="des-pr custom-overview block-{{block.id}} {% if block.settings.alignment == 'right' %}custom-overview-rtl{% endif %}" style="background: {{block.settings.back_style_left}}" data-page-handle ="{{page_handle}}">
+        <div class="left ">
+          {%- assign img_style = block.settings.img_style | img_url: '1000x'-%}
+          <div class=" {% if block.settings.style_custom == 'video' %}video-mp img animate-scale {% else %}img{% endif %}">
+            {% if block.settings.img_style != blank %}
+            <div class="overview_back" style="padding-top:68.2%;">
+              {% if block.settings.link_banner != blank %}
+              <a href="{{block.settings.link_banner}}">
+              {% endif %}
+            	<img data-src="{{img_style}}" alt="{{img_style.alt}}" {% render 'lazyload' %}>
+              {% if block.settings.link_banner != blank %}
+              </a>
+              {% endif %}
+             
+              {% if block.settings.style_custom == 'video' %}
+              <div class="video icon-yt">
+                {% render 'icon-youtobe' %}
+              </div>
+              {% endif %}
+              
+            </div>
+            {% else %}
+            <div class="no-image {% if block.settings.style_custom == 'video' %} video {% endif %}" style="padding-top:68.2%; font-size:20px">
+              <span>{% if block.settings.style_custom == 'video'%} {% render 'icon-youtobe' %} {% else %}970X650px {% endif %}</span>
+            </div>
+            {% endif %}
+          </div>
+          
+          {% if block.settings.style_custom == 'video' %}
+          <div class="modal_cms" id="block_video_{{block.id}}">
+            <div class="modal-cms-overlay"></div>
+            <div class="modal-content-cms">
+              <div class="header">
+                <a class="close-button" title="{{ 'cart.ajax_cart.close' | t }}" href="javascript:void(0)">
+                  {% render 'icon-close' %}
+                </a>
+              </div>
+              <div class="videocontent">
+                {% if block.settings.video_id == 'video_youtube' %}
+                {% assign video_id = block.settings.video_link  %}
+                  <div class="video_YT" data-video-id="{{ block.settings.video_link }}">
+                  </div>
+                {% else %}
+                  <video  id="video_{{block.id}}" controls class="video">
+                    <source src="{{block.settings.video_mp4_link}}">
+                  </video>
+                  {% endif %}
+                
+
+                <script>
+                  {% if block.settings.video_id == 'video_youtube' %}
+                  var  btnApend = $("#block_detail{{block.id}} .video-mp "),
+                       appenCodeIframe = $('#block_detail{{block.id}}  .videocontent .video_YT'),
+                       removeIframe = $("#block_video_{{block.id}}  .close-modal, #block_video_{{block.id}} ");
+
+                     btnApend.off('click').on('click', function(e){
+                    var idVideo = ('{{block.settings.video_link }}');
+                    const $content = '<iframe\
+                                      id="player"\
+                                      type="text/html"\
+                                      width="100%"\
+                                      height="100%"\
+                                      frameborder="0"\
+                                      webkitAllowFullScreen\
+                                      mozallowfullscreen\
+                                      allowFullScreen\
+                                      src="https://www.youtube.com/embed/'+idVideo+'?autoplay=1&mute=1"\
+                                      data-video-player>\
+                                      </iframe>\
+                                      ';
+
+                  appenCodeIframe.html($content);
+                  });
+                  removeIframe.off('click').on('click', function(e){
+                    var removeCodeIframe = $('#block_detail{{block.id}}  .videocontent .video_YT iframe');
+                    removeCodeIframe.remove();
+                  });
+                  {% else %}
+
+                  var videoMp4 = document.getElementById("video_{{section.id}}"); 
+                  var playButton = document.querySelector("#block-{{block.id}} .video-mp");
+                  playButton.addEventListener("click", function() {
+                    videoMp4.play(); 
+                  });
+                  var pauseButton = document.querySelector("#block_video_{{block.id}} .close-modal, #block_video_{{block.id}}");
+                  pauseButton.addEventListener("click", function() {
+                    videoMp4.pause(); 
+                  });
+                  {% endif %}
+                </script>
+                
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="right overview-content">
+          <div class="container-overview">
+            <div class="content">
+            <h3 class="title" style=" font-size: {{block.settings.font_size_title_style}};color: {{block.settings.title_style_color}} ;">
+              {% render 'multilang' with block.settings.title_style %}
+            </h3>
+              <div class="des" style="font-size: {{block.settings.font_size_des_style}}; color: {{block.settings.des_style_color}} ;">
+                {% render 'multilang' with block.settings.des_style %}
+              </div>
+              {% if block.settings.link_title != blank %}
+              <div class="btn-link">
+                <a class="link" href="{{block.settings.link_style}}" style="color:{{block.settings.link_color}}; font-size: {{block.settings.font_size_link}}">
+                  {% render 'multilang' with block.settings.link_title %}
+                </a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+    
+  </div>
+</section>
+{% schema %}
+  {
+    "name": "Product Descriptions",
+    "max_blocks": 9,
+      "blocks":[
+        {
+          "type":"descript_style",
+          "name":"Description Style ",
+          "settings":[
+          {
+            "type":"text",
+            "id": "product_name",
+            "label": "Product Name"
+          },
+          {
+            "type":"page",
+            "id":"handle_page",
+            "label":"Choose page"
+          },
+          {
+          "type":"select",
+          "id":"alignment",
+          "label":"Content Alignment",
+          "default":"left",
+          "options":[
+            {
+              "value":"left",
+              "label":"Left"
+            },
+            {
+              "value":"right",
+              "label":"Right"
+            }
+          ]
+        },
+        {
+          "type":"select",
+          "id":"style_custom",
+          "label":"Style Custom",
+          "default":"img",
+          "options":[
+            {
+              "value":"img",
+              "label":"Image"
+            },
+            {
+              "value":"video",
+              "label":"Video"
+            }
+          ]
+        },
+        {
+          "type":"select",
+          "id":"video_id",
+          "label":"Video",
+          "options": [
+              {
+                "value": "video_youtube",
+                "label": "Video Youtube"
+              },
+              {
+                "value": "video_mp4",
+                "label": "Video Mp4"
+              }
+            ],
+          "default": "video_youtube"
+        },
+        {
+          "type": "text",
+          "id": "video_link",
+          "label": "YouTube video ID",
+          "default": "_9VUPq3SxOc",
+          "info": "[Find your YouTube video ID](https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id)."
+        },
+        {
+          "type": "text",
+          "id": "video_mp4_link",
+          "label": "Video link"
+        },
+        {
+          "type":"header",
+          "content":"Left Style"
+        },
+        {
+          "type":"color",
+          "id":"back_style_left",
+          "label":"Background",
+          "default":"#f7f7f7"
+        },
+        {
+          "type":"text",
+          "id":"title_style",
+          "label":"Title",
+          "default":"Phasellus Loremous"
+        },
+        {
+          "type":"color",
+          "id":"title_style_color",
+          "label":"Color",
+          "default":"#000d41"
+        },
+        {
+          "type":"text",
+          "id":"font_size_title_style",
+          "label":"Font Size",
+          "default":"30px"
+        },
+        {
+          "type":"textarea",
+          "id":"des_style",
+          "label":"Content",
+          "default":"Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo pharetras loremos. Donec pretium egestas sapien et mollis."
+        },
+        {
+          "type":"color",
+          "id":"des_style_color",
+          "label":"Color",
+          "default":"#73788a"
+        },
+        {
+          "type":"text",
+          "id":"font_size_des_style",
+          "label":"Font Size",
+          "default":"14px",
+          "info":"-----------------------------"
+        },
+        {
+          "type":"text",
+          "id":"link_title",
+          "label":"Link title"
+        },
+        {
+          "type":"color",
+          "id":"link_color",
+          "label":"Color",
+          "default":"#296fc2"
+        },
+        {
+          "type":"text",
+          "id":"font_size_link",
+          "label":"Font Size",
+          "default":"14px"
+        },
+        {
+          "type":"url",
+          "id":"link_style",
+          "label":"Add link"
+        },
+        {
+          "type":"image_picker",
+          "id":"img_style",
+          "label":"Image"
+        },
+		{
+          "type":"url",
+          "id":"link_banner",
+          "label":"Add link Image"
+        }
+
+
+          ]
+        }
+      ]
+  }
+{% endschema %}

@@ -1,0 +1,156 @@
+{% assign on_sale = false %}
+{% if product.compare_at_price_min > product.price_min %}
+  {% assign on_sale = true %}
+{% endif %}
+{% assign sold_out = true %}
+{% if product.available  %}
+  {% assign sold_out = false %}
+{% endif %}
+<div class="inner product-item{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}" data-product-id="product-{{ product.id }}" data-id="{{ product.id }}">
+  <div class="inner-top">
+    <div class="product-top">
+      <div class="product-image{% if product.images.size > 1 and settings.image_swap %} image-swap{% endif %}">
+        <a href="{{ product.url | within: collection }}" class="product-grid-image" data-collections-related="/collections/{{collection.handle}}?view=related">
+          {%- assign img_pr = product.featured_image.src | product_img_url: '500x' -%}
+          {%- assign img_0 = product.images[0].src | product_img_url: '500x' -%}
+          {%- assign img_1 = product.images[1].src | product_img_url: '500x' -%}
+
+          {% if product.images.size > 1 and settings.image_swap %}
+          <img alt="{{ product.images[0].alt | escape }}"
+               class="images-one lazyload"
+               data-srcset="{{ img_0 }}"
+               data-srcie="{{ img_01 }}"
+               data-srcief="{{ img_02 }}"
+               data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+               data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+               data-sizes="auto" data-image>
+
+          <span class="images-two">
+            <img alt="{{ product.images[1].alt | escape }}"
+                 class="lazyload"
+                 data-srcset="{{ img_1 }}"
+                 data-srcie="{{ img_11 }}"
+                 data-srcief="{{ img_12 }}"
+                 data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                 data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+                 data-sizes="auto" data-image>
+
+          </span>
+          {% else %}
+          <img alt="{{ product.featured_image.alt | escape }}"
+               data-srcset="{{ img_pr }}"
+               data-srcie="{{ img_pr_1 }}"
+               data-srcief="{{ img_pr_2 }}"
+               class="lazyload"
+               data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+               data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+               data-sizes="auto" data-image>
+          {% endif %}
+        </a>
+      </div>
+
+      {% render 'product-label' with product as product, badge_detail: false %}
+
+      {% comment %} Use for productGrid {% endcomment %}
+      <div class="product-des abs-center">
+        {% render 'wishlist-product'  with product as product%}
+        {% if settings.enable_quick_view %}
+        <a class="quickview-button" href="javascript:void(0)" id="{{ product.handle }}" title="{{ 'products.product.quick_view' | t }}" {% if settings.enable_multilang %}data-translate="products.product.quick_view" translate-item="title"{% endif %}>
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 511.999 511.999" style="enable-background:new 0 0 511.999 511.999;" xml:space="preserve">
+          <path d="M508.745,246.041c-4.574-6.257-113.557-153.206-252.748-153.206S7.818,239.784,3.249,246.035
+          c-4.332,5.936-4.332,13.987,0,19.923c4.569,6.257,113.557,153.206,252.748,153.206s248.174-146.95,252.748-153.201
+          C513.083,260.028,513.083,251.971,508.745,246.041z M255.997,385.406c-102.529,0-191.33-97.533-217.617-129.418
+          c26.253-31.913,114.868-129.395,217.617-129.395c102.524,0,191.319,97.516,217.617,129.418
+          C447.361,287.923,358.746,385.406,255.997,385.406z"></path>
+          <path d="M255.997,154.725c-55.842,0-101.275,45.433-101.275,101.275s45.433,101.275,101.275,101.275
+          s101.275-45.433,101.275-101.275S311.839,154.725,255.997,154.725z M255.997,323.516c-37.23,0-67.516-30.287-67.516-67.516
+          s30.287-67.516,67.516-67.516s67.516,30.287,67.516,67.516S293.227,323.516,255.997,323.516z"></path>
+          </svg>
+        </a>
+        {% endif %}
+      </div>
+      {% if settings.display_button %}
+        <div class="action">
+          {% render 'add-to-cart-form', product: product, sold_out: sold_out, id: 'grid-product-form-' %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Use for productGrid {% endcomment %}
+    <div class="product-bottom">
+     
+      <a class="product-title" href="{{ product.url | within: collection }}">
+        {% if settings.enable_multilang and multilang contains '|' %}
+        <span class="lang1">
+          {{ product.title | split: '|' | first | strip  |  truncate: 45}}
+        </span>
+        <span class="lang2">
+          {{ product.title | split: '|' | last | strip  | truncate: 45 }}
+        </span>
+        {% else %}
+        <span>
+          {{ product.title | split: '|' | first  | truncate: 45}}
+        </span>
+        {% endif %}
+      </a>
+      {% if settings.display_product_reviews %}
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+      {% endif %}
+
+      <div class="price-box">
+        {% if on_sale %}
+        <div class="price-sale">
+          <span class="old-price">{{ product.compare_at_price_min | money }}</span>
+          <span class="special-price">{% if product.price_varies %}{% render 'varies_from' %}{% endif %}{{ product.price_min | money }}</span>
+        </div>
+        {% else %}
+        <div class="price-regular">
+          <span>{% if product.price_varies %}{% render 'varies_from'  %}{% endif %}{{ product.price_min | money }}</span>
+        </div>
+        {% endif %}
+      </div>
+      {% if settings.display_item_swatch %}
+      {% render 'item-swatch'  with product as product %}
+      {% endif %}
+    </div>
+
+    {% comment %} Use for productList {% endcomment %}
+    <div class="product-details">
+      <a class="product-title" href="{{ product.url | within: collection }}">
+        {{ product.title }}
+      </a>
+
+      {% if settings.display_product_reviews %}
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}" style="min-height: 20px; display: block; margin-bottom: 9px;"></span>
+      {% endif %}
+      <div class="short-description">
+      {% assign des = product.description %}
+        {{ des | split: '[lang2]' | first | strip_html | truncatewords: 22 }}
+    </div>
+
+      <div class="price-box">
+        {% if on_sale %}
+        <div class="price-sale">
+          <span class="old-price">{{ product.variants[0].compare_at_price | money }}</span>
+          <span class="special-price">{% if product.price_varies %}{% render 'varies_from' %}{% endif %}{{ product.variants[0].price | money }}</span>
+        </div>
+        {% else %}
+        <div class="price-regular">
+          <span>{% if product.price_varies %}{% render 'varies_from' %}{% endif %}{{ product.variants[0].price | money }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if settings.display_item_swatch %}
+      {% render 'item-swatch'  with product as product %}
+      {% endif %}
+      <div class="group-ac">
+        {% if settings.display_button %}
+        <div class="action">
+          {% render 'add-to-cart-form', product: product, sold_out: sold_out, id: 'grid-product-form-' %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

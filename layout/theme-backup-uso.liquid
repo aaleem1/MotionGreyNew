@@ -1,0 +1,310 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if lt IE 9]><script src="IE9.js"></script><![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  
+ <!-- Start of motiongrey Zendesk Widget script -->
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=6d738d0b-4b54-448a-a52d-f09f924ac40a"> </script>
+<!-- End of motiongrey Zendesk Widget script -->
+
+  
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  {% render 'no-follows' %}
+  
+   <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#4285f4">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#4285f4">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#4285f4">
+  	<!-- Facebook Domain Verification -->
+  	<meta name="facebook-domain-verification" content="b49vqpuvzl5lb3ohjr6lxr473pg4pv" />
+  	<!-- Google Merchant Verification -->
+  	<meta name="google-site-verification" content="GrVvPbubt_ST44uh8rDV5hSeuUBGbvcmTJfQoUTAny0" />
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Product meta ================================================== -->
+  {% render 'fb-open-graph-tags' %}
+  {% render 'twitter-card' %}
+
+  <!-- Helpers ================================================== -->
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui">
+
+  <!-- Favicon -->
+  {% if settings.favicon != blank %}
+  <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+  <!-- fonts -->
+  {% render 'head_fonts' %}
+
+  <!-- Styles -->
+  {% render 'head_styles' %}
+
+  <!-- Scripts -->
+
+  {% render 'head_scripts' %}
+  <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async">
+    window.lazySizesConfig = window.lazySizesConfig || {};
+    lazySizesConfig.loadMode = 1;
+    window.lazySizesConfig.init = false;
+    lazySizes.init();
+  </script>
+  <script src="{{ 'lazy.min.js' | asset_url }}" async="async">
+     $(function() {
+        $('.lazy').lazy();
+    });
+  </script>
+
+  <!-- Header hook for plugins ================================ -->
+  {{ content_for_header }}
+
+  <!--[if lt IE 9]>
+{{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+<![endif]-->
+
+  {% comment %}
+  If you store has customers disabled, you can remove the following JS file
+  {% endcomment %}
+
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+  {% render 'linked-options' %}
+<!--Gem_Page_Header_Script-->
+{% include 'gem-app-header-scripts' %}
+<!--End_Gem_Page_Header_Script-->
+  
+  
+  
+<script src="https://demandforapps.com/aodtabs/js/aod-tabs.js"></script>
+  <script src="https://cdn.shopify.com/s/files/1/0008/2558/9811/t/14/assets/bicycle.js?v=2088145219650321645"></script>
+    
+
+        {% render 'digismoothie-candyrack' %}
+        
+{% include 'globo.formbuilder.scripts' %}
+
+<script id="saets">/*Simple Affiliate enhanced tracking*/(function(m){if(m){document.cookie="saetc="+m[1]+"_"+new Date().getTime()+";Path=/;Max-Age=604800"}})(document.location.href.match(/sacode=([A-Za-z0-9]+)/))</script>
+</head>
+        
+<body id="{{ page_title | handle }}" class="{{ header_class }} {{ layout_class }} {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
+	
+  <script async="async">!function(){window.SLIDECART=!0;window.SLIDECART_FORMAT='{{shop.money_format}}';var e="https://cdn.jsdelivr.net/gh/apphq/slidecart-dist@master/slidecarthq.js?"+(new Date).getTime(),t=document.createElement("script");t.type="text/javascript",t.src=e,document.querySelector("body").appendChild(t)}();</script>
+  
+  {% section 'header' %} 
+  {% render 'scheme' %}
+  <div class="wrapper-container wrapper-body">	
+    <main class="main-content" role="main">      
+      {{ content_for_layout }}
+    </main>         
+    {% section 'footer' %}
+
+    <script src="//cdn.codeblackbelt.com/js/modules/frequently-bought-together/main.min.js?shop=motiongrey.myshopify.com" defer></script>
+
+    
+
+    
+
+    
+
+    
+    {% unless template contains 'product' %}
+    <div class="footbar-fixed">
+      {% section 'someone-purchased' %}
+      {% section 'GDPR-modal' %}
+    </div>
+    {% endunless %}
+  </div>
+  {% render 'footer_scripts' %}
+  {% render 'sweettooth-widgets' %}
+  {% render 'message-modal' %}
+  <div class="overlay-mn"></div>
+  <div class="close-mm">{% render 'icon-close' %}</div>
+  <div id="back-top" style="display: none;">
+    <a class="nav_up" href="#top" title="Back to top">
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </a>
+  </div> 
+   {% render 'search-autocomplete' %}
+   {% render 'size-chart' %}
+<!--   		<script src="{{ 'three.min.js' | asset_url }}"></script>
+		<script src="{{ 'postprocessing.min.js' | asset_url }}"></script>
+		<script src="{{ 'InfiniteLights.js' | asset_url}}"></script>
+		<script src="{{ 'Distortions.js' | asset_url}}"></script> -->
+  
+<!--       		<script async defer>
+              
+		(function() {
+
+			const container = document.getElementById('light-app');
+
+			const options = {
+				onSpeedUp: (ev) => {					
+				},
+				onSlowDown: (ev) => {
+				},
+				// mountainDistortion || LongRaceDistortion || xyDistortion || turbulentDistortion || turbulentDistortionStill || deepDistortionStill || deepDistortion
+				distortion: mountainDistortion, 
+				
+				length: 400,
+				roadWidth: 9,
+				islandWidth: 2,
+				lanesPerRoad: 3,
+
+				fov: 90,
+				fovSpeedUp: 150,
+				speedUp: 2,
+				carLightsFade: 0.4,
+
+				totalSideLightSticks: 50,
+				lightPairsPerRoadWay: 50,
+
+				// Percentage of the lane's width
+				shoulderLinesWidthPercentage: 0.05,
+				brokenLinesWidthPercentage: 0.1,
+				brokenLinesLengthPercentage: 0.5,
+
+				/*** These ones have to be arrays of [min,max].  ***/
+				lightStickWidth: [0.12, 0.5],
+				lightStickHeight: [1.3, 1.7],
+
+				movingAwaySpeed: [60, 80],
+				movingCloserSpeed: [-120, -160],
+
+				/****  Anything below can be either a number or an array of [min,max] ****/
+
+				// Length of the lights. Best to be less than total length
+				carLightsLength: [400 * 0.05, 400 * 0.15],
+				// Radius of the tubes
+				carLightsRadius: [0.05, 0.14],
+				// Width is percentage of a lane. Numbers from 0 to 1
+				carWidthPercentage: [0.3, 0.5],
+				// How drunk the driver is.
+				// carWidthPercentage's max + carShiftX's max -> Cannot go over 1. 
+				// Or cars start going into other lanes 
+				carShiftX: [-0.2, 0.2],
+				// Self Explanatory
+				carFloorSeparation: [0.05, 1],
+
+				colors: {
+					roadColor: 0x080808,
+					islandColor: 0x0a0a0a,
+					background: 0xdadafa,
+					shoulderLines: 0x131318,
+					brokenLines: 0x131318,
+					/***  Only these colors can be an array ***/
+					leftCars: [0xff102a, 0xEB383E, 0xff102a],
+					rightCars: [0xdadafa, 0xBEBAE3, 0x8F97E4],
+					sticks: 0xdadafa,
+				}
+			};
+
+			const myApp = new App(container, options);
+			myApp.loadAssets().then(myApp.init)
+		})()
+		</script> -->
+<!--Gem_Page_Footer_Script-->
+{% include 'gem-app-footer-scripts' %}
+<!--End_Gem_Page_Footer_Script-->
+  
+  
+  <script>
+  
+    (function ($){
+	$.fn.responsiveTabs = function() {
+	this.addClass('responsive-tabs'),
+	this.append($('<span class="dropdown-arrow"></span>')),
+
+	this.on("click", "li > a.active, span.dropdown-arrow", function (){
+			this.toggleClass('open');
+		}.bind(this)), this.on("click", "li > a:not(.active)", function() {
+	        this.removeClass("open")
+	    }.bind(this)); 
+	}
+})(jQuery);
+  
+  </script>
+  <script>
+  
+  
+            (function ($) {
+                $(".nav-tabs").responsiveTabs();
+            })(jQuery);
+  </script>
+  
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPSLT86"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <!--CODE FOR TIDA CHAT -->
+ 
+  
+  <!--{% render 'ajaxify-cart' %}-->
+  
+  
+  <!--Optimonk -->
+ 
+  <script type="text/javascript">
+    (function(e,a){
+        var t,r=e.getElementsByTagName("head")[0],c=e.location.protocol;
+        t=e.createElement("script");t.type="text/javascript";
+        t.charset="utf-8";t.async=!0;t.defer=!0;
+        t.src=c+"//front.optimonk.com/public/"+a+"/js/preload.js";r.appendChild(t);
+    })(document,"135310");
+</script>
+  
+  <!-- Stamped - Begin Script-->
+<script async type="text/javascript" id="stamped-script-widget" data-api-key="pubkey-3knmhF9iUauG3f6aVXvr8vr27txYbZ" src="https://cdn1.stamped.io/files/widget.min.js"></script>
+  <!-- Stamped - End Script --><br>
+  {% if template contains "product" %}
+  
+<script>
+function addEventListenerStamped(el, eventName, handler) { 
+   if (el.addEventListener) { el.addEventListener(eventName, handler); }
+   else { el.attachEvent('on' + eventName, function () { handler.call(el); }); } 
+}
+
+addEventListenerStamped(document, 'stamped:reviews:loaded', function(e) {
+  console.log(e);
+    var ratingCount = $('meta[itemprop="reviewCount"]').attr('content');
+    var ratingValue = $('meta[itemprop="ratingValue"]').attr('content');
+        var richSnippet = {
+            "@context": "http://schema.org",
+            "@type": "Product",
+            "@id": "{{ shop.url | append: '/products/' | append: product.handle }}#product"
+        }
+
+        if (parseInt(ratingValue) > 0){
+            richSnippet.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": ratingValue,
+                "reviewCount": ratingCount
+            }
+        }
+        var script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.innerHTML = JSON.stringify(richSnippet);
+        document.getElementsByTagName('head')[0].appendChild(script);
+});
+</script>
+  {% endif %}
+</body>
+
+</html>

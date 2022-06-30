@@ -1,0 +1,24 @@
+<div class="blog-template blog-template-mansory">   
+  <div class="container">
+    {% render 'breadcrumb' %}
+    
+    <div class="page-header">
+      {% if current_tags %}    
+      <h2>
+        <a href="{{ blog.url }}">{{ page_title }}</a> &raquo; {{ current_tags.first }}
+      </h2>
+      {% else %}    
+      <h2>
+        {{ page_title }}
+      </h2>
+      {% endif %}
+    </div>
+    
+    <div class="halo-blog-content">
+      <div class="row">
+        {% section 'sidebar-blog' %}
+        {% section 'blog-template' %}
+      </div>      
+    </div>   
+  </div>
+</div> 

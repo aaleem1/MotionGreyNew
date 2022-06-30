@@ -1,0 +1,181 @@
+
+{% assign iso-code = shop.money_with_currency_format | slice: -3, 3 %}
+              
+              <style>
+              .special-price:after, .old-price:after, .price-regular:after {
+    			content: "{{ iso-code }}";
+                font-size: 16px;
+                padding-left: 2px;
+              }
+              .old-price:after {
+    			font-size: 14px;
+    			padding-left: 2px;
+				}
+              </style>
+
+
+{% if cart.attributes.pagination != blank and cart.attributes.pagination %}
+{% assign product_per_page = cart.attributes.pagination %}
+{% else %}
+{% assign product_per_page = section.settings.collection_results_per_page_col %}
+{% endif %}
+{% paginate collection.products by product_per_page %}
+ 
+{% case section.settings.collection_results_per_row %}
+{% when '1' %}
+    {%- assign grid_item_width = 'col-12 col-sm-12' -%}
+	{%- assign rows = 'products-list' -%}
+
+  {% when '2' %}
+    {%- assign grid_item_width = 'col-6 col-sm-12' -%}
+	{%- assign rows = 'products-grid' -%}
+
+  {% when '3' %}
+    {%- assign grid_item_width = 'col-6 col-md-4 col-sm-12' -%}
+	{%- assign rows = 'products-grid' -%}
+
+  {% when '4' %}
+    {%- assign grid_item_width = 'col-6 col-md-4 col-lg-3 col-sm-12' -%}
+	{%- assign rows = 'products-grid' -%}
+
+  {% when '5' %}
+    {%- assign grid_item_width = 'col-6 col-md-4 col-lg-3 col5 col-sm-12' -%}
+	{%- assign rows = 'products-grid' -%}
+{% endcase %}
+
+<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+  {% if section.settings.enable_toolbar %}
+  {% render 'toolbar' %}
+  {% endif %}
+  
+  <div class="product-collection {{ rows }} row">
+    {% if collection.products_count > 0 %}  
+    {% for product in collection.products %}
+	{%- if product.type == 'GSC_HIDDEN_PRODUCT' -%}{%- continue -%}{%- endif -%} 
+
+    <div class="grid-item {{ grid_item_width }} {% if settings.product_image_border%}grid-item-border {% endif %}">   
+      {% render 'product-grid-item-col' with product as product %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty-collection-content text-center padding-top-60">
+        <h3 class="collection--empty-message">{{ 'collections.general.title_no_matches' | t }}</h3>
+        <p>
+          {{ 'collections.general.no_matches' | t }}
+        </p>
+        <a {% if settings.redirect_button == 'go_back' %}
+            href="javascript:void(0)" onclick="window.history.back();"
+            {% else %} href="{{ settings.link_to_redirect }}"{% endif %} class="btn btn-x2 btn--has-icon-after cart__continue-btn">
+            {{ 'collections.general.continue_shopping' | t }}
+        </a>
+    </div>
+    {% endif %}
+  </div>
+  {% if paginate.pages > 1 %}
+  <div class="collection-footer">
+    <div class="padding">
+      {% render 'pagination-page' paginate: paginate %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endpaginate %}   
+
+
+{% schema %}
+  {
+    "name": "Collection Detail",
+	"class": "col-12 col-xl-9 col-main",
+    "settings": [
+	  {
+		"type": "header",
+		"content": "Collection Content"
+	  },
+      {
+        "type": "checkbox",
+        "id": "enable_toolbar",
+        "label": "Enable Toolbar",
+        "default": true
+      },
+      {
+      "type": "checkbox",
+      "id": "view_as_enable",
+      "label": "Enable View As",
+      "default": true
+      },
+	  {
+        "type": "checkbox",
+        "id": "limited_view",
+        "label": "Enable Limited View",
+        "default": true
+      },
+	  
+	  {
+        "type": "checkbox",
+        "id": "sort_enable",
+        "label": "Enable sorting",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "collection_results_per_row",
+        "label": "Products per row (grid only)",
+        "default": "4",
+        "options": [
+		  {
+            "value": "1",
+            "label": "List"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "collection_results_per_page_col",
+        "label": "Products per page",
+        "default": "12",
+        "options": [
+		  {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "15",
+            "label": "15"
+          },
+          {
+            "value": "18",
+            "label": "18"
+          },
+          {
+            "value": "21",
+            "label": "21"
+          },
+          {
+            "value": "24",
+            "label": "24"
+          },
+	      {
+            "value": "30",
+            "label": "30"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

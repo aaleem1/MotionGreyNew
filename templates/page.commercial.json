@@ -1,0 +1,120 @@
+{
+  "sections": {
+    "main": {
+      "type": "header-cover",
+      "settings": {
+        "header_cover_enable": true,
+        "display_header_image": true,
+        "background_image": "shopify:\/\/shop_images\/commercial_bg.jpg"
+      }
+    },
+    "164974877299d62b50": {
+      "type": "comfortable-office",
+      "blocks": {
+        "f42643ce-510c-4279-b47c-b24742df523e": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/office_1.jpg",
+            "des_title": "Design",
+            "features_color_des_title": "#000d41",
+            "features_content": "Nam tempus turpis at metus scelerisque placerat nulla deumantos a solicitud felis. Pellentesque diam dolor elementum etos lobortis des mollis.",
+            "features_color_des": "#73788a"
+          }
+        },
+        "c94a12f8-e8d3-493a-b28f-7c1b10b93b60": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/office_2_ef45e06c-6a73-4f56-904c-1f0e98e4ffd9.jpg",
+            "des_title": "Design",
+            "features_color_des_title": "#000d41",
+            "features_content": "Nam tempus turpis at metus scelerisque placerat nulla deumantos a solicitud felis. Pellentesque diam dolor elementum etos lobortis des mollis.",
+            "features_color_des": "#73788a"
+          }
+        },
+        "eced1263-9c7b-4a27-a0c2-5e4b2adf7530": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/office_3_05ad05d1-0352-49fc-8666-44c2c30b7811.jpg",
+            "des_title": "Design",
+            "features_color_des_title": "#000d41",
+            "features_content": "Nam tempus turpis at metus scelerisque placerat nulla deumantos a solicitud felis. Pellentesque diam dolor elementum etos lobortis des mollis.",
+            "features_color_des": "#73788a"
+          }
+        }
+      },
+      "block_order": [
+        "f42643ce-510c-4279-b47c-b24742df523e",
+        "c94a12f8-e8d3-493a-b28f-7c1b10b93b60",
+        "eced1263-9c7b-4a27-a0c2-5e4b2adf7530"
+      ],
+      "settings": {
+        "heading": "Comfortable Solutions For Office",
+        "text": "<p>From the dual motorized legs to the MG-1 memory keypad, each component was engineered with the customer in mind to provide the best quality product at a great value.<\/p>",
+        "sub_heading": "Save up to 30% OFF when you order in bulk from us!",
+        "features_color": "#000d41",
+        "id_scroll": "features",
+        "back_style": "back_color",
+        "back_color": "#ffffff",
+        "animation_image": true,
+        "button_label": "EXPLORE OPTIONS",
+        "button_link": "#"
+      }
+    },
+    "1649781138d532ebe7": {
+      "type": "express-shipping",
+      "blocks": {
+        "16497811387d2b416f-0": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/Canadian_Flag-white.webp",
+            "title": "FREE EXPRESS SHIPPING"
+          }
+        },
+        "16497811387d2b416f-1": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/warranty_8_GIF_White.gif",
+            "title": "8 YEAR WARRANTY"
+          }
+        },
+        "16497811387d2b416f-2": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/5_stars-White.webp",
+            "title": "OVER 2,000 REVIEWS"
+          }
+        },
+        "74c2cc4b-2d5d-4a5c-b7de-06a852f9b24c": {
+          "type": "features_des",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/Canadian_Flag-white.webp",
+            "title": "CANADIAN COMPANY"
+          }
+        }
+      },
+      "block_order": [
+        "16497811387d2b416f-0",
+        "16497811387d2b416f-1",
+        "16497811387d2b416f-2",
+        "74c2cc4b-2d5d-4a5c-b7de-06a852f9b24c"
+      ],
+      "settings": {
+        "heading": "Comfortable Solutions For Office",
+        "text": "<p>Small Description<\/p>",
+        "sub_heading": "Save up to 30% OFF when you order in bulk from us!",
+        "features_color": "#000d41",
+        "id_scroll": "features",
+        "back_style": "back_img",
+        "back_color": "#6bcc44",
+        "animation_image": true,
+        "button_label": "",
+        "button_link": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "164974877299d62b50",
+    "1649781138d532ebe7"
+  ]
+}

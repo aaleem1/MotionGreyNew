@@ -1,0 +1,605 @@
+{%layout none%}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price_min > product.price_min %}
+    {% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available  %}
+    {% assign sold_out = false %}
+{% endif %}
+
+{% assign custom_label = false %}
+
+{% for tag in product.tags %}
+  {% assign tag_handle = tag | handle %}
+  {% if tag_handle == 'label' %}
+        {% assign custom_label = true %}
+  {% endif %}
+{% endfor %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{% assign variantCount = product.variants | size %}
+{% if product.metafields.c_f['Product Video'] %}
+{% capture video_id %}{{ product.metafields.c_f['Product Video'] }}{% endcapture %}
+{% endif %}
+
+<div class="row quickview-tpl" data-collections-related="/collections/{{collection.handle}}?view=related">
+    <div class="col-md-6 product-photos" data-more-view-product-qv>
+        <div class="product-img-box">
+            <div class="product-photo-container slider-for quickview-featured-image">
+                {% for media in product.media %}
+                {% case media.media_type %}
+                {% when 'image' %}
+                <div class="thumb thum-image">
+                    <a data-zoom rel="gallery1" href="{{ media | product_img_url: 'original'}}" data-fancybox="images-quickview">
+                        <img id="qv-product-featured-image-{{ media.id }}" src="{{ media | product_img_url: 'original' }}" alt="{{ media.alt | escape }}" />
+                    </a>
+                </div>
+                {% when 'external_video' %}
+                <div class="thumb filter-{{ media.alt | handle }}">
+                  <div class="product-single__media" style="padding-top: 100%" data-media-id="{{ media.id }}">
+                    {{ media | external_video_tag }}
+                  </div>
+                </div>
+                {% when 'model' %}
+                <div class="thum">
+                  <div class="product-single__media model-viewer-click" style="padding-top: 100%" data-media-id="{{ media.id }}">
+                    {{ media | model_viewer_tag: image_size: '500x', 
+                    reveal: 'interaction', 
+                    toggleable: true, 
+                    data-model-id: media.id, 
+                    auto-rotate: true,
+                    id: 'paused-change-demo'
+                    }}
+                  </div>
+                  <div class="shopify-model-viewer-ui__controls-overlay">
+                    <div class="shopify-model-viewer-ui__button shopify-model-viewer-ui__button--poster" aria-label="Play 3D Viewer">
+                      <svg viewBox="0 0 60 60" id="threed-icon-button-control"><path fill="none" d="M0 0h60v60H0z"></path><path fill="currentColor" d="M40.4 22.57l-8.8-5.14a3.19 3.19 0 00-3.21 0l-8.8 5.14A3.24 3.24 0 0018 25.36v10.28a3.23 3.23 0 001.6 2.79l8.8 5.14a3.2 3.2 0 003.21 0l8.8-5.14A3.23 3.23 0 0042 35.64V25.36a3.24 3.24 0 00-1.6-2.79zM20.6 36.7a1.23 1.23 0 01-.6-1.06V25.36a1.23 1.23 0 01.6-1.06l8.8-5.14a1.19 1.19 0 011.19 0l8.8 5.14a1.2 1.2 0 01.36.34l-9.51 4.89a2.23 2.23 0 00-1.25 2V41.6z"></path></svg>
+                    </div>
+                  </div>
+                </div>
+                
+                {% else %}
+                <div class="thumb filter-{{ media.alt | handle }}">
+                  <div class="product-single__media" data-media-id="{{ media.id }}">
+                    {{ media | media_tag }}
+                  </div>
+                </div>
+                {% endcase %}
+                {% endfor %}
+
+            </div>
+            {% if product.metafields.c_f['Product Video'] and settings.video_product %}
+                  {% render 'video-product' %}
+                {% endif %}
+              
+              {% if settings.display_text_zoom %}
+              <div class="zoom-image">
+                <span>
+                  {% render 'icon-zoom' %}
+                </span>
+                {% render 'multilang' with settings.text_zoom_image %}
+              </div>
+              {% endif %}
+              
+            <div class="slider-nav" data-rows="5">
+                {% for media in product.media %}
+                {% case media.media_type %}
+                {% when 'image' %}
+                <div class="item">
+                    <a href="javascript:void(0)" data-image="{{ media.src | product_img_url: 'original' }}" data-zoom-image="{{ media.src | product_img_url: 'original' }}">
+                        <img src="{{ media.src | product_img_url: 'compact' }}" alt="{{ media.alt | escape }}">
+                    </a>
+                </div>
+                {% when 'external_video' %}
+                  <div class="item">
+                    <div class="product-single__media" data-media-id="{{ media.id }}">
+                      <img id="product-featured-image-{{image.id}}" class="product-single__thumbnail-image" src="https://img.youtube.com/vi/{{ media | external_video_tag | split: 'embed/' | last | split: '?' | first }}/0.jpg" alt="{{ media.alt }}">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 494.148 494.148" xml:space="preserve"><g><g><path d="M405.284,201.188L130.804,13.28C118.128,4.596,105.356,0,94.74,0C74.216,0,61.52,16.472,61.52,44.044v406.124 c0,27.54,12.68,43.98,33.156,43.98c10.632,0,23.2-4.6,35.904-13.308l274.608-187.904c17.66-12.104,27.44-28.392,27.44-45.884 C432.632,229.572,422.964,213.288,405.284,201.188z"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+
+                    </div>
+                  </div>
+                  {% when 'video' %}
+                  <div class="item">
+                    <div class="product-single__media" data-media-id="{{ media.id }}">
+                      {{ media | video_tag: controls: true }}
+                    </div>
+                  </div>
+                  {% when 'model' %}
+                  <div class="item">
+                    <div class="product-single__media" data-media-id="{{ media.id }}">
+                      {{ media | model_viewer_tag: image_size: image_size, 
+                      reveal: 'interaction', 
+                      toggleable: true, 
+                      data-model-id: media.id, 
+                      auto-rotate: true
+                      }}
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="item">
+                    <div class="product-single__media 4" data-media-id="{{ media.id }}">
+                      {{ media | media_tag }}
+                    </div>
+                  </div>
+              {% endcase %}
+              {% endfor %}
+            </div>
+            
+            {% render 'product-label' with product as product, badge_detail: true %}
+        </div>    
+    </div>
+    
+    <div class="col-md-6 product-shop">
+        <h2 class="product-title">
+            <a href="{{product.url}}">
+                {% render 'multilang' with product.title %}
+            </a>     
+        </h2>
+        
+        {% if settings.qv_display_product_reviews or settings.qv_show_sold_in %} 
+        <div class="group_item">
+            {% if settings.qv_display_product_reviews %}       
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+            {% endif %}
+
+            {% if settings.qv_show_sold_in and product.availble %}
+            <div data-soldOut-product class="sold_product" data-items="{{ settings.qv_item_prd }}" data-hours="{{ settings.qv_hours_prs }}">
+                <span class="items-count">2</span>
+                {% render 'multilang' with settings.qv_item_prds %}
+                <span class="hours-num">8</span>
+                {% render 'multilang' with settings.qv_item_hours %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if settings.display_quickview_vendor or settings.display_quickview_product_sku or settings.display_quickview_availability %}
+        <div class="product-infor">
+            {% if settings.display_quickview_vendor %}
+            <div class="vendor-product">
+                {% if settings.quickview_text_vendor != blank %}
+                   <label>
+                    {{ settings.quickview_text_vendor  }}
+                    </label>
+                {% endif %}
+                <span>{{ product.vendor | link_to_vendor }}</span>
+            </div>
+            {% endif %}
+
+            {% if settings.display_quickview_product_sku %}
+            <div class="sku-product">
+                {% if settings.text_quickview_product_sku != blank %}
+                    <label>
+                        {{ settings.text_quickview_product_sku | split: '|' | first }}
+                    </label>
+                {% endif %}
+                <span>{{ current_variant.sku }}</span>
+            </div>
+            {% endif %}
+
+            {% if settings.display_quickview_availability %}
+            <div class="product-inventory">
+                {% if settings.quickview_text_availability != blank %}
+                    <label>
+                        {{ settings.quickview_text_availability | split: '|' | first }}
+                    </label>
+                {% endif %}
+                <span>
+                {% if current_variant.inventory_management %}
+                {% assign first_inventory = current_variant.inventory_quantity %}
+                {% if first_inventory > 0 %}
+                {{ 'products.product.in_stock' | t }}
+                {% else %}
+                {{ 'products.product.out_of_stock' | t }}
+                {% endif %}
+                {% else %}
+                {{ 'products.product.many_in_stock' | t }}
+                {% endif %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% assign des = product.description %}
+        {% if settings.display_quickview_short_desc and des != blank %}
+        <div class="short-description">
+            {{ des | strip_html | replace: '&nbsp;', ' ' | truncate: 170 }}
+        </div>
+        {% endif %}
+
+        {% if settings.display_product_countdown %}
+            {% if settings.option_countdown == 'all_product' %}
+                <div class="countdown">
+                  {% render 'multilang' with settings.text_countdown %}
+                  <div class="countdown-item" data-countdown-normal data-countdown-value="{{ settings.count_down_timer }}"></div>
+                </div>
+            {% else %}
+                {% if product.metafields.c_f['countdown'] %}
+                {% capture countdown %}{{ product.metafields.c_f['countdown'] }}{% endcapture %}
+                    {% if section.settings.display_product_countdown %}
+                    <div class="countdown">
+                      {% render 'multilang' with settings.text_countdown %}
+                      <div class="countdown-item" data-countdown-normal data-countdown-value="{{ countdown }}"></div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        
+        <div class="prices">
+            {% if product.compare_at_price > product.price %}
+            <span class="compare-price">
+                {{ product.compare_at_price_max | money }}
+            </span>
+            <span class="price on-sale" itemprop="price">
+                {{ product.price | money }}
+            </span>
+            {% else %}
+            <span class="price" itemprop="price">
+                {{ product.price | money }}
+            </span>
+            {% endif %}
+            <input type="hidden" id="product_regular_price" name="product_regular_price" value="{{ product.price }}">
+        </div>
+        
+        <form action="/cart/add" method="post" class="shopify-product-form" id="add-to-cart-quickview-form">
+            {% if settings.display_size_chart %}
+              <a data-toggle="modal" data-target="#size_chart" class=" {% if variantCount > 1 and  product.variants[0].title != 'Default Title'  %} show-variant {% else %} no-variant {% endif %} size-chart-open-popup">
+                <span>{{settings.size_guide_text }}</span>
+              </a>
+              {% endif %}
+            {% if product.available %}       
+            <div id="product-variants">                                    
+                {% assign variantCount = product.variants | size %}
+                {% if product.available %} 
+                {% if variantCount > 0 and product.variants[0].title != 'Default Title'  %}
+                <select id="product-select-qv" name="id" style="display:none">
+                    {% for variant in product.variants %}
+                    {% if variant.available %}
+                    <option {% if variant == current_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                        {{ variant.title }}
+                    </option>
+                    {% else %}
+                    <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+
+                {% if settings.use_color_swatch %}
+                {% for option in product.options %}
+                {% render 'quickview-swatch' with option %}
+                {% endfor %}
+                {% endif %}
+                
+                {% else %}
+                <select id="product-select-qv" style="display:none">
+                </select>
+                <input type="hidden" name="id" value="{{ product.variants[0].id }}" />
+                {% endif %}
+                
+                {% endif %}                                    
+            </div>
+            {% endif %}
+            <div class="groups-btn">
+                {% if current_variant.available %}
+                <div class="quantity">
+                    <label for="quantity" {% if settings.enable_multilang %}data-translate="cart.label.quantity"{%endif%}>
+                        {{ 'cart.label.quantity' | t }}: 
+                    </label>
+                    <div class="qty-group">
+                        <a href="#" data-qv-minus-qtt class="minus button"></a>
+                        <input type="text" data-qv-qtt-id="quantity__{{ product.id }}" name="quantity" value="1">
+                        <a href="#" data-qv-plus-qtt class="plus button"></a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if current_variant.available %}
+                 {% assign first_inventory = current_variant.inventory_quantity %}
+                 {% if first_inventory > 0 %}
+                 	<a class="btn" href="{{ product.url }}" title="{{ product.title }}" {% if settings.enable_multilang %}data-translate="products.product.add_to_cart"{% endif %}>
+    				Explore
+  					</a>
+                   <!--<input data-btn-addToCart type="submit" name="add" class="btn product-add-to-cart" {% if settings.enable_multilang %}data-translate="products.product.add_to_cart"{%endif%} value="{{ 'products.product.add_to_cart' | t }}" data-form-id="#add-to-cart-quickview-form"> -->
+                   {% else %}
+              		<a class="btn" href="{{ product.url }}" title="{{ product.title }}" {% if settings.enable_multilang %}data-translate="products.product.add_to_cart"{% endif %}>
+    				Explore
+  					</a>
+                   <!--<input data-btn-addToCart type="submit" name="add" class="btn product-add-to-cart" {% if settings.enable_multilang %}data-translate="products.product.add_to_cart"{%endif%} value="{{ 'products.product.add_to_cart' | t }}" data-form-id="#add-to-cart-quickview-form">-->
+                   {% endif %}
+
+                {% else %} 
+                <input type="submit" name="add" class="btn product-add-to-cart" {% if settings.enable_multilang %}data-translate="products.product.unavailable"{%endif%} disabled value="{{ 'products.product.unavailable' | t }}">          
+                {% endif %}
+
+                {% render 'wishlist-product' with product as product %}
+            </div>
+        </form>    
+        
+        {% if settings.dpl_customers_view_qv %}
+        <div id="customers_view_qv" class="customers_view" data-customer-view="{{ settings.number_view_qv }}">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            <label>283</label> {% render 'multilang' with settings.title_view_qv %}
+        </div>
+        {% endif %}
+        
+      {% if settings.display_trust_img and settings.img_trust != blank %}
+      <div class="secure-shopping-guarantee">
+        <img src="{{ settings.img_trust | img_url: '800x'  }}">
+      </div>
+      {% endif %}
+      
+    </div>  
+</div>
+{% if settings.video_product %}
+  <div class="modal fade halo_modal-custom custom_video_qv" id="video_product" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a data-dismiss="modal" class="close close-qv" title="{{ 'cart.ajax_cart.close' | t }}" href="javascript:void(0)">
+            {% render 'icon-close' %}
+          </a>
+        </div>
+        <div class="modal-body">
+          <div class="videoWrapper">
+            <div class="video_qv" data-video-id="{{ video_id }}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+<script> 
+  {% if product.metafields.c_f['Product Video'] %}
+   var  btnApend = $(".quickview-tpl .video-open-popup "),
+         appenCodeIframe = $('.custom_video_qv  .videoWrapper .video_qv'),
+         removeIframe = $(".quickview-tpl  .close-modal, .custom_video_qv  ");
+                      
+       btnApend.off('click').on('click', function(e){
+      var idVideo = ('{{ video_id }}');
+      const $content = '<iframe\
+                            id="player"\
+                            type="text/html"\
+                            width="100%"\
+                            height="100%"\
+                            frameborder="0"\
+                            webkitAllowFullScreen\
+                            mozallowfullscreen\
+                            allowFullScreen\
+                            src="https://www.youtube.com/embed/'+idVideo+'?autoplay=1&mute=1"\
+                            data-video-player>\
+                        </iframe>\
+     ';
+      
+      appenCodeIframe.html($content);
+    });
+    removeIframe.off('click').on('click', function(e){
+      var removeCodeIframe = $('.custom_video_qv  .videoWrapper .video_qv iframe');
+       removeCodeIframe.remove();
+    });
+  {% endif %}
+    {% if settings.display_quickview_subtotal and product.available %}   
+    function updatePricingQuickview() {
+      var quantity = parseInt($('[data-qv-qtt-id]').val());
+      var p = $('.quickview-tpl #product_regular_price').val();
+      var totalPrice1 = p * quantity;
+      var g = Shopify.formatMoney(totalPrice1, window.money_format);
+      $('.quickview-tpl .total-price span').html(g);
+
+      {% if settings.enable_multiple_currencies %}
+      Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
+      {% else %}
+      {% if settings.enable_auto_currency %}
+      Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
+      {% endif %}
+      {% endif %}
+    };
+                                                        
+    $('[data-qv-qtt-id]').on('change', updatePricingQuickview);
+    
+    var buttonSlt = '[data-qv-minus-qtt], [data-qv-plus-qtt]',
+        buttonElm = $(buttonSlt);
+
+    $(document).off('click.changeQttQv', buttonSlt).on('click.changeQttQv', buttonSlt, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var self = $(this),
+            input = self.siblings('input[name="quantity"]'),
+            oldVal = parseInt(input.val()),
+            newVal = 1;
+
+        switch (true) {
+            case (self.hasClass('plus')): {
+                newVal = oldVal + 1;
+                break;
+            }
+            case (self.hasClass('minus') && oldVal > 1): {
+                newVal = oldVal - 1;
+                break;
+            }            
+        }
+
+        input.val(newVal);
+
+        updatePricingQuickview();
+    });          
+    {% endif %}
+    
+    var selectCallbackQuickview = function(variant, selector) {
+        var addToCartBtn = $('.quickview-tpl .product-add-to-cart'),
+            productPrice = $('.quickview-tpl .price'),
+            comparePrice = $('.quickview-tpl .compare-price'),
+            productInventory = $('.quickview-tpl .product-inventory'),
+            productSku = $('.quickview-tpl .sku-product'),
+            labelSave = $('.quickview-tpl .product-photos .sale-label');
+        var inven_array = {
+          {% for variant in product.variants %}
+          "{{variant.id}}":"{{variant.inventory_quantity}}",
+          {%endfor%}
+        };
+        var inven_num = '';
+
+        if(variant) {
+            // addToCartbtn
+          if (variant.available) {
+            for( variant_id in inven_array){
+              if(variant.id == variant_id ){
+                inven_num = inven_array[variant_id];
+                var inventoryQuantity = parseInt(inven_num);
+              }
+              if(inventoryQuantity > 0){
+                // We have a valid product variant, so enable the submit button
+                addToCartBtn.removeClass('disabled').removeAttr('disabled').val(window.inventory_text.add_to_cart);
+              }else{
+                addToCartBtn.removeClass('disabled').removeAttr('disabled').val(window.inventory_text.add_to_cart);
+              }
+            }
+          }
+            else {
+                addToCartBtn.val(window.inventory_text.sold_out).addClass('disabled').attr('disabled', 'disabled');
+            };
+
+            // Prices
+            $('.quickview-tpl #product_regular_price').val(variant.price);
+            productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));    
+
+            if(variant.compare_at_price > variant.price) {
+                productPrice.addClass("on-sale");
+                comparePrice
+                    .html(Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}"))
+                    .show();
+               {% if  settings.type_label_sale == 'label_sale' %}
+                    labelSave.html('sale').show();
+               {% else %}
+                    labelSave.html('-' + Math.floor((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price) + '%').show();
+               {% endif %}
+            }
+            else {
+                comparePrice.hide();
+                productPrice.removeClass("on-sale");
+                labelSave.hide();
+            };
+
+            {% if settings.enable_multiple_currencies %}
+            Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
+            {% endif %}
+            
+            {% if settings.display_quickview_subtotal and product.available %}  
+            updatePricingQuickview();
+            {% endif %}
+
+            // update variant inventory
+            var inven_array = {
+                {% for variant in product.variants %}
+                    "{{variant.id}}":"{{variant.inventory_quantity}}",
+                {% endfor %}
+            };
+            var inven_num = '';
+            if (variant.available) {
+                for (variant_id in inven_array) {
+                    if (variant.id == variant_id) {
+                        inven_num = inven_array[variant_id];
+                        var inventory = inven_num.toString();
+                    }
+                }
+            }
+            
+            
+            {% if settings.display_quickview_availability %}
+            if (variant.available) {
+                if (variant.inventory_management != null) {
+                    productInventory.find('span').text( inventory +" " +  window.inventory_text.in_stock);
+                }
+                else {
+                    productInventory.find('span').text(window.inventory_text.many_in_stock);
+                }
+            }
+            else {
+                productInventory.find('span').text(window.inventory_text.out_of_stock);
+            }   
+            {% endif %}
+                
+            var form = $('#' + selector.domIdPrefix).closest('form');
+            
+            for (var i=0,length=variant.options.length; i<length; i++) {
+                var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+                
+                if (radioButton.size()) {
+                  radioButton.get(0).checked = true;
+                  // Trigger on change this input
+//                   radioButton.get(0).dispatchEvent(new Event('change'));
+                  var event;
+                  if(typeof(Event) === 'function') {
+                    event = new Event('change');
+                  }else{
+                    event = document.createEvent('Event');
+                    event.initEvent('change', true, true);
+                  }
+
+                  radioButton.get(0).dispatchEvent(event);
+                }
+            };
+        }
+
+        else {
+            addToCartBtn.val(window.inventory_text.sold_out).addClass('disabled').attr('disabled', 'disabled');                   
+        };
+    
+        {% if settings.display_quickview_product_sku %}
+        if (variant) {
+            productSku.find('span').text(variant.sku);
+        }
+        else {
+            productSku.find('span').empty();
+        }
+        {% endif %}
+    
+        if (variant && variant.featured_image) {
+            var originalImage = $("img[id|='qv-product-featured-image']");
+            var newImage = variant.featured_image;
+            var element = originalImage[0];
+
+            Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+                jQuery('.quickview-tpl .slider-nav img').each(function() {
+                    var grandSize = $(this).attr('src').split('?')[0];
+
+                    newImageSizedSrc = newImageSizedSrc.split('?')[0];
+
+                    grandSize = grandSize.replace('compact','1024x1024');
+                    if (grandSize == newImageSizedSrc) {
+                        $(this).closest('.item').trigger('click');              
+                        return false;
+                    }
+                });
+            });
+        };
+    };
+    
+    $(function($) {
+        {% if product.available and product.variants.size > 0 %}
+        new Shopify.OptionSelectors('product-select-qv', {
+            product: {{ product | json }},
+            onVariantSelected: selectCallbackQuickview
+        });
+        {% endif %}
+
+        Shopify.linkOptionSelectors({{ product | json }}, '.quickview-tpl');
+        
+        {% if product.options.size == 1 and product.options.first != 'Title' %}
+        $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');  
+        {% elsif product.options.size > 1 %}
+        $('.selector-wrapper').append('<span class="icon-dropdown"><i class="fa fa-angle-down"></i></span>');                                      
+        {% endif %}
+        
+        $('.product-shop .selector-wrapper label').append('<em>*</em>');    
+        
+        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+        $('.selector-wrapper').hide();
+        {% endif %} 
+    });  
+</script>

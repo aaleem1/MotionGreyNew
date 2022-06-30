@@ -1,0 +1,49 @@
+{% assign tabsHeader = "" %}
+{% assign tabsContent = "" %}
+{%- assign tabsMeta = product.metafields.product_tab -%}
+
+{%- for tabTitle in tabsMeta.tab_title -%}
+  {%- unless tabTitle == blank -%}
+    {%- assign tabHandle = tabTitle | handleize -%}
+
+    {% comment %}Build Tab Header{% endcomment %}
+    {%- capture tab -%}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="{{ tabHandle }}-tab" href="#{{ tabHandle }}">{{ tabTitle }}</a>
+      </li>
+    {%- endcapture -%}
+    {% assign tabsHeader = tabsHeader | append: tab %}
+
+    {% comment %}Build Tab Content{% endcomment %}
+    {%- capture tabContent -%}
+      <div id="{{ tabHandle }}">
+        {{ tabsMeta.tab_content[forloop.index0] }}
+      </div>
+    {%- endcapture -%}
+    {% assign tabsContent = tabsContent | append: tabContent %}
+
+  {%- endunless -%}
+{%- endfor -%}
+
+{%- unless tabsHeader == blank -%}
+  <div id="sticky-tabs">
+    <div class="container">
+      <ul class="tab-product-page">
+        {{ tabsHeader }}
+        <li class="nav-item review-tab" role="presentation">
+          <a class="nav-link" id="review-tab" href="#reviews">Reviews</a>
+        </li>
+      </ul>
+      <span class="tab-select-arrow"><i class="fa fa-angle-down"></i></span>
+      <div class="sticky-tab-2">
+        <a href="#shopify-section-product-template" class="sticky-buy-now">SHOP NOW</a>
+      </div>
+    </div>
+  </div>
+{%- endunless -%}
+
+{%- unless tabsContent == blank -%}
+  <div class="container">
+    {{ tabsContent }}
+  </div>
+{%- endunless -%}

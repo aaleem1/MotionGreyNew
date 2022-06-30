@@ -1,0 +1,171 @@
+{%- if product.title contains "Standing Desk" or product.tags contains "desk accessories" or product.tags contains 'T::Accessories' -%}
+
+<div class="productTabs">
+    {%- capture accentuateTabs -%}{% include 'product-tabs-accentuate' %}{%- endcapture -%}
+
+    {%- unless accentuateTabs == blank -%}
+      {{ accentuateTabs }}
+    {%- else -%}
+      <div id="sticky-tabs">
+        <div class="container">
+          
+          <ul class="tab-product-page">
+            {% if product.metafields.product_tab.overview %}
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="overview-tab" href="#overview">{{ product.metafields.product_tab.overview }}</a>
+              </li>
+            {% endif %}
+            {% if product.metafields.product_tab.specifications %}
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="specifications-tab" href="#specifications">{{ product.metafields.product_tab.specifications }}</a>
+              </li>
+            {% endif %}
+            {% if product.metafields.product_tab.installation %}
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="installation-tab" href="#installation">{{ product.metafields.product_tab.installation }}</a>
+              </li>
+            {% endif %}
+            
+            {% if product.metafields.product_tab.warranty %}
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="warranty-tab" href="#warranty">{{ product.metafields.product_tab.warranty }}</a>
+              </li>
+            {% endif %}
+            
+            {% if product.metafields.product_tab.faq %}
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="faq-tab" href="#faq">{{ product.metafields.product_tab.faq }}</a>
+              </li>
+            {% endif %}
+            <li class="nav-item review-tab" role="presentation">
+              <a class="nav-link" id="review-tab" href="#reviews">Reviews</a>
+            </li>
+          </ul>
+          <span class="tab-select-arrow">
+             <i class="fa fa-angle-down"></i>
+          </span>
+          <div class="sticky-tab-2">
+            <a href="#shopify-section-product-template" class="sticky-buy-now">SHOP NOW</a>
+          </div>
+        </div>
+        <div class="header-top">
+            <div class="container-fluid">
+              <div class="top-message">
+                  <p><span>Enhance your workspace. Invest in smart office tools.</span></p>
+              </div>
+            </div>
+         </div> 
+      </div>
+  
+      
+    
+    <div class="container">
+      <div id="overview">
+        {% if product.metafields.product_tab.overview %}
+          {{ product.metafields.product_tab.overview_content }}
+        {% endif %}
+      </div>
+      
+      <div id="specifications">
+        {% if product.metafields.product_tab.specifications %}
+          {{ product.metafields.product_tab.specifications_content }}
+        {% endif %}
+      </div>
+      
+      <div id="installation">
+        {% if product.metafields.product_tab.installation %}
+          {{ product.metafields.product_tab.installation_content }}
+        {% endif %}
+      </div>
+      
+      <div id="warranty">
+        {% if product.metafields.product_tab.warranty %}
+          {{ product.metafields.product_tab.warranty_content }}
+        {% endif %}
+      </div>
+    
+    
+      <div id="faq">
+        {% if product.metafields.product_tab.faq %}
+          {{ product.metafields.product_tab.faq_content }}
+        {% endif %}
+      </div>
+      </div>
+    {% endunless %}
+  </div>
+  
+  <!--{%- include 'standing-desk-videos' -%}-->
+
+  <script type="text/javascript">
+    // Create the dropdown base
+    $("<select />").appendTo("#sticky-tabs .container");
+    
+    // Populate dropdown with menu items
+    $("#sticky-tabs .container .tab-product-page a").each(function() {
+      var el = $(this);
+      $("<option />", {
+        "value"   : el.attr("href"),
+        "text"    : el.text()
+      }).appendTo("#sticky-tabs .container select");
+    });
+    $("#sticky-tabs .container select").change(function() {
+      window.location = $(this).find("option:selected").val();
+    });
+  </script>
+
+{%- else -%}
+  <div class="productTabs">
+    <div id="sticky-tabs">
+      <div class="container">
+        <ul class="nav nav-tabs nav-pills nav-justified" id="myTab" role="tablist">
+          {% if product.metafields.product_tab.overview %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">{{ product.metafields.product_tab.overview }}</a>
+            </li>
+          {% endif %}
+          {% if product.metafields.product_tab.specifications %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">{{ product.metafields.product_tab.specifications }}</a>
+            </li>
+          {% endif %}
+          {% if product.metafields.product_tab.installation %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="installation-tab" data-toggle="tab" href="#installation" role="tab" aria-controls="installation" aria-selected="false">{{ product.metafields.product_tab.installation }}</a>
+            </li>
+          {% endif %}
+          
+          {% if product.metafields.product_tab.warranty %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="warranty-tab" data-toggle="tab" href="#warranty" role="tab" aria-controls="warranty" aria-selected="false">{{ product.metafields.product_tab.warranty }}</a>
+            </li>
+          {% endif %}
+          
+          {% if product.metafields.product_tab.faq %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">{{ product.metafields.product_tab.faq }}</a>
+            </li>
+          {% endif %}
+        </ul>
+        <div class="sticky-tab-2">
+          <a href="#shopify-section-product-template" class="sticky-buy-now">SHOP NOW</a>
+        </div>
+      </div>
+    </div>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">{{ product.metafields.product_tab.overview_content }}</div>
+      <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">{{ product.metafields.product_tab.specifications_content }}</div>
+      <div class="tab-pane fade" id="warranty" role="tabpanel" aria-labelledby="warranty-tab">{{ product.metafields.product_tab.warranty_content }}</div>
+      <div class="tab-pane fade" id="installation" role="tabpanel" aria-labelledby="installation-tab">{{ product.metafields.product_tab.installation_content }}</div>
+      <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">{{ product.metafields.product_tab.faq_content }}</div>
+    </div>
+  </div>
+{%- endif -%}
+
+<script>
+  // faq collapsable section
+  (function($) {
+    $("#faq .faqSection .pt-5>h3").click(function() {
+      $(this).toggleClass('expanded');
+    });
+  })(jQuery);
+</script>

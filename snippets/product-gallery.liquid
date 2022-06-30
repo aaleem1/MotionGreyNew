@@ -1,0 +1,61 @@
+{% comment %}
+  #### THIS IS NEW PRODUCT GALLERY IMPLEMENTATION ####
+{% endcomment %}
+
+{{ 'component-product-gallery.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign currentVariant = product.selected_or_first_available_variant
+  assign featuredMedia = currentVariant.featured_media
+  assign imageSrcs = blank
+
+  for img in product.images
+    if img.attached_to_variant?
+      assign imageSrcs = imageSrcs | append: img.src | append: ", "
+    endif
+  endfor
+-%}
+
+{% assign totalNumberOfSlides = 1 %}
+
+{%- if featuredMedia -%}
+  {%- capture mainSliderItems -%}
+    {%- include 'product-media-item', type: 'main', media: featuredMedia, id: 'featured-media--main' -%}
+  {%- endcapture -%}
+  {%- capture thumbSliderItems -%}
+    {%- include 'product-media-item', type: 'thumb', media: featuredMedia, id: 'featured-media--thumb' -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- for media in product.media -%}
+  {%- unless imageSrcs contains media.src -%}
+    {%- capture mainSliderItem -%}
+      {%- include 'product-media-item', type: 'main' -%}
+    {%- endcapture -%}
+
+    {%- capture thumbSliderItem -%}
+      {%- include 'product-media-item', type: 'thumb' -%}
+    {%- endcapture -%}
+    
+    {%- assign mainSliderItems = mainSliderItems | append: mainSliderItem -%}
+    {%- assign thumbSliderItems = thumbSliderItems | append: thumbSliderItem -%}
+
+    {% assign totalNumberOfSlides = totalNumberOfSlides | plus: 1 %} 
+  {%- endunless -%}
+{%- endfor -%}
+
+<product-gallery class="product-gallery">
+  <div class="product-gallery__main">
+    <div class="product-gallery__slider">
+      {{ mainSliderItems }}
+    </div>
+    {% render 'product-label' with product as product, badge_detail: true %}
+  </div>
+  <div class="product-gallery__thumb">
+    <div class="product-gallery__thumb__slider">
+      {{ thumbSliderItems }}
+    </div>
+  </div>
+</product-gallery>
+
+<script defer src="{{ 'component-product-gallery.js' | asset_url }}"></script>

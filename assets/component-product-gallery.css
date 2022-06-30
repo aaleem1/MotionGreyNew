@@ -1,0 +1,127 @@
+.product-gallery {
+  display: grid;
+  grid-template-areas: "main-gallery"
+                        "thumbs";
+  gap: 1rem;
+}
+
+.product-gallery__main {
+  grid-area: main-gallery;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-gallery__thumb {
+  grid-area: thumbs;
+  overflow: hidden;
+  /* gap: 0.5rem; */
+}
+
+.product-gallery__thumb__slider {
+  display: flex;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 749px) {
+  .product-gallery__thumb .slick-track {
+    display: flex;
+    gap: .2em;
+  }
+}
+
+
+.product-gallery__thumb .item a {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  border: 1px solid #ccc;
+}
+
+.product-gallery__thumb .item:first-child a {
+  margin-top: 0;
+}
+
+.product-gallery__thumb .item.slick-current a {
+  border-color: #62cdb4;
+}
+
+@media screen and (min-width: 750px) {
+  .product-gallery {
+    grid-template-areas: "thumbs main-gallery";
+  }
+
+  .product-gallery__thumb__slider {
+    /* flex-direction: column; */
+    max-width: 125px;
+  }
+
+  .product-gallery__thumb .slick-track {
+    flex-direction: column;
+  }
+
+  .product-gallery__thumb .item {
+    height: 125px;
+    /* margin-top: 0.2rem; */
+  }
+
+  .product-gallery__thumb .slick-list {
+    margin: 1.75rem 0;
+  }
+
+  .product-gallery__thumb__slider {
+    position: relative;
+  }
+
+  .product-gallery__thumb .slick-arrow {
+    display: flex;
+    transform: rotate(90deg);
+    left: 45px;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 125px;
+    background: transparent;
+    right: unset;
+  }
+
+  .product-gallery__thumb .slick-next {
+    bottom: -45px;
+    top: unset;
+  }
+
+  .product-gallery__thumb .slick-prev {
+    top: -45px;
+  }
+
+  .product-gallery__thumb .slick-arrow.slick-disabled {
+    opacity: .3;
+    pointer-events: none;
+  }
+
+  .product-gallery__thumb .slick-arrow svg {
+    fill: #000000;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .product-gallery__thumb__slider {
+    max-width: 140px;
+  }
+
+  .product-gallery__thumb .slick-prev {
+    top: -55px;
+  }
+
+  .product-gallery__thumb .slick-next {
+    bottom: -60px;
+  }
+
+  .product-gallery__thumb .slick-arrow {
+    left: 55px;
+    height: 140px;
+  }
+
+  .product-gallery__thumb .item {
+    height: 140px;
+  }
+}

@@ -1,0 +1,851 @@
+{% render 'style-header' %}
+<header class="header header-site" role="banner">
+    {% render 'top-header' %}
+  <div class="header-top">
+    <div class="container-fluid">
+      <div class="top-message">
+        <div class="head-phone"><a href="tel:+17783121311"><i class="fa fa-phone fa-lg"></i>&nbsp;&nbsp;+1 (778)-312-1311</a></div>
+        {% if section.settings.display_header_top and section.settings.top_message_text != blank %}
+        <div class="top-left">
+          <p>
+            {% render 'multilang' with section.settings.top_message_text %}
+          </p>
+        </div>
+        {% endif %}
+        <div class="top-right">
+          {% if settings.enable_multilang or settings.enable_multiple_currencies %}
+          <div class="lang-currency-groups">
+            {% render 'new-language-picker' %}
+            {% render 'new-currency-picker' %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-bottom" data-sticky-mb >
+    <div class="container-fluid">
+      <div class="wrapper-header-bt">
+        {% render 'header-mobile' %}
+      </div>
+  	</div>
+  </div>
+  <div class="header-bottom" data-sticky-pc>
+    {% render 'top-header' %}
+    <div class="container-fluid">
+      <div class="wrapper-header-bt">
+        <div class="header-pc">
+          <div class="left-header header-items">
+            <h1 class="header-logo" itemscope itemtype="https://schema.org/Organization">
+              <meta itemprop="url" content="{{ shop.url }}">
+              {% if section.settings.brand_type == 'image'%}
+              {% if section.settings.logo_pc != blank %}
+              <a class="logo-img home-logo" href="{{ routes.root_url }}" title="Logo">
+               <img data-src="{{ section.settings.logo_pc | img_url: 'master' }}" itemprop="logo" {% render 'lazyload' %}>
+              </a>
+              {% endif %}
+              {% if section.settings.logo_pc_homepage %}
+              <a class="logo-img " href="{{ routes.root_url }}" title="Logo">
+                <img data-src="{{ section.settings.logo_pc_homepage | img_url: 'master' }}" itemprop="logo" {% render 'lazyload' %}>
+              </a>
+              {% endif %}
+              {% elsif section.settings.brand_text != '' %}
+              <a class="logo-title" href="{{ routes.root_url }}">
+                {{ section.settings.brand_text }}
+              </a>
+              {% else %}
+              <a class="logo-title" href="{{ routes.root_url }}">
+                {{ shop.name }}
+              </a>
+              {% endif %}
+            </h1>
+          </div>
+          <div class="wrapper-navigation">
+            <div class="main-menu jas-mb-style">
+              <div class="col-12">
+                {% if settings.header_layout == "menu_on_navigation" %}
+                <div class="mb-area">
+                  <nav class="nav-bar" role="navigation">
+                    {% render 'site-nav' %}
+                  </nav>               
+                </div>
+                {% else %}
+                    {% if template contains 'index' %}
+                      <div class="mb-area">
+                        <nav class="nav-bar" role="navigation">
+                          {% render 'site-nav' %}
+                        </nav>               
+                      </div>
+                      {% else %}
+                      <div class="Back-to-home">
+                        <a class="icon-bth" href="{{ routes.root_url }}">{% render 'icon-back-to-home' %}</a>
+                        <a class="" href="{{ routes.root_url }}">{% render 'multilang' with section.settings.goto_homepage %}</a>
+                      </div>
+                    {% endif %}
+                {% endif %}
+                
+              </div>                       
+            </div>                   
+          </div>
+          {% if settings.enable_search %}
+              <div class="nav-search svg-mb">                    
+                 <!--<a href="javascript:void(0)" title="Search Icon" class="icon-search search_hd" data-search-mobile-toggle>
+                  {% render 'icon-search' %}
+                  
+                </a>
+                <a href="javascript:void(0)" title="close" class="close close-search">
+                    {% include 'icon-close' %}
+                </a>-->
+                {% render 'search-bar' %}
+
+              </div>
+              {% endif %}
+          <div class="right-header header-items" data-append-header-pc>
+            <div class="grp-acc-cart">
+            
+            <div class="cart-icon svg-mb" >
+              <a href="{{ routes.cart_url }}" title="Cart Icon">       
+                {% render 'icon-cart' %}
+
+                <span class="cartCount" data-cart-count>
+                  {{ cart.item_count }}
+                </span>
+                <span class="cartText">Cart</span>
+              </a>                    
+            </div>
+            <!--{% if shop.customer_accounts_enabled %}
+            <div class="acc-mb svg-mb">
+              <a href="{% if template contains 'login' %}#custom_acc{% else %}{{ routes.account_url }} {% endif %}" title="User Icon" class="icon-user" >
+                {% render 'icon-user' %}
+              </a>
+            </div>
+            {% endif %}-->
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    {% comment %}
+         <div class="header-top grey_bg"> 
+            <div class="container-fluid">
+              <div class="top-message">
+                  <p><span>Enhance your workspace. Invest in smart office tools.</span></p>
+              </div>
+            </div>
+         </div>
+    {% endcomment %}
+  </div>
+
+  
+</header>   
+<script>
+  window.fixtop_menu = {{ section.settings.display_fixtop_menu }};
+</script>
+
+
+{% schema %}
+  {
+    "name": "Header",
+	"max_blocks": 15,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Navigation"
+      },
+      {
+        "type": "link_list",
+        "id": "horizontal_linklist",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+	  {
+        "type": "header",
+        "content": "Mega Menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_megamenu",
+        "label": "Display Mega Menu?",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Header Top"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_header_top",
+        "label": "Display Header Top?",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "top_message_text",
+        "label": "Top Message Text",
+        "default": "Mid-Season Sale Up to 70% OFF."
+      },
+      {
+        "type": "color",
+        "id": "bg_header_top",
+        "label": "Background Color",
+        "default": "#f7f7f7"
+      },
+      {
+        "type": "color",
+        "id": "text_header_top_color",
+        "label": "Text Color",
+        "default": "#b05d5d"
+      },
+	  {
+        "type": "header",
+        "content": "Header Top Most (Sticky)"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_header_top_sticky",
+        "label": "Display Header Top Most (Sticky)?",
+        "default": true
+      },
+      {
+        "type": "richtext",
+        "id": "header_top_sticky_message_text",
+        "label": "Top Message Text",
+		"default": "<p>Mid-Season Sale Up to 70% OFF.</p>"
+      },
+      {
+        "type": "color",
+        "id": "bg_header_top_sticky",
+        "label": "Background Color",
+        "default": "#2d2d2d"
+      },
+      {
+        "type": "color",
+        "id": "text_header_top_sticky_color",
+        "label": "Text Color",
+        "default": "#fff"
+      },
+		{
+        "type": "checkbox",
+        "id": "display_header_top_sticky_button",
+        "label": "Display Button on Sticky Header?",
+        "default": true
+      },
+	  {
+        "type": "text",
+        "id": "header_top_sticky_button_text",
+        "label": "Button Text",
+        "default": "Shop Now"
+      },
+	  {
+        "type": "url",
+        "id": "header_top_sticky_button_link",
+		"label": "Button Link"
+      },
+	  {
+        "type": "color",
+        "id": "bg_header_top_sticky_button",
+        "label": "Button Background Color",
+        "default": "#2d2d2d"
+      },
+      {
+        "type": "color",
+        "id": "text_header_top_sticky_button_color",
+        "label": "Button Text Color",
+        "default": "#fff"
+      },
+		{
+        "type":"header",
+        "content":"Header Fix"
+      },
+      {
+        "type": "checkbox",
+        "id": "display_fixtop_menu",
+        "label": "Display Fix Top Menu?",
+        "default": true
+      }, 
+      {
+        "type":"header",
+        "content":"Custom Dropdown"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_color",
+        "label": "Color",
+        "default": "#73788a"
+      },
+      {
+        "type":"color",
+        "id":"back_dropdown",
+        "label":"Background",
+        "default":"#fff"
+      },
+      {
+        "type":"text",
+        "id":"font-size-hd-top",
+        "label":" Font Size",
+        "default":"12px"
+      },
+      {
+		"type": "header",
+		"content": "Header Bottom"
+	  },{
+        "type": "color",
+        "id": "back_header_bottom",
+        "label": "Background",
+        "default": "#fff"
+      },
+	  {
+		"type": "header",
+		"content": "Logo"
+	  },
+	  {
+        "type": "radio",
+        "id": "brand_type",
+        "label": "Use image or text for logo?",
+        "options": [
+          {
+            "value": "text",
+            "label": "Text"
+          },
+          {
+            "value": "image",
+            "label": "Image"
+          }
+        ],
+        "default": "text"
+      },
+      {
+        "type": "textarea",
+        "id": "brand_text",
+        "label": "Add Logo Text Or Logo Svg"
+      },{
+              "type": "color",
+              "id": "logo_text_color",
+              "label": "Logo Text Color",
+              "default": "#010d42"
+            },
+            {
+              "type": "color",
+              "id": "logo_text_color_mb",
+              "label": "Logo Text Color Mobile",
+              "default": "#010d42"
+            },
+            {
+              "type": "text",
+              "id": "logo_text_size",
+              "label": "Logo Text Size",
+              "default": "25px"
+            },
+            {
+              "type": "text",
+              "id": "logo_text_size_mb",
+              "label": "Logo Text Size Mobile",
+              "default": "18px",
+             "info":"==================="
+            },
+            {
+              "type": "color",
+              "id": "logo_svg_color_mb",
+              "label": "Logo Svg Color Mobile",
+              "default": "#010d42"
+            },
+            {
+              "type": "color",
+              "id": "logo_svg_color",
+              "label": "Logo Svg Color",
+              "default": "#010d42"
+            },
+            {
+              "type": "text",
+              "id": "logo_svg_size",
+              "label": "Logo Svg Size",
+              "default": "40px"
+            },
+            {
+              "type": "text",
+              "id": "logo_svg_size_mb",
+              "label": "Logo Svg Size Mobile",
+              "default": "30px"
+            },
+            {
+              "type":"header",
+              "content":"Logo Image"
+            },
+      {
+       "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image for Mobile",
+		"info": "95px x 44px recommended"
+      },
+	  {
+        "type": "text",
+        "id": "max_height_logo_mb",
+        "label": "Max Height of Logo Mobile",
+        "default": "26px" 
+      },
+      {
+       "type": "image_picker",
+        "id": "logo_pc_homepage",
+        "label": "Logo image for PC on Homepage",
+		"info": "95px x 44px recommended"
+      },
+	  {
+        "type": "text",
+        "id": "max_height_logo_pc_homepage",
+        "label": "Max Height of Logo PC on homepage",
+        "default": "36px" 
+      },
+	  {
+       "type": "image_picker",
+        "id": "logo_pc",
+        "label": "Logo image for PC",
+		"info": "95px x 44px recommended"
+      },
+	  {
+        "type": "text",
+        "id": "max_height_logo_pc",
+        "label": "Max Height of Logo PC",
+        "default": "36px" 
+      },	  
+      {
+      "type":"color",
+      "id":"color_nav_homepage",
+      "label":"Menu color on homepage",
+      "default":"#fff"
+
+      },
+      {
+        "type":"color",
+        "id":"color_nav",
+        "label":"Back to home color",
+        "default":"#000d41"
+
+      },
+      {
+        "type":"text",
+        "id":"goto_homepage",
+        "label":"Back to Home",
+        "default":"Back to Home"
+      },
+      {
+        "type":"text",
+        "id":"font_size_menu",
+        "label":" Font Size",
+        "default":"14px"
+      },
+      {
+        "type" : "header",
+        "content" : "Label Nav"
+      },
+      {
+        "type" : "checkbox",
+        "id" : "enable_sale",
+        "label" : "Display Label Sale",
+        "default" : true
+      },
+      {
+        "type" : "text",
+        "id" : "lb_sale",
+        "label" : "Label sale",
+        "default" : "Sale"
+      },
+      {
+        "type" : "textarea",
+        "id" : "sale_item",
+        "label" : "Label Sale Items"
+      },
+      {
+        "type" : "color",
+        "id" : "bg_lb_sale",
+        "label" : "Background color label sale",
+        "default" : "#ef6454"
+      },
+      {
+        "type" : "color",
+        "id" : "color_lb_sale",
+        "label" : "Text Color label sale",
+        "default" : "#fff"
+      },
+      {
+        "type" : "checkbox",
+        "id" : "enable_new",
+        "label" : "Display Label New",
+        "default" : true
+      },
+      {
+        "type" : "text",
+        "id" : "lb_new",
+        "label" : "Label New",
+        "default" : "New"
+      },
+      {
+        "type" : "textarea",
+        "id" : "new_item",
+        "label" : "Label New Items"
+      },
+      {
+        "type" : "color",
+        "id" : "bg_lb_new",
+        "label" : "Background color label New",
+        "default" : "#6bcc44"
+      },
+      {
+        "type" : "color",
+        "id" : "color_lb_new",
+        "label" : "Text Color label New",
+        "default" : "#fff"
+      },
+      {
+        "type" : "checkbox",
+        "id" : "enable_hot",
+        "label" : "Display Label Hot",
+        "default" : true
+      },
+      {
+        "type" : "text",
+        "id" : "lb_hot",
+        "label" : "Label Hot",
+        "default" : "Hot"
+      },
+      {
+        "type" : "textarea",
+        "id" : "hot_item",
+        "label" : "Label Hot Items"
+      },
+      {
+        "type" : "color",
+        "id" : "bg_lb_hot",
+        "label" : "Background color label Hot",
+        "default" : "#faa900"
+      },
+      {
+        "type" : "color",
+        "id" : "color_lb_hot",
+        "label" : "Text Color label Hot",
+        "default" : "#fff"
+      },
+       {
+        "type": "header",
+        "content": "Sub Navigation"
+      },
+      {
+        "type":"color",
+        "id":"color_sub_nav",
+        "label":"Sub menu color",
+        "default":"#000d41"
+      },
+       {
+        "type":"color",
+        "id":"color_hover_sub_nav",
+        "label":"Sub menu hover color",
+        "default":"#296fc2"
+      },
+      {
+        "type":"color",
+        "id":"back_sub_nav",
+        "label":"Sub menu background",
+        "default":"#fff"
+      },
+      {
+        "type":"color",
+        "id":"back_sub_nav_hover",
+        "label":"Sub menu hover background",
+        "default":"#f4f4f4"
+      },
+	  {
+        "type": "header",
+        "content": "Cart Header"
+      },
+      {
+        "type": "color",
+        "id": "bg_cart_color",
+        "label": "Background Color Items Cart",
+        "default": "#000d41"
+      },
+       {
+        "type": "color",
+        "id": "bg_cart_color_mb",
+        "label": "Background Color Items Cart Mobile",
+        "default": "#000d41"
+      },
+	  {
+        "type": "color",
+        "id": "cart_color",
+        "label": "Color Items Cart",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "cart_color_mb",
+        "label": "Color Items Cart Mobile",
+        "default": "#fff",
+		"info": "======================="
+      },
+      {
+        "type":"header",
+        "content":"Header Mobile"
+      },
+      {
+        "type":"color",
+        "id":"back_header_mb",
+        "label":"Background Header Mobile",
+        "default":"#fff"
+      },
+      {
+        "type":"color",
+        "id":"color_header_mobile",
+        "label":" Color Header Mobile",
+        "default":"#000d41"
+      },
+      {
+        "type": "header",
+        "content": "Button Header"
+      },
+      {
+        "type":"text",
+        "id":"text_buy_now",
+        "label":"Add content",
+        "default":" Buy Now"
+      }	  
+    ],
+	"blocks": [
+	  {
+	  	"type": "style_1",
+      	"name": "Style 1",
+      	"settings": [		  
+		  {
+            "type": "text",
+            "id": "megamenu_items_3",
+            "label": "Mega Menu Items for Style 3",
+            "default": "Catalog",
+            "info": "Use \"|\" when use language , For ex: Collections | Sammlungen "
+          },
+		  {
+			"type" : "header",
+			"content" : "Banner"
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_first_style_3",
+            "label": "Upload a new image 1",
+            "info": "Banner for 4 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_first_style_3",
+			"label": "Link image 1 ",
+			"info": "=============="
+		  },
+		  {
+			"type": "text",
+			"id": "heading_banner_first_style_3",
+			"label": "Title for image 1 ",
+			"default": "My Title"
+		  },
+		  {
+			"type": "text",
+			"id": "description_banner_first_style_3",
+			"label": "Description for image 1 "
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_second_style_3",
+            "label": "Upload a new image 2",
+            "info": "Banner for 3 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_second_style_3",
+			"label": "Link image 2 ",
+			"info": "=============="
+		  },
+		  {
+			"type": "text",
+			"id": "heading_banner_second_style_3",
+			"label": "Title for image 2 ",
+			"default": "My Title"
+		  },
+		  {
+			"type": "text",
+			"id": "description_banner_second_style_3",
+			"label": "Description for image 2 "
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_third_style_3",
+            "label": "Upload a new image 3",
+            "info": "Banner for 2 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_third_style_3",
+			"label": "Link image 3"
+		  },
+		  {
+			"type": "text",
+			"id": "heading_banner_third_style_3",
+			"label": "Title for image 3 ",
+			"default": "My Title"
+		  },
+		  {
+			"type": "text",
+			"id": "description_banner_third_style_3",
+			"label": "Description for image 3 "
+		  }
+		]
+      },	  
+	  {
+	  	"type": "style_2",
+      	"name": "Style 2",
+      	"settings": [
+		  {
+			"type" : "header",
+			"content" : "Column Menu"
+		  },
+		  {
+            "type": "text",
+            "id": "megamenu_items_2",
+            "label": "Mega Menu Items for Style 2",
+            "default": "Catalog",
+            "info": "Use \"|\" when use language , For ex: Collections | Sammlungen "
+          },
+		  {
+			"type" : "header",
+			"content" : "Banner"
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_first_style_2",
+            "label": "Upload a new image 1",
+            "info": "210px x 165px recommended"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_first_style_2",
+			"label": "Link image 1 ",
+			"info": "=============="
+		  },	  
+		  {
+            "type": "image_picker",
+            "id": "banner_second_style_2",
+            "label": "Upload a new image 2",
+            "info": "210px x 165px recommended"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_second_style_2",
+			"label": "Link image 2 ",
+			"info": "=============="
+		  },		  
+		  {
+            "type": "image_picker",
+            "id": "banner_third_style_2",
+            "label": "Upload a new image 3",
+            "info": "210px x 337px recommended"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_third_style_2",
+			"label": "Link image 3"
+		  }
+		]
+      },	  
+	  {
+	  	"type": "style_3",
+      	"name": "Style 3",
+      	"settings": [		  
+		  {
+            "type": "text",
+            "id": "megamenu_items_3",
+            "label": "Mega Menu Items for Style 3",
+            "default": "Catalog",
+            "info": "Use \"|\" when use language , For ex: Collections | Sammlungen "
+          },
+		  {
+			"type" : "header",
+			"content" : "Banner"
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_first_style_3",
+            "label": "Upload a new image 1",
+            "info": "Banner for 4 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_first_style_3",
+			"label": "Link image 1 ",
+			"info": "=============="
+		  },	  
+		  {
+            "type": "image_picker",
+            "id": "banner_second_style_3",
+            "label": "Upload a new image 2",
+            "info": "Banner for 3 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_second_style_3",
+			"label": "Link image 2 ",
+			"info": "=============="
+		  },		  
+		  {
+            "type": "image_picker",
+            "id": "banner_third_style_3",
+            "label": "Upload a new image 3",
+            "info": "Banner for 2 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_third_style_3",
+			"label": "Link image 3"
+		  },
+		  {
+            "type": "image_picker",
+            "id": "banner_fourth_style_3",
+            "label": "Upload a new image 4",
+            "info": "Banner for 1 Menu"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_fourth_style_3",
+			"label": "Link image 4"
+		  }
+		]
+      },	
+	  {
+	  	"type": "style_4",
+      	"name": "Style 4",
+      	"settings": [
+		  {
+			"type" : "header",
+			"content" : "Column Menu"
+		  },
+		  {
+            "type": "text",
+            "id": "megamenu_items_4",
+            "label": "Mega Menu Items for Style 4",
+            "default": "Catalog",
+            "info": "Use \"|\" when use language , For ex: Collections | Sammlungen "
+          },		  		  		  
+		  {
+			"type" : "header",
+			"content" : "Banner"
+		  },	  
+		  {
+            "type": "image_picker",
+            "id": "banner_first_style_4",
+            "label": "Upload a new image",
+            "info": "210px x 320px recommended"
+          },
+		  {
+			"type": "url",
+			"id": "link_banner_first_style_4",
+			"label": "Link image"
+		  }
+		]
+      }	  
+	]
+  }
+{% endschema %}
